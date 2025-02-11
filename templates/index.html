@@ -7,7 +7,7 @@
     <title>InvenTrack - Smart Inventory Management for Indian Businesses</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #d12b2b;
@@ -16,10 +16,14 @@
             --bg-primary: #fdeee6;
             --bg-secondary: #1a1a1a;
             --bg-tertiary: #f8f8f8;
-            --spacing-sm: 10px;
-            --spacing-md: 20px;
-            --spacing-lg: 50px;
-            --border-radius: 5px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 48px;
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -36,29 +40,34 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 0 var(--spacing-md);
         }
 
         header {
             padding: var(--spacing-lg) var(--spacing-md);
-            text-align: center;
+            margin-bottom: var(--spacing-lg);
         }
 
-        h1, h2 {
-            color: var(--text-dark);
-            margin-bottom: var(--spacing-md);
+        .hero {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         h1 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(2rem, 5vw, 3.5rem);
             line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-dark);
         }
 
         .header-description {
-            font-size: 1.1rem;
-            margin-bottom: var(--spacing-md);
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-light);
         }
 
         .button-group {
@@ -71,18 +80,22 @@
         .button {
             background-color: var(--primary-color);
             color: white;
-            padding: 12px var(--spacing-md);
+            padding: 14px var(--spacing-md);
             border: none;
             border-radius: var(--border-radius);
             font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: opacity 0.2s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .button:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .button.outline {
@@ -92,27 +105,35 @@
         }
 
         .ratings {
-            margin: var(--spacing-md) 0;
-            padding: var(--spacing-md);
             background: white;
             border-radius: var(--border-radius);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .rating-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 var(--spacing-md);
+            font-weight: 500;
         }
 
         .dashboard {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 280px 1fr;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin: var(--spacing-md) auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
         }
 
         .sidebar {
             background: var(--bg-secondary);
             color: white;
-            padding: var(--spacing-md);
-            border-radius: 10px 0 0 10px;
+            padding: var(--spacing-md) 0;
         }
 
         .nav-list {
@@ -120,47 +141,83 @@
         }
 
         .nav-item {
-            padding: 15px;
-            border-bottom: 1px solid #333;
+            padding: var(--spacing-sm) var(--spacing-md);
             cursor: pointer;
-            transition: color 0.2s ease;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
         }
 
         .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
             color: var(--primary-color);
         }
 
         .nav-item.active {
+            background: rgba(255, 255, 255, 0.1);
             color: var(--primary-color);
-            font-weight: 600;
+            border-left: 3px solid var(--primary-color);
         }
 
         .content {
-            padding: var(--spacing-md);
+            padding: var(--spacing-lg);
+        }
+
+        .content h2 {
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            font-weight: 600;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: var(--spacing-md);
-            padding: var(--spacing-sm);
-            background: var(--bg-tertiary);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
         }
 
         .stat-item {
-            padding: var(--spacing-sm);
-            background: white;
+            background: var(--bg-tertiary);
+            padding: var(--spacing-md);
             border-radius: var(--border-radius);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .stat-value {
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .stat-trend {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         footer {
-            margin-top: var(--spacing-md);
-            padding: var(--spacing-md);
             background: var(--bg-secondary);
             color: white;
+            padding: var(--spacing-lg) var(--spacing-md);
+            margin-top: var(--spacing-lg);
             text-align: center;
         }
 
@@ -170,42 +227,110 @@
             }
 
             .sidebar {
-                border-radius: 10px 10px 0 0;
+                padding: var(--spacing-sm) 0;
             }
 
             .nav-list {
                 display: flex;
                 overflow-x: auto;
-                padding-bottom: var(--spacing-sm);
+                padding: var(--spacing-xs);
             }
 
             .nav-item {
-                border-bottom: none;
-                border-right: 1px solid #333;
+                padding: var(--spacing-xs) var(--spacing-sm);
                 white-space: nowrap;
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
             }
+
+            .content {
+                padding: var(--spacing-md);
+            }
+
+            .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
         }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid #16a34a;
+        }
+
+        .notification.error {
+            border-left: 4px solid #dc2626;
+        }
+
+        .loading {
+            position: relative;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid var(--primary-color);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .stat-item.active {
+            border: 2px solid var(--primary-color);
+            transform: translateY(-4px);
+        }
+        }
+
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Inventory Management Software Designed for Indian Businesses</h1>
-            <p class="header-description">Manage orders. Track inventory. Handle GST billing. Oversee warehouses.</p>
-            <div class="button-group">
-                <a href="/signup" class="button">Sign up - It's Free</a>
-                <a href="/demo" class="button outline">Explore Demo Account</a>
+            <div class="hero">
+                <h1>Simplify Your Business with Smart Inventory Management</h1>
+                <p class="header-description">Everything you need to manage inventory, handle GST billing, and oversee warehouses - all in one powerful platform.</p>
+                <div class="button-group">
+                    <a href="/signup" class="button">Get Started Free →</a>
+                    <a href="/demo" class="button outline">Watch Demo Video</a>
+                </div>
             </div>
         </div>
     </header>
     
     <div class="container">
         <section class="ratings" aria-label="Product Ratings">
-            <p>
-                <span aria-label="4.5 out of 5 stars on Capterra">⭐ 4.5/5 Capterra</span> |
-                <span aria-label="4.5 out of 5 stars on G2 Crowd">⭐ 4.5/5 G2 Crowd</span> |
-                <span aria-label="4.7 out of 5 stars on Software Advice">⭐ 4.7/5 Software Advice</span>
-            </p>
+            <div class="rating-item">
+                <span aria-label="4.5 out of 5 stars">⭐</span>
+                <strong>4.5/5</strong> Capterra
+            </div>
+            <div class="rating-item">
+                <span aria-label="4.5 out of 5 stars">⭐</span>
+                <strong>4.5/5</strong> G2 Crowd
+            </div>
+            <div class="rating-item">
+                <span aria-label="4.7 out of 5 stars">⭐</span>
+                <strong>4.7/5</strong> Software Advice
+            </div>
         </section>
         
         <main>
@@ -213,28 +338,67 @@
                 <aside class="sidebar">
                     <nav aria-label="Main navigation">
                         <ul class="nav-list">
-                            <li class="nav-item active" role="button" tabindex="0">Dashboard</li>
-                            <li class="nav-item" role="button" tabindex="0">Inventory</li>
-                            <li class="nav-item" role="button" tabindex="0">Sales</li>
-                            <li class="nav-item" role="button" tabindex="0">Purchases</li>
-                            <li class="nav-item" role="button" tabindex="0">Integrations</li>
-                            <li class="nav-item" role="button" tabindex="0">Reports</li>
-                            <li class="nav-item" role="button" tabindex="0">Documents</li>
+                            <li class="nav-item active" role="button" tabindex="0">
+                                Dashboard
+                            </li>
+                            <li class="nav-item" role="button" tabindex="0">
+                                Inventory
+                            </li>
+                            <li class="nav-item" role="button" tabindex="0">
+                                Sales
+                            </li>
+                            <li class="nav-item" role="button" tabindex="0">
+                                Purchases
+                            </li>
+                            <li class="nav-item" role="button" tabindex="0">
+                                Integrations
+                            </li>
+                            <li class="nav-item" role="button" tabindex="0">
+                                Reports
+                            </li>
+                            <li class="nav-item" role="button" tabindex="0">
+                                Documents
+                            </li>
                         </ul>
                     </nav>
                 </aside>
                 <section class="content">
                     <h2>Sales Activity</h2>
                     <div class="stats-grid">
-                        <div class="stat-item">228 Qty - To be packed</div>
-                        <div class="stat-item">6 Pkgs - To be shipped</div>
-                        <div class="stat-item">10 Pkgs - To be delivered</div>
-                        <div class="stat-item">474 Qty - To be invoiced</div>
+                        <div class="stat-item">
+                            <span class="stat-label">To be packed</span>
+                            <span class="stat-value">228</span>
+                            <span class="stat-trend">↑ 12% vs last week</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">To be shipped</span>
+                            <span class="stat-value">6</span>
+                            <span class="stat-trend">↓ 3% vs last week</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">To be delivered</span>
+                            <span class="stat-value">10</span>
+                            <span class="stat-trend">↑ 8% vs last week</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">To be invoiced</span>
+                            <span class="stat-value">474</span>
+                            <span class="stat-trend">↑ 15% vs last week</span>
+                        </div>
                     </div>
+                    
                     <h2>Inventory Summary</h2>
                     <div class="stats-grid">
-                        <div class="stat-item">Quantity in hand: 10,458</div>
-                        <div class="stat-item">Quantity to be received: 168</div>
+                        <div class="stat-item">
+                            <span class="stat-label">Quantity in hand</span>
+                            <span class="stat-value">10,458</span>
+                            <span class="stat-trend">↑ 5% vs last month</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Quantity to be received</span>
+                            <span class="stat-value">168</span>
+                            <span class="stat-trend">↓ 2% vs last month</span>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -242,7 +406,166 @@
     </div>
     
     <footer>
-        <p>&copy; 2025 InvenTrack. All rights reserved.</p>
+        <div class="container">
+            <p>&copy; 2025 InvenTrack. All rights reserved.</p>
+        </div>
     </footer>
 </body>
 </html>
+<script>
+    // Utility Functions
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    function formatNumber(num) {
+        return new Intl.NumberFormat('en-IN').format(num);
+    }
+
+    // Navigation Handling
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+            // Remove active class from all items
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Show notification for navigation
+            showNotification(`Navigated to ${this.textContent.trim()}`);
+            
+            // Simulate content loading
+            const content = document.querySelector('.content');
+            content.classList.add('loading');
+            
+            setTimeout(() => {
+                content.classList.remove('loading');
+            }, 1000);
+        });
+    });
+
+    // Stats Interaction
+    document.querySelectorAll('.stat-item').forEach(stat => {
+        stat.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const label = this.querySelector('.stat-label').textContent;
+            const value = this.querySelector('.stat-value').textContent;
+            showNotification(`Selected ${label}: ${value}`);
+        });
+    });
+
+    // Simulate Real-time Updates
+    function updateRandomStat() {
+        const stats = document.querySelectorAll('.stat-value');
+        const randomStat = stats[Math.floor(Math.random() * stats.length)];
+        const currentValue = parseInt(randomStat.textContent.replace(/,/g, ''));
+        const change = Math.floor(Math.random() * 20) - 10; // Random change between -10 and +10
+        const newValue = currentValue + change;
+        
+        randomStat.textContent = formatNumber(newValue);
+        
+        const trend = randomStat.nextElementSibling;
+        if (trend) {
+            const percentage = ((change / currentValue) * 100).toFixed(1);
+            trend.textContent = `${percentage > 0 ? '↑' : '↓'} ${Math.abs(percentage)}% vs last week`;
+            trend.style.color = percentage > 0 ? '#16a34a' : '#dc2626';
+        }
+    }
+
+    // Update stats every 5 seconds
+    setInterval(updateRandomStat, 5000);
+
+    // Button Interactions
+    document.querySelectorAll('.button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isSignup = this.textContent.includes('Started');
+            
+            if (isSignup) {
+                showNotification('Starting sign up process...', 'success');
+            } else {
+                showNotification('Loading demo account...', 'success');
+            }
+        });
+    });
+
+    // Rating Interactions
+    document.querySelectorAll('.rating-item').forEach(rating => {
+        rating.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
+        });
+        
+        rating.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+        
+        rating.addEventListener('click', function() {
+            const source = this.textContent.split(' ').pop();
+            showNotification(`Viewing ${source} reviews...`);
+        });
+    });
+
+    // Initialize with loading animation
+    window.addEventListener('load', () => {
+        document.body.style.opacity = '0';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+            document.body.style.transition = 'opacity 0.3s ease';
+            showNotification('Welcome to InvenTrack!', 'success');
+        }, 100);
+    });
+
+    // Mobile Navigation
+    if (window.innerWidth <= 768) {
+        const navList = document.querySelector('.nav-list');
+        let isScrolling = false;
+
+        navList.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                navList.classList.add('scrolling');
+            }
+            
+            isScrolling = true;
+            clearTimeout(window.scrollTimeout);
+            
+            window.scrollTimeout = setTimeout(() => {
+                navList.classList.remove('scrolling');
+                isScrolling = false;
+            }, 150);
+        });
+    }
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.stat-item.active').forEach(stat => {
+                stat.classList.remove('active');
+            });
+        }
+    });
+    function addSearchBar() {
+    const sidebar = document.querySelector('.sidebar');
+    const searchDiv = document.createElement('div');
+    searchDiv.innerHTML = `
+        <div style="padding: 16px;">
+            <input type="search" 
+                   placeholder="Search..." 
+                   style="width: 100%; padding: 8px; border-radius: 4px; border: none;">
+        </div>
+    `;
+    sidebar.insertBefore(searchDiv, sidebar.firstChild);
+}
+addSearchBar();
+</script>
