@@ -153,3 +153,40 @@
     sidebar.insertBefore(searchDiv, sidebar.firstChild);
 }
 addSearchBar();
+
+// Create a function to animate numbers
+function animateValue(element, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        
+        // Use comma for thousands separator
+        const currentNumber = Math.floor(progress * (end - start) + start);
+        element.textContent = currentNumber.toLocaleString();
+        
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+// Function to start all animations when page loads
+function startNumberAnimations() {
+    // Get all stat-value elements
+    const statValues = document.querySelectorAll('.stat-value');
+    
+    // For each stat value, get the final number and animate from 0
+    statValues.forEach(element => {
+        // Remove any commas from the number and convert to integer
+        const finalValue = parseInt(element.textContent.replace(/,/g, ''));
+        // Set initial value to 0
+        element.textContent = '0';
+        // Start animation
+        animateValue(element, 0, finalValue, 2000); // 2000ms = 2 seconds duration
+    });
+}
+
+// Add event listener for when DOM is loaded
+document.addEventListener('DOMContentLoaded', startNumberAnimations);
