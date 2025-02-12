@@ -574,14 +574,13 @@ footer {
         opacity: 1;
     }
 }
-
 .integration-item {
-    opacity: 0; /* Start hidden */
+    opacity: 0;
     position: relative;
 }
 
 .integration-item.center {
-    opacity: 1 !important; /* Keep the middle one visible */
+    opacity: 1 !important;
 }
 
 .integration-item.move-left {
