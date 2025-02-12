@@ -1,4 +1,4 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,7 +9,8 @@ body {
     background-color: #fdeee6;
     line-height: 1.6;
     color: #444;
-    padding-top: 20px; /* Add this line to add space at the top */
+    padding-top: 100px;
+    overflow-x: hidden;
 }
 
 .container {
@@ -18,7 +19,7 @@ body {
     padding: 0 24px;
 }
 
-head {
+.hea {
     padding: 48px 24px;
     margin-bottom: 48px;
 }
@@ -201,7 +202,7 @@ head {
 
 }
 .dashboard-container {
-    margin: -60px auto;
+    margin: -50px;
     display: flex;
     justify-content: center;
     margin-bottom: -210px;
@@ -218,6 +219,18 @@ head {
     display: flex;
     justify-content: center;
 }
+
+.block-p p{
+    font-size: 32px;
+    display: flex;
+    justify-content: center;
+    padding-top: 190px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #FFFFFF;
+    letter-spacing: -0.5px;
+}
+
 
 
 footer {
@@ -240,13 +253,123 @@ footer {
 }
 
 .stat-item {
-    /* ... existing styles ... */
     animation: fadeIn 0.5s ease-out forwards;
     opacity: 0;
 }
 
-/* Add staggered animation delay for stat items */
 .stats-grid .stat-item:nth-child(1) { animation-delay: 0.1s; }
 .stats-grid .stat-item:nth-child(2) { animation-delay: 0.2s; }
 .stats-grid .stat-item:nth-child(3) { animation-delay: 0.3s; }
 .stats-grid .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+.fea-section {
+    text-align: center;
+    padding-top: 80px;
+    background-color: white;
+    width: 100%;
+}
+
+.fea-section h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #0F244E;
+    margin-top: -30px;
+    margin-bottom: 50px;
+    line-height: 1.2;
+}
+
+/* Container for features */
+.features-container {
+    display: flex;
+    flex-wrap: wrap; /* Ensures responsiveness */
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.features-grid{
+    display: flex;
+    justify-content: center;
+}
+
+/* Individual feature card */
+.feature-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: left;
+    width: 45%; /* Two cards per row */
+    margin: 15px; /* Spacing between cards */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    font-size: 28px;
+    color: #c61b37;
+    display: inline-block;
+    margin-bottom: 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+.feature-card:hover .feature-icon {
+    color: #a5172a;
+}
+
+.feature-card h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+.feature-card:hover h3 {
+    color: #0F244E;
+}
+
+.feature-card p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    transition: color 0.3s ease-in-out;
+}
+
+.feature-card:hover p {
+    color: #444;
+}
+
+.learn-more {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #c61b37;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.learn-more:hover {
+    color: #a5172a;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .feature-card {
+        width: 90%; /* Single column layout on smaller screens */
+    }
+}
+
+.e-invoicing{
+    transform: scale(0.7);
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
