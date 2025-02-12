@@ -1,192 +1,145 @@
-    // Utility Functions
-    function showNotification(message, type = 'success') {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-        document.body.appendChild(notification);
+// Utility Functions
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.classList.add('show'), 100);
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+function formatNumber(num) {
+    return new Intl.NumberFormat('en-IN').format(num);
+}
+
+// Navigation Handling
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+        showNotification(`Navigated to ${this.textContent.trim()}`);
         
-        // Show notification
-        setTimeout(() => notification.classList.add('show'), 100);
-        
-        // Remove notification after 3 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
+        const content = document.querySelector('.content');
+        content.classList.add('loading');
+        setTimeout(() => content.classList.remove('loading'), 1000);
+    });
+});
+
+// Stats Interaction
+document.querySelectorAll('.stat-item').forEach(stat => {
+    stat.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const label = this.querySelector('.stat-label').textContent;
+        const value = this.querySelector('.stat-value').textContent;
+        showNotification(`Selected ${label}: ${value}`);
+    });
+});
+
+// Simulate Real-time Updates
+function updateRandomStat() {
+    const stats = document.querySelectorAll('.stat-value');
+    const randomStat = stats[Math.floor(Math.random() * stats.length)];
+    const currentValue = parseInt(randomStat.textContent.replace(/,/g, ''));
+    const change = Math.floor(Math.random() * 20) - 10;
+    const newValue = currentValue + change;
+    
+    randomStat.textContent = formatNumber(newValue);
+    
+    const trend = randomStat.nextElementSibling;
+    if (trend) {
+        const percentage = ((change / currentValue) * 100).toFixed(1);
+        trend.textContent = `${percentage > 0 ? '↑' : '↓'} ${Math.abs(percentage)}% vs last week`;
+        trend.style.color = percentage > 0 ? '#16a34a' : '#dc2626';
     }
+}
+setInterval(updateRandomStat, 5000);
 
-    function formatNumber(num) {
-        return new Intl.NumberFormat('en-IN').format(num);
+// Button Interactions
+document.querySelectorAll('.button').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const isSignup = this.textContent.includes('Started');
+        showNotification(isSignup ? 'Starting sign up process...' : 'Loading demo account...', 'success');
+    });
+});
+
+// Rating Interactions
+document.querySelectorAll('.rating-item').forEach(rating => {
+    rating.addEventListener('mouseenter', () => rating.style.transform = 'scale(1.05)');
+    rating.addEventListener('mouseleave', () => rating.style.transform = 'scale(1)');
+    rating.addEventListener('click', function() {
+        const source = this.textContent.split(' ').pop();
+        showNotification(`Viewing ${source} reviews...`);
+    });
+});
+
+// Initialize with Loading Animation
+window.addEventListener('load', () => {
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+        document.body.style.transition = 'opacity 0.3s ease';
+        showNotification('Welcome to InvenTrack!', 'success');
+    }, 100);
+});
+
+// Mobile Navigation Handling
+if (window.innerWidth <= 768) {
+    const navList = document.querySelector('.nav-list');
+    let isScrolling = false;
+    
+    navList.addEventListener('scroll', () => {
+        if (!isScrolling) navList.classList.add('scrolling');
+        isScrolling = true;
+        clearTimeout(window.scrollTimeout);
+        
+        window.scrollTimeout = setTimeout(() => {
+            navList.classList.remove('scrolling');
+            isScrolling = false;
+        }, 150);
+    });
+}
+
+// Keyboard Navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.stat-item.active').forEach(stat => stat.classList.remove('active'));
     }
+});
 
-    // Navigation Handling
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function() {
-            // Remove active class from all items
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            
-            // Add active class to clicked item
-            this.classList.add('active');
-            
-            // Show notification for navigation
-            showNotification(`Navigated to ${this.textContent.trim()}`);
-            
-            // Simulate content loading
-            const content = document.querySelector('.content');
-            content.classList.add('loading');
-            
-            setTimeout(() => {
-                content.classList.remove('loading');
-            }, 1000);
-        });
-    });
-
-    // Stats Interaction
-    document.querySelectorAll('.stat-item').forEach(stat => {
-        stat.addEventListener('click', function() {
-            this.classList.toggle('active');
-            const label = this.querySelector('.stat-label').textContent;
-            const value = this.querySelector('.stat-value').textContent;
-            showNotification(`Selected ${label}: ${value}`);
-        });
-    });
-
-    // Simulate Real-time Updates
-    function updateRandomStat() {
-        const stats = document.querySelectorAll('.stat-value');
-        const randomStat = stats[Math.floor(Math.random() * stats.length)];
-        const currentValue = parseInt(randomStat.textContent.replace(/,/g, ''));
-        const change = Math.floor(Math.random() * 20) - 10; // Random change between -10 and +10
-        const newValue = currentValue + change;
-        
-        randomStat.textContent = formatNumber(newValue);
-        
-        const trend = randomStat.nextElementSibling;
-        if (trend) {
-            const percentage = ((change / currentValue) * 100).toFixed(1);
-            trend.textContent = `${percentage > 0 ? '↑' : '↓'} ${Math.abs(percentage)}% vs last week`;
-            trend.style.color = percentage > 0 ? '#16a34a' : '#dc2626';
-        }
-    }
-
-    // Update stats every 5 seconds
-    setInterval(updateRandomStat, 5000);
-
-    // Button Interactions
-    document.querySelectorAll('.button').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const isSignup = this.textContent.includes('Started');
-            
-            if (isSignup) {
-                showNotification('Starting sign up process...', 'success');
-            } else {
-                showNotification('Loading demo account...', 'success');
-            }
-        });
-    });
-
-    // Rating Interactions
-    document.querySelectorAll('.rating-item').forEach(rating => {
-        rating.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
-        });
-        
-        rating.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-        
-        rating.addEventListener('click', function() {
-            const source = this.textContent.split(' ').pop();
-            showNotification(`Viewing ${source} reviews...`);
-        });
-    });
-
-    // Initialize with loading animation
-    window.addEventListener('load', () => {
-        document.body.style.opacity = '0';
-        setTimeout(() => {
-            document.body.style.opacity = '1';
-            document.body.style.transition = 'opacity 0.3s ease';
-            showNotification('Welcome to InvenTrack!', 'success');
-        }, 100);
-    });
-
-    // Mobile Navigation
-    if (window.innerWidth <= 768) {
-        const navList = document.querySelector('.nav-list');
-        let isScrolling = false;
-
-        navList.addEventListener('scroll', () => {
-            if (!isScrolling) {
-                navList.classList.add('scrolling');
-            }
-            
-            isScrolling = true;
-            clearTimeout(window.scrollTimeout);
-            
-            window.scrollTimeout = setTimeout(() => {
-                navList.classList.remove('scrolling');
-                isScrolling = false;
-            }, 150);
-        });
-    }
-
-    // Add keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.stat-item.active').forEach(stat => {
-                stat.classList.remove('active');
-            });
-        }
-    });
-    function addSearchBar() {
+// Search Bar
+document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
     const searchDiv = document.createElement('div');
     searchDiv.innerHTML = `
         <div style="padding: 16px;">
-            <input type="search" 
-                   placeholder="Search..." 
-                   style="width: 100%; padding: 8px; border-radius: 4px; border: none;">
-        </div>
-    `;
+            <input type="search" placeholder="Search..." style="width: 100%; padding: 8px; border-radius: 4px; border: none;">
+        </div>`;
     sidebar.insertBefore(searchDiv, sidebar.firstChild);
-}
-addSearchBar();
+    startNumberAnimations();
+});
 
-// Create a function to animate numbers
+// Number Animation Function
 function animateValue(element, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        
-        // Use comma for thousands separator
-        const currentNumber = Math.floor(progress * (end - start) + start);
-        element.textContent = currentNumber.toLocaleString();
-        
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
-        }
+        element.textContent = Math.floor(progress * (end - start) + start).toLocaleString();
+        if (progress < 1) window.requestAnimationFrame(step);
     };
     window.requestAnimationFrame(step);
 }
 
-// Function to start all animations when page loads
+// Start Number Animations
 function startNumberAnimations() {
-    // Get all stat-value elements
-    const statValues = document.querySelectorAll('.stat-value');
-    
-    // For each stat value, get the final number and animate from 0
-    statValues.forEach(element => {
-        // Remove any commas from the number and convert to integer
+    document.querySelectorAll('.stat-value').forEach(element => {
         const finalValue = parseInt(element.textContent.replace(/,/g, ''));
-        // Set initial value to 0
         element.textContent = '0';
-        // Start animation
-        animateValue(element, 0, finalValue, 2000); // 2000ms = 2 seconds duration
+        animateValue(element, 0, finalValue, 2000);
     });
 }
-
-// Add event listener for when DOM is loaded
-document.addEventListener('DOMContentLoaded', startNumberAnimations);
