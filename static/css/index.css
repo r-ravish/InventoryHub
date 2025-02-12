@@ -389,7 +389,7 @@ footer {
 }
 
 .foot-container{
-    margin-top: 1000px;
+    /* margin-top: 1000px; */
     display: flex;
     justify-content: center;
     padding-left: 32px;
@@ -408,4 +408,186 @@ footer {
 .blue{
     color: #00A8F5;
     text-decoration: none;
+}
+
+.integrations {
+    background-color: #fdeee6;
+    text-align: center;
+    padding: 80px 0;
+    width: 100%;
+}
+
+.integrations-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 60px;
+    letter-spacing: -0.5px;
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.integrations-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 0 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.integration-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 20px;
+    width: 110px;
+    height: 110px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.integration-item img {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.integration-item p {
+    font-size: 13px;
+    color: #333;
+    font-weight: 500;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Make the 4th item bigger instead of the 5th */
+.integration-item:nth-child(4) {
+    transform: scale(1.35);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    margin-left: -130px;
+    margin-right: -130px;
+}
+
+.integration-item:nth-child(4) img {
+    width: 52px;
+    height: 52px;
+}
+
+.integration-item:nth-child(4) p {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Hover effects for other items */
+.integration-item:not(:nth-child(4)):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+}
+
+.more-integrations {
+    margin-top: 50px; /* Reduced margin */
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.more-integrations::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #c61b37;
+    transition: all 0.3s ease;
+}
+
+.more-integrations:hover {
+    color: #c61b37;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .integrations-list {
+        gap: 20px; /* Reduced gap */
+        padding: 0 10px; /* Reduced padding */
+    }
+    
+    .integration-item {
+        width: 90px;
+        height: 90px;
+        padding: 15px;
+    }
+
+    .integration-item:nth-child(4) {
+        transform: scale(1.5);
+    }
+
+    .integration-item img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .integrations-title {
+        font-size: 36px;
+        margin-bottom: 40px; /* Reduced margin */
+    }
+}
+
+.IH{
+    transform: scale(1.8);
+    margin-top: 15px;
+    margin-right: 2px;
+}
+
+@keyframes moveLeft {
+    from {
+        transform: translateX(0);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-150px);
+        opacity: 1;
+    }
+}
+
+@keyframes moveRight {
+    from {
+        transform: translateX(0);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(150px);
+        opacity: 1;
+    }
+}
+
+.integration-item {
+    opacity: 0; /* Start hidden */
+    position: relative;
+}
+
+.integration-item.center {
+    opacity: 1 !important; /* Keep the middle one visible */
+}
+
+.integration-item.move-left {
+    animation: moveLeft 1s ease-out forwards;
+}
+
+.integration-item.move-right {
+    animation: moveRight 1s ease-out forwards;
 }

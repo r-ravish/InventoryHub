@@ -143,3 +143,20 @@ function startNumberAnimations() {
         animateValue(element, 0, finalValue, 2000);
     });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const items = document.querySelectorAll(".integration-item");
+    const middleIndex = Math.floor(items.length / 2);
+
+    items.forEach((item, index) => {
+        setTimeout(() => {
+            if (index < middleIndex) {
+                item.classList.add("move-left");
+            } else if (index > middleIndex) {
+                item.classList.add("move-right");
+            } else {
+                item.classList.add("center");
+            }
+        }, index * 100);
+    });
+});
