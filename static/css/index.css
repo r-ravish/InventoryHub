@@ -591,3 +591,168 @@ footer {
 .integration-item.move-right {
     animation: moveRight 1s ease-out forwards;
 }
+
+.pricing-section {
+    padding: 80px 0;
+    background-color: #fdeee6;
+    text-align: center;
+}
+
+.pricing-header {
+    margin-bottom: 60px;
+}
+
+.pricing-header h2 {
+    font-size: 39px;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: -0.5px;
+}
+
+.pricing-header .highlight {
+    color: #c61b37;
+}
+
+.pricing-container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    flex-wrap: wrap;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    min-width: 240px;
+    flex: 1;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+}
+
+.pricing-card.popular {
+    border: 2px dashed #c61b37;
+    padding-top: 48px;
+}
+
+.popular-tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f8d7a4;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 560;
+    color: #000;
+}
+
+.pricing-card h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.price {
+    font-size: 32px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.currency {
+    font-size: 22px;
+    margin-right: 4px;
+}
+
+.period, .monthly {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.get-started {
+    background-color: #c61b37;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 24px;
+    transition: all 0.3s ease;
+}
+
+.get-started.outline {
+    background-color: transparent;
+    border: 2px solid #c61b37;
+    color: #c61b37;
+}
+
+.get-started:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #c61b37;
+    color: white;
+}
+
+.pricing-footer {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.gst-note {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.pricing-link {
+    font-size: 15px;
+    color: #333;
+}
+
+.pricing-link .blue {
+    color: #00A8F5;
+    text-decoration: none;
+}
+
+@media (max-width: 1200px) {
+    .pricing-container {
+        gap: 16px;
+    }
+    
+    .pricing-card {
+        min-width: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pricing-header h2 {
+        font-size: 36px;
+    }
+    
+    .pricing-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .pricing-card {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
