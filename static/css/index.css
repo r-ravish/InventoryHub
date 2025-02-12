@@ -385,6 +385,7 @@ footer {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    margin-left: 6px;
 }
 
 .foot-container{
