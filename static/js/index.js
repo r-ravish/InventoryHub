@@ -161,5 +161,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '-50px',
+        threshold: 0.2
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Calculate delay based on distance from center
+                const items = entry.target.parentNode.children;
+                const centerIndex = Math.floor(items.length / 2);
+                const currentIndex = Array.from(items).indexOf(entry.target);
+                const distanceFromCenter = Math.abs(currentIndex - centerIndex);
+                
+                // Stagger delay increases as items get further from center
+                entry.target.style.animationDelay = `${distanceFromCenter * 0.1}s`;
+                entry.target.classList.add('animate');
+            }
+        });
+    }, observerOptions);
+
+    // Observe all integration items
+    document.querySelectorAll('.integration-item').forEach(item => {
+        observer.observe(item);
+    });
+});
+
+
 
 
