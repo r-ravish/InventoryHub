@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    
+    <style>
+        :root {
+            --primary-color: #D32D3D;
+            --accent-color: #00FFFF;
+            --background: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: var(--background);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .loader-container {
+            text-align: center;
+        }
+
+        /* Neon Loader */
+        .loader {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 6px solid transparent;
+            animation: spin 1s linear infinite, pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--primary-color);
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px var(--primary-color); }
+            50% { transform: scale(1.2); box-shadow: 0 0 20px var(--accent-color); }
+        }
+
+        /* Glitchy Loading Text */
+        .message {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: glitch 1.5s infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: -2px 0 var(--primary-color), 2px 0 var(--accent-color); }
+            50% { text-shadow: 2px 0 var(--primary-color), -2px 0 var(--accent-color); }
+            100% { text-shadow: -2px 0 var(--primary-color), 2px 0 var(--accent-color); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="loader"></div>
+        
+    </div>
+</body>
+</html>
+
+<script>
+    setTimeout(() => {
+        window.location.href = "{{ url_for('item_form') }}";
+    }, 2000);
+</script>

@@ -61,11 +61,14 @@ setInterval(updateRandomStat, 5000);
 // Button Interactions
 document.querySelectorAll('.button').forEach(button => {
     button.addEventListener('click', function(e) {
-        e.preventDefault();
+        if (this.tagName.toLowerCase() !== 'a') {  
+            e.preventDefault();  // Prevent default only if it's NOT a link
+        }
         const isSignup = this.textContent.includes('Started');
-        showNotification(isSignup ? 'Starting sign up process...' : 'Loading demo account...', 'success');
+        showNotification(isSignup ? 'Starting sign up process...' : 'Loading Your Account...', 'Success');
     });
 });
+
 
 // Rating Interactions
 document.querySelectorAll('.rating-item').forEach(rating => {
