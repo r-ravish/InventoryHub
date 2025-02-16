@@ -175,22 +175,22 @@
             <h2 class="card-title">Sales Activity</h2>
             <div class="sales-grid">
                 <div class="sales-item">
-                    <div class="sales-number blue">51</div>
+                    <div class="sales-number blue">{{ to_be_packed }}</div>
                     <div class="sales-label">TO BE PACKED</div>
                     <div class="sales-sublabel">Qty</div>
                 </div>
                 <div class="sales-item">
-                    <div class="sales-number red">40</div>
+                    <div class="sales-number red">{{ to_be_shipped }}</div>
                     <div class="sales-label">TO BE SHIPPED</div>
                     <div class="sales-sublabel">Pkgs</div>
                 </div>
                 <div class="sales-item">
-                    <div class="sales-number green">52</div>
+                    <div class="sales-number green">{{ to_be_delivered }}</div>
                     <div class="sales-label">TO BE DELIVERED</div>
                     <div class="sales-sublabel">Pkgs</div>
                 </div>
                 <div class="sales-item">
-                    <div class="sales-number yellow">97</div>
+                    <div class="sales-number yellow">{{ to_be_invoiced }}</div>
                     <div class="sales-label">TO BE INVOICED</div>
                     <div class="sales-sublabel">Qty</div>
                 </div>
@@ -202,11 +202,11 @@
             <h2 class="card-title">Inventory Summary</h2>
             <div class="inventory-item">
                 <span class="inventory-label">QUANTITY IN HAND</span>
-                <span class="inventory-value">12746</span>
+                <span class="inventory-value">{{ total_quantity }}</span>
             </div>
             <div class="inventory-item">
                 <span class="inventory-label">QUANTITY TO BE RECEIVED</span>
-                <span class="inventory-value">62</span>
+                <span class="inventory-value">{{ to_be_received }}</span>
             </div>
         </div>
 
@@ -216,19 +216,15 @@
             <div class="product-list">
                 <div class="product-item">
                     <span class="inventory-label">Low Stock Items</span>
-                    <span class="inventory-value">22</span>
-                </div>
-                <div class="product-item">
-                    <span class="inventory-label">All Item Groups</span>
-                    <span class="inventory-value">34</span>
+                    <span class="inventory-value">{{ low_stock_items }}</span>
                 </div>
                 <div class="product-item">
                     <span class="inventory-label">All Items</span>
-                    <span class="inventory-value">129</span>
+                    <span class="inventory-value">{{ all_items }}</span>
                 </div>
             </div>
             <div class="progress-circle">
-                <canvas id="activeItemsChart"></canvas>
+                <canvas id="activeItemsChart" data-percentage="{{ active_items_percentage }}"></canvas>
                 <div style="text-align: center; margin-top: 10px;">Active Items</div>
             </div>
         </div>
@@ -246,24 +242,14 @@
                 </div>
             </h2>
             <div class="top-selling">
+                {% for item, sales in top_selling %}
                 <div class="top-selling-item">
-                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-16%20at%206.26.39%E2%80%AFPM-j8YnXhI0vTI1MJeZsk8gDYWX467dbE.png" alt="Queen Size Bed">
-                    <div class="top-selling-value">226</div>
-                    <div class="sales-label">Queen Size Bed</div>
-                    <div class="sales-sublabel">Mtr</div>
+                    <img src="/api/placeholder/60/60" alt="{{ item.name }}">
+                    <div class="top-selling-value">{{ sales }}</div>
+                    <div class="sales-label">{{ item.name }}</div>
+                    <div class="sales-sublabel">{{ item.unit }}</div>
                 </div>
-                <div class="top-selling-item">
-                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-16%20at%206.26.39%E2%80%AFPM-j8YnXhI0vTI1MJeZsk8gDYWX467dbE.png" alt="Executive Office Desk">
-                    <div class="top-selling-value">133</div>
-                    <div class="sales-label">Executive Office Desk</div>
-                    <div class="sales-sublabel">Mtr</div>
-                </div>
-                <div class="top-selling-item">
-                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-16%20at%206.26.39%E2%80%AFPM-j8YnXhI0vTI1MJeZsk8gDYWX467dbE.png" alt="Patio Dining Set">
-                    <div class="top-selling-value">116</div>
-                    <div class="sales-label">Patio Dining Set</div>
-                    <div class="sales-sublabel">Mtr</div>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -291,51 +277,54 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% if sales_stats %}
                     <tr>
-                        <td>Direct Sales</td>
-                        <td>23</td>
-                        <td>51</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>40</td>
+                        <td>{{ sales_stats.channel }}</td>
+                        <td>{{ sales_stats.draft }}</td>
+                        <td>{{ sales_stats.confirmed }}</td>
+                        <td>{{ sales_stats.packed }}</td>
+                        <td>{{ sales_stats.shipped }}</td>
+                        <td>{{ sales_stats.invoiced }}</td>
                     </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Draw circular progress for Active Items
+        // Update the circular progress chart to use the data-percentage attribute
         const canvas = document.getElementById('activeItemsChart');
+        const percentage = parseInt(canvas.getAttribute('data-percentage'));
         const ctx = canvas.getContext('2d');
-        const percentage = 78;
         
-        // Set canvas size
+        // ... rest of your JavaScript remains the same ...
+
         canvas.width = 120;
         canvas.height = 120;
         
-        // Draw background circle
+
         ctx.beginPath();
         ctx.arc(60, 60, 50, 0, 2 * Math.PI);
         ctx.strokeStyle = '#e9ecef';
         ctx.lineWidth = 10;
         ctx.stroke();
         
-        // Draw progress
+
         ctx.beginPath();
         ctx.arc(60, 60, 50, -Math.PI/2, (-Math.PI/2) + (2 * Math.PI * percentage/100));
         ctx.strokeStyle = '#34a853';
         ctx.lineWidth = 10;
         ctx.stroke();
         
-        // Draw percentage text
+
         ctx.font = 'bold 24px Arial';
         ctx.fillStyle = '#333';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(`${percentage}%`, 60, 60);
 
-        // Add hover effects to sales items
+
         document.querySelectorAll('.sales-item').forEach(item => {
             item.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-2px)';
@@ -347,7 +336,7 @@
             });
         });
 
-        // Add hover effects to top selling items
+
         document.querySelectorAll('.top-selling-item').forEach(item => {
             item.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-2px)';
