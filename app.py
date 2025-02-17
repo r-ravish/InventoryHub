@@ -141,11 +141,75 @@ def home():
                          is_authenticated=current_user.is_authenticated)
 
 
+# @app.route('/dashboard')
+# @login_required
+# def dashboard():
+#     flash(f"Welcome to your dashboard, {current_user.username}!", "info")
+    
+#     total_items = Item.query.count()
+#     total_inventory_value = db.session.query(
+#         func.sum(case((Item.cost_price.isnot(None), 
+#                       Item.quantity_in_hand * Item.cost_price), else_=0))
+#     ).scalar() or 0
+    
+#     avg_item_value = total_inventory_value / total_items if total_items > 0 else 0
+#     low_stock_items = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
+#     out_of_stock_items = Item.query.filter(Item.quantity_in_hand == 0).count()
+#     items_to_receive = Item.query.filter(Item.quantity_to_receive > 0).count()
+#     high_value_items = Item.query.filter(Item.cost_price.isnot(None), 
+#                                        Item.cost_price > 1000).count()
+#     returnable_items = Item.query.filter_by(returnable=True).count()
+#     non_returnable_items = Item.query.filter_by(returnable=False).count()
+    
+#     top_value_items = Item.query.filter(Item.cost_price.isnot(None))\
+#         .order_by(Item.cost_price.desc()).limit(5).all()
+    
+#     tax_distribution = db.session.query(
+#         case((Item.tax_rate.is_(None), 0), else_=Item.tax_rate).label('tax_rate'),
+#         func.count(Item.id).label('count')
+#     ).group_by(case((Item.tax_rate.is_(None), 0), else_=Item.tax_rate)).all()
+    
+#     items_with_margins = Item.query.filter(
+#         Item.selling_price.isnot(None),
+#         Item.cost_price.isnot(None),
+#         Item.cost_price > 0
+#     ).all()
+    
+#     margin_data = []
+#     for item in items_with_margins:
+#         margin = ((item.selling_price - item.cost_price) / item.cost_price * 100)
+#         margin_data.append({
+#             'name': item.name,
+#             'margin': round(margin, 2)
+#         })
+    
+#     margin_data.sort(key=lambda x: x['margin'], reverse=True)
+#     top_margin_items = margin_data[:5]
+
+#     return render_template(
+#         "dashboard.html",
+#         total_items=total_items,
+#         total_inventory_value=total_inventory_value,
+#         avg_item_value=avg_item_value,
+#         low_stock_items=low_stock_items,
+#         out_of_stock_items=out_of_stock_items,
+#         items_to_receive=items_to_receive,
+#         high_value_items=high_value_items,
+#         returnable_items=returnable_items,
+#         non_returnable_items=non_returnable_items,
+#         top_value_items=top_value_items,
+#         tax_distribution=tax_distribution,
+#         top_margin_items=top_margin_items,
+#         show_sidebar=True
+#     )
+
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
     flash(f"Welcome to your dashboard, {current_user.username}!", "info")
     
+    # Existing queries
     total_items = Item.query.count()
     total_inventory_value = db.session.query(
         func.sum(case((Item.cost_price.isnot(None), 
@@ -161,31 +225,41 @@ def dashboard():
     returnable_items = Item.query.filter_by(returnable=True).count()
     non_returnable_items = Item.query.filter_by(returnable=False).count()
     
-    top_value_items = Item.query.filter(Item.cost_price.isnot(None))\
-        .order_by(Item.cost_price.desc()).limit(5).all()
+    # New queries
+    # Most stocked items
+    most_stocked_items = Item.query.order_by(Item.quantity_in_hand.desc()).limit(5).all()
     
-    tax_distribution = db.session.query(
-        case((Item.tax_rate.is_(None), 0), else_=Item.tax_rate).label('tax_rate'),
+    # Items needing reorder (stock below reorder point)
+    reorder_needed_items = Item.query.filter(
+        Item.quantity_in_hand <= Item.reorder_point
+    ).order_by(Item.quantity_in_hand.asc()).limit(5).all()
+    
+    # Items by unit distribution
+    unit_distribution = db.session.query(
+        Item.unit,
         func.count(Item.id).label('count')
-    ).group_by(case((Item.tax_rate.is_(None), 0), else_=Item.tax_rate)).all()
+    ).group_by(Item.unit).all()
     
-    items_with_margins = Item.query.filter(
-        Item.selling_price.isnot(None),
-        Item.cost_price.isnot(None),
-        Item.cost_price > 0
-    ).all()
+    # Price range distribution
+    price_ranges = [
+        (0, 100, '0-100'),
+        (101, 500, '101-500'),
+        (501, 1000, '501-1000'),
+        (1001, float('inf'), '1000+')
+    ]
     
-    margin_data = []
-    for item in items_with_margins:
-        margin = ((item.selling_price - item.cost_price) / item.cost_price * 100)
-        margin_data.append({
-            'name': item.name,
-            'margin': round(margin, 2)
-        })
+    price_distribution = []
+    for min_price, max_price, label in price_ranges:
+        count = Item.query.filter(
+            Item.selling_price >= min_price,
+            Item.selling_price <= max_price if max_price != float('inf') else Item.selling_price > min_price
+        ).count()
+        price_distribution.append({'range': label, 'count': count})
     
-    margin_data.sort(key=lambda x: x['margin'], reverse=True)
-    top_margin_items = margin_data[:5]
-
+    # Items with highest tax rates
+    high_tax_items = Item.query.filter(Item.tax_rate.isnot(None))\
+        .order_by(Item.tax_rate.desc()).limit(5).all()
+    
     return render_template(
         "dashboard.html",
         total_items=total_items,
@@ -197,9 +271,11 @@ def dashboard():
         high_value_items=high_value_items,
         returnable_items=returnable_items,
         non_returnable_items=non_returnable_items,
-        top_value_items=top_value_items,
-        tax_distribution=tax_distribution,
-        top_margin_items=top_margin_items,
+        most_stocked_items=most_stocked_items,
+        reorder_needed_items=reorder_needed_items,
+        unit_distribution=unit_distribution,
+        price_distribution=price_distribution,
+        high_tax_items=high_tax_items,
         show_sidebar=True
     )
 
