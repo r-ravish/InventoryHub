@@ -1,0 +1,67 @@
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+    <style>
+        /* Copy all styles from navbar.html, sidebar.html, and footer.html here */
+        /* Layout styles */
+        .main-container {
+            display: flex;
+        }
+        
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    {% block navbar %}
+    <!-- Navbar code here -->
+    <nav class="navbar">
+        <!-- Copy entire navbar content here -->
+    </nav>
+    {% endblock %}
+
+    <div class="main-container">
+        {% block sidebar %}
+        <!-- Sidebar code here -->
+        <div class="sidebar">
+            <!-- Copy entire sidebar content here -->
+        </div>
+        {% endblock %}
+
+        <div class="content-wrapper">
+            <main class="main-content">
+                {% block content %}
+                <!-- Page-specific content will go here -->
+                {% endblock %}
+            </main>
+
+            {% block footer %}
+            <!-- Footer code here -->
+            <footer class="footer">
+                <!-- Copy entire footer content here -->
+            </footer>
+            {% endblock %}
+        </div>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+    <script>
+        // Copy all JavaScript from navbar.html, sidebar.html, and footer.html here
+    </script>
+</body>
+</html>
