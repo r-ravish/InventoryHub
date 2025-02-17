@@ -1,5 +1,3 @@
-
-
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
@@ -119,165 +117,11 @@ def home():
     return render_template("index.html")
    
 
-# @app.route('/dashboard')
-# def dashboard():
-#     # Inventory Value Metrics
-#     total_items = Item.query.count()
-#     total_inventory_value = db.session.query(func.sum(Item.quantity_in_hand * Item.cost_price)).scalar() or 0
-#     avg_item_value = total_inventory_value / total_items if total_items > 0 else 0
-    
-#     # Stock Status
-#     low_stock_items = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
-#     out_of_stock_items = Item.query.filter(Item.quantity_in_hand == 0).count()
-#     items_to_receive = Item.query.filter(Item.quantity_to_receive > 0).count()
-    
-#     # Value Analysis
-#     high_value_items = Item.query.filter(Item.cost_price > 1000).count()  # Items worth more than 1000
-    
-#     # Returnable Status
-#     returnable_items = Item.query.filter_by(returnable=True).count()
-#     non_returnable_items = Item.query.filter_by(returnable=False).count()
-    
-#     # Top Items by Value
-#     top_value_items = Item.query.order_by(Item.cost_price.desc()).limit(5).all()
-    
-#     # Items by Tax Rate
-#     tax_distribution = db.session.query(
-#         Item.tax_rate,
-#         func.count(Item.id).label('count')
-#     ).group_by(Item.tax_rate).all()
-    
-#     # Calculate profit margins
-#     items_with_margins = Item.query.filter(
-#         Item.selling_price.isnot(None),
-#         Item.cost_price.isnot(None)
-#     ).all()
-    
-#     margin_data = []
-#     for item in items_with_margins:
-#         margin = ((item.selling_price - item.cost_price) / item.cost_price * 100)
-#         margin_data.append({
-#             'name': item.name,
-#             'margin': round(margin, 2)
-#         })
-    
-#     # Sort by margin and get top 5
-#     margin_data.sort(key=lambda x: x['margin'], reverse=True)
-#     top_margin_items = margin_data[:5]
-
-#     return render_template(
-#         "dashboard.html",
-#         total_items=total_items,
-#         total_inventory_value=total_inventory_value,
-#         avg_item_value=avg_item_value,
-#         low_stock_items=low_stock_items,
-#         out_of_stock_items=out_of_stock_items,
-#         items_to_receive=items_to_receive,
-#         high_value_items=high_value_items,
-#         returnable_items=returnable_items,
-#         non_returnable_items=non_returnable_items,
-#         top_value_items=top_value_items,
-#         tax_distribution=tax_distribution,
-#         top_margin_items=top_margin_items,
-#         show_sidebar=True
-#     )
-
-# @app.route('/dashboard')
-# def dashboard():
-#     # Inventory Value Metrics
-#     total_items = Item.query.count()
-    
-#     # Use coalesce to handle NULL values in cost_price calculation
-#     total_inventory_value = db.session.query(
-#         func.sum(
-#             case(
-#                 [(Item.cost_price.isnot(None), Item.quantity_in_hand * Item.cost_price)],
-#                 else_=0
-#             )
-#         )
-#     ).scalar() or 0
-    
-#     avg_item_value = total_inventory_value / total_items if total_items > 0 else 0
-    
-#     # Stock Status
-#     low_stock_items = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
-#     out_of_stock_items = Item.query.filter(Item.quantity_in_hand == 0).count()
-#     items_to_receive = Item.query.filter(Item.quantity_to_receive > 0).count()
-    
-#     # Value Analysis - only count items with non-null cost_price
-#     high_value_items = Item.query.filter(
-#         Item.cost_price.isnot(None),
-#         Item.cost_price > 1000
-#     ).count()
-    
-#     # Returnable Status
-#     returnable_items = Item.query.filter_by(returnable=True).count()
-#     non_returnable_items = Item.query.filter_by(returnable=False).count()
-    
-#     # Top Items by Value - only get items with non-null cost_price
-#     top_value_items = Item.query.filter(
-#         Item.cost_price.isnot(None)
-#     ).order_by(Item.cost_price.desc()).limit(5).all()
-    
-#     # Items by Tax Rate - handle null tax_rates
-#     tax_distribution = db.session.query(
-#         case([(Item.tax_rate.is_(None), 0)], else_=Item.tax_rate).label('tax_rate'),
-#         func.count(Item.id).label('count')
-#     ).group_by(
-#         case([(Item.tax_rate.is_(None), 0)], else_=Item.tax_rate)
-#     ).all()
-    
-#     # Calculate profit margins - only for items with both prices
-#     items_with_margins = Item.query.filter(
-#         Item.selling_price.isnot(None),
-#         Item.cost_price.isnot(None),
-#         Item.cost_price > 0  # Prevent division by zero
-#     ).all()
-    
-#     margin_data = []
-#     for item in items_with_margins:
-#         margin = ((item.selling_price - item.cost_price) / item.cost_price * 100)
-#         margin_data.append({
-#             'name': item.name,
-#             'margin': round(margin, 2)
-#         })
-    
-#     # Sort by margin and get top 5
-#     margin_data.sort(key=lambda x: x['margin'], reverse=True)
-#     top_margin_items = margin_data[:5]
-
-#     return render_template(
-#         "dashboard.html",
-#         total_items=total_items,
-#         total_inventory_value=total_inventory_value,
-#         avg_item_value=avg_item_value,
-#         low_stock_items=low_stock_items,
-#         out_of_stock_items=out_of_stock_items,
-#         items_to_receive=items_to_receive,
-#         high_value_items=high_value_items,
-#         returnable_items=returnable_items,
-#         non_returnable_items=non_returnable_items,
-#         top_value_items=top_value_items,
-#         tax_distribution=tax_distribution,
-#         top_margin_items=top_margin_items,
-#         show_sidebar=True
-#     )
-
 @app.route('/dashboard')
 def dashboard():
     # Inventory Value Metrics
     total_items = Item.query.count()
-    
-    # Use coalesce to handle NULL values in cost_price calculation
-    total_inventory_value = db.session.query(
-        func.sum(
-            case(
-                (Item.cost_price.isnot(None), Item.quantity_in_hand * Item.cost_price),
-                else_=0
-            )
-        )
-    ).scalar() or 0
-    
+    total_inventory_value = db.session.query(func.sum(Item.quantity_in_hand * Item.cost_price)).scalar() or 0
     avg_item_value = total_inventory_value / total_items if total_items > 0 else 0
     
     # Stock Status
@@ -285,40 +129,26 @@ def dashboard():
     out_of_stock_items = Item.query.filter(Item.quantity_in_hand == 0).count()
     items_to_receive = Item.query.filter(Item.quantity_to_receive > 0).count()
     
-    # Value Analysis - only count items with non-null cost_price
-    high_value_items = Item.query.filter(
-        Item.cost_price.isnot(None),
-        Item.cost_price > 1000
-    ).count()
+    # Value Analysis
+    high_value_items = Item.query.filter(Item.cost_price > 1000).count()  # Items worth more than 1000
     
     # Returnable Status
     returnable_items = Item.query.filter_by(returnable=True).count()
     non_returnable_items = Item.query.filter_by(returnable=False).count()
     
-    # Top Items by Value - only get items with non-null cost_price
-    top_value_items = Item.query.filter(
-        Item.cost_price.isnot(None)
-    ).order_by(Item.cost_price.desc()).limit(5).all()
+    # Top Items by Value
+    top_value_items = Item.query.order_by(Item.cost_price.desc()).limit(5).all()
     
-    # Items by Tax Rate - handle null tax_rates
+    # Items by Tax Rate
     tax_distribution = db.session.query(
-        case(
-            (Item.tax_rate.is_(None), 0),
-            else_=Item.tax_rate
-        ).label('tax_rate'),
+        Item.tax_rate,
         func.count(Item.id).label('count')
-    ).group_by(
-        case(
-            (Item.tax_rate.is_(None), 0),
-            else_=Item.tax_rate
-        )
-    ).all()
+    ).group_by(Item.tax_rate).all()
     
-    # Calculate profit margins - only for items with both prices
+    # Calculate profit margins
     items_with_margins = Item.query.filter(
         Item.selling_price.isnot(None),
-        Item.cost_price.isnot(None),
-        Item.cost_price > 0  # Prevent division by zero
+        Item.cost_price.isnot(None)
     ).all()
     
     margin_data = []
@@ -353,7 +183,6 @@ def dashboard():
 @app.route('/inventory')
 def inventory():
     return render_template("inventory.html",show_sidebar=True)
-
 
 @app.route('/inventory/add-item', methods=['GET', 'POST'])
 def item_form():
