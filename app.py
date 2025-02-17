@@ -184,6 +184,7 @@ def dashboard():
 def inventory():
     return render_template("inventory.html",show_sidebar=True)
 
+
 @app.route('/inventory/add-item', methods=['GET', 'POST'])
 def item_form():
     if request.method == 'POST':
