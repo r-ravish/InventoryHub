@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --primary-blue: #4285f4;
@@ -24,6 +25,107 @@
 
         body {
             background-color: #f5f5f5;
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background-color: #1a1c23;
+            color: #ffffff;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            padding: 0 20px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            color: #a0aec0;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background-color: #2d3748;
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background-color: #3182ce;
+            color: #ffffff;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #2d3748;
+        }
+
+        .submenu.open {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .submenu .nav-item {
+            padding-left: 50px;
+            font-size: 14px;
+        }
+
+        .nav-item .arrow {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Custom scrollbar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #1a1c23;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            flex-grow: 1;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Navbar Styles */
@@ -87,6 +189,7 @@
         /* Existing Dashboard Styles */
         .dashboard-container {
             padding: 20px;
+            flex-grow: 1;
         }
 
         .dashboard {
@@ -186,107 +289,9 @@
             }
         }
     </style>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        .sidebar {
-            width: 260px;
-            height: 100vh;
-            background-color: #1a1c23;
-            color: #ffffff;
-            padding: 20px 0;
-            transition: all 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .sidebar-header {
-            padding: 0 20px;
-            margin-bottom: 20px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-item {
-            padding: 12px 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            color: #a0aec0;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover {
-            background-color: #2d3748;
-            color: #ffffff;
-        }
-
-        .nav-item.active {
-            background-color: #3182ce;
-            color: #ffffff;
-        }
-
-        .nav-item i {
-            width: 20px;
-            text-align: center;
-        }
-
-        .submenu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background-color: #2d3748;
-        }
-
-        .submenu.open {
-            max-height: 1000px;
-            transition: max-height 0.5s ease-in;
-        }
-
-        .submenu .nav-item {
-            padding-left: 50px;
-            font-size: 14px;
-        }
-
-        .nav-item .arrow {
-            margin-left: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .nav-item.open .arrow {
-            transform: rotate(180deg);
-        }
-
-        /* Custom scrollbar */
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: #1a1c23;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #4a5568;
-            border-radius: 3px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: #718096;
-        }
-    </style>
 </head>
 <body>
-
-    <!-- sidebar -->
+    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
             <i class="fas fa-boxes"></i>
@@ -304,7 +309,7 @@
             <i class="fas fa-chevron-down arrow"></i>
         </div>
         <div class="submenu" id="inventory">
-            <div class="nav-item">Items</div>
+            <a href="{{url_for('inventory')}}"><div class="nav-item">Items</div></a>
             <div class="nav-item">Composite Items</div>
             <div class="nav-item">Item Groups</div>
             <div class="nav-item">Price Lists</div>
@@ -354,218 +359,192 @@
         </div>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-left">
+                <button class="icon-button" id="sidebar-toggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
+                </button>
+                <button class="icon-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="navbar-center">
+                <input type="text" class="search-bar" placeholder="Search in Customers ( / )">
+            </div>
+            
+            <div class="navbar-right">
+                <!-- <div class="org-text">This is a Test organization.</div> -->
+                <select class="org-selector">
+                    <option>Demo Org</option>
+                </select>
+                <button class="icon-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 4v16m8-8H4"/>
+                    </svg>
+                </button>
+                <button class="icon-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 01-3.46 0"/>
+                    </svg>
+                </button>
+                <button class="icon-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                    </svg>
+                </button>
+                <button class="icon-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
 
-
-    <!-- sidebar -->
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <button class="icon-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 12h18M3 6h18M3 18h18"/>
-                </svg>
-            </button>
-            <button class="icon-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </button>
-        </div>
-        
-        <div class="navbar-center">
-            <input type="text" class="search-bar" placeholder="Search in Customers ( / )">
-        </div>
-        
-        <div class="navbar-right">
-            <div class="org-text">This is a Test organization.</div>
-            <select class="org-selector">
-                <option>Demo Org</option>
-            </select>
-            <button class="icon-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 4v16m8-8H4"/>
-                </svg>
-            </button>
-            <button class="icon-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                    <path d="M13.73 21a2 2 0 01-3.46 0"/>
-                </svg>
-            </button>
-            <button class="icon-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
-                </svg>
-            </button>
-            <button class="icon-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 16v-4M12 8h.01"/>
-                </svg>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Dashboard Content -->
-    <div class="dashboard-container">
-        <div class="dashboard">
-            <!-- Inventory Overview Card -->
-            <div class="card">
-                <h2 class="card-title">Inventory Overview</h2>
-                <div class="metric-grid">
-                    <div class="metric-item">
-                        <div class="metric-number blue">{{ total_items }}</div>
-                        <div class="metric-label">Total Items</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number green">₹{{ "{:,.2f}".format(total_inventory_value) }}</div>
-                        <div class="metric-label">Total Value</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number yellow">₹{{ "{:,.2f}".format(avg_item_value) }}</div>
-                        <div class="metric-label">Average Item Value</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number red">{{ high_value_items }}</div>
-                        <div class="metric-label">High Value Items</div>
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <div class="dashboard">
+                <!-- Inventory Overview Card -->
+                <div class="card">
+                    <h2 class="card-title">Inventory Overview</h2>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-number blue">{{ total_items }}</div>
+                            <div class="metric-label">Total Items</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number green">₹{{ "{:,.2f}".format(total_inventory_value) }}</div>
+                            <div class="metric-label">Total Value</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number yellow">₹{{ "{:,.2f}".format(avg_item_value) }}</div>
+                            <div class="metric-label">Average Item Value</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number red">{{ high_value_items }}</div>
+                            <div class="metric-label">High Value Items</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Stock Status Card -->
-            <div class="card">
-                <h2 class="card-title">Stock Status</h2>
-                <div class="metric-grid">
-                    <div class="metric-item">
-                        <div class="metric-number red">{{ low_stock_items }}</div>
-                        <div class="metric-label">Low Stock Items</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number yellow">{{ out_of_stock_items }}</div>
-                        <div class="metric-label">Out of Stock</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number blue">{{ items_to_receive }}</div>
-                        <div class="metric-label">To Be Received</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number green">{{ returnable_items }}</div>
-                        <div class="metric-label">Returnable Items</div>
+                <!-- Stock Status Card -->
+                <div class="card">
+                    <h2 class="card-title">Stock Status</h2>
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-number red">{{ low_stock_items }}</div>
+                            <div class="metric-label">Low Stock Items</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number yellow">{{ out_of_stock_items }}</div>
+                            <div class="metric-label">Out of Stock</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number blue">{{ items_to_receive }}</div>
+                            <div class="metric-label">To Be Received</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number green">{{ returnable_items }}</div>
+                            <div class="metric-label">Returnable Items</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Top Value Items Card -->
-            <div class="card">
-                <h2 class="card-title">Top Items by Value</h2>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Cost Price</th>
-                                <th>Quantity</th>
-                                <th>Total Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in top_value_items %}
-                            <tr>
-                                <td>{{ item.name }}</td>
-                                <td>₹{{ "{:,.2f}".format(item.cost_price) }}</td>
-                                <td>{{ item.quantity_in_hand }}</td>
-                                <td>₹{{ "{:,.2f}".format(item.cost_price * item.quantity_in_hand) }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <!-- Top Value Items Card -->
+                <div class="card">
+                    <h2 class="card-title">Top Items by Value</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Cost Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in top_value_items %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>₹{{ "{:,.2f}".format(item.cost_price) }}</td>
+                                    <td>{{ item.quantity_in_hand }}</td>
+                                    <td>₹{{ "{:,.2f}".format(item.cost_price * item.quantity_in_hand) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Tax Distribution Card -->
-            <div class="card">
-                <h2 class="card-title">Tax Rate Distribution</h2>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Tax Rate</th>
-                                <th>Number of Items</th>
-                                <th>Distribution</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for rate, count in tax_distribution %}
-                            <tr>
-                                <td>{{ rate if rate else 0 }}%</td>
-                                <td>{{ count }}</td>
-                                <td>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: {{ (count / total_items * 100) if total_items > 0 else 0 }}%"></div>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <!-- Tax Distribution Card -->
+                <div class="card">
+                    <h2 class="card-title">Tax Rate Distribution</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Tax Rate</th>
+                                    <th>Number of Items</th>
+                                    <th>Distribution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rate, count in tax_distribution %}
+                                <tr>
+                                    <td>{{ rate if rate else 0 }}%</td>
+                                    <td>{{ count }}</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: {{ (count / total_items * 100) if total_items > 0 else 0 }}%"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Top Margin Items Card -->
-            <div class="card">
-                <h2 class="card-title">Top Items by Margin</h2>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Margin %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in top_margin_items %}
-                            <tr>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.margin }}%</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <!-- Top Margin Items Card -->
+                <div class="card">
+                    <h2 class="card-title">Top Items by Margin</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Margin %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in top_margin_items %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.margin }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Add hover effects to metric items
-        document.querySelectorAll('.metric-item').forEach(item => {
-            item.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.transition = 'transform 0.2s ease';
-                this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-            });
-            
-            item.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = 'none';
-            });
-        });
-
-        // Add hover effects to table rows
-        document.querySelectorAll('.data-table tr').forEach(row => {
-            row.addEventListener('mouseenter', function() {
-                this.style.backgroundColor = 'var(--gray-light)';
-                this.style.transition = 'background-color 0.2s ease';
-            });
-            
-            row.addEventListener('mouseleave', function() {
-                this.style.backgroundColor = '';
-            });
-        });
-    </script>
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar menu functionality
             const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
             
             menuItems.forEach(item => {
@@ -600,8 +579,52 @@
                     this.classList.add('active');
                 });
             });
+
+            // Add toggle sidebar functionality
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                if (sidebar.classList.contains('collapsed')) {
+                    sidebar.style.width = '60px';
+                    document.querySelectorAll('.sidebar .nav-item span, .sidebar-header span, .arrow').forEach(el => {
+                        el.style.display = 'none';
+                    });
+                } else {
+                    sidebar.style.width = '260px';
+                    document.querySelectorAll('.sidebar .nav-item span, .sidebar-header span, .arrow').forEach(el => {
+                        el.style.display = '';
+                    });
+                }
+            });
+
+            // Add hover effects to metric items
+            document.querySelectorAll('.metric-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'transform 0.2s ease';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add hover effects to table rows
+            document.querySelectorAll('.data-table tr').forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'var(--gray-light)';
+                    this.style.transition = 'background-color 0.2s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
         });
     </script>
 </body>
 </html>
-

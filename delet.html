@@ -1,67 +1,530 @@
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Default Title{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    {% block extra_css %}{% endblock %}
+    <title>Inventory Dashboard</title>
     <style>
-        /* Copy all styles from navbar.html, sidebar.html, and footer.html here */
-        /* Layout styles */
-        .main-container {
+        :root {
+            --primary-blue: #4285f4;
+            --primary-red: #ea4335;
+            --primary-green: #34a853;
+            --primary-yellow: #fbbc05;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --border-color: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
             display: flex;
         }
-        
-        .content-wrapper {
+
+        /* Layout Container */
+        .app-container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background-color: #1a1c23;
+            color: #ffffff;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            flex-shrink: 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        /* Main Content Area */
+        .main-content {
             flex: 1;
+            margin-left: 260px; /* Same as sidebar width */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
-        
-        .main-content {
-            flex: 1;
+
+        /* Navbar Styles */
+        .navbar {
+            background: white;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
             padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Rest of your existing styles remain the same */
+        [Previous navbar, card, metric, table styles...]
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 6px;
+            background: var(--gray-light);
+        }
+
+        .metric-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-number.blue { color: var(--primary-blue); }
+        .metric-number.red { color: var(--primary-red); }
+        .metric-number.green { color: var(--primary-green); }
+        .metric-number.yellow { color: var(--primary-yellow); }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--gray-medium);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background-color: var(--gray-light);
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-blue);
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar.active {
+                width: 260px;
+                transform: translateX(0);
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    {% block navbar %}
-    <!-- Navbar code here -->
-    <nav class="navbar">
-        <!-- Copy entire navbar content here -->
-    </nav>
-    {% endblock %}
-
-    <div class="main-container">
-        {% block sidebar %}
-        <!-- Sidebar code here -->
+    <div class="app-container">
+        <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Copy entire sidebar content here -->
+            <!-- [Previous sidebar content remains the same] -->
+            <div class="sidebar-header">
+                <i class="fas fa-boxes"></i>
+                <span>Inventory</span>
+            </div>
+    
+            <div class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+    
+            <div class="nav-item" data-submenu="inventory">
+                <i class="fas fa-box"></i>
+                <span>Inventory</span>
+                <i class="fas fa-chevron-down arrow"></i>
+            </div>
+            <div class="submenu" id="inventory">
+                <div class="nav-item">Items</div>
+                <div class="nav-item">Composite Items</div>
+                <div class="nav-item">Item Groups</div>
+                <div class="nav-item">Price Lists</div>
+                <div class="nav-item">Inventory Adjustments</div>
+            </div>
+    
+            <div class="nav-item" data-submenu="sales">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Sales</span>
+                <i class="fas fa-chevron-down arrow"></i>
+            </div>
+            <div class="submenu" id="sales">
+                <div class="nav-item">Customers</div>
+                <div class="nav-item">Retainer Invoices</div>
+                <div class="nav-item">Sales Orders</div>
+                <div class="nav-item">Packages</div>
+                <div class="nav-item">Shipments</div>
+                <div class="nav-item">Delivery Challans</div>
+                <div class="nav-item">Invoices</div>
+                <div class="nav-item">Payments Received</div>
+                <div class="nav-item">Sales Returns</div>
+                <div class="nav-item">Credit Notes</div>
+            </div>
+    
+            <div class="nav-item" data-submenu="purchases">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Purchases</span>
+                <i class="fas fa-chevron-down arrow"></i>
+            </div>
+            <div class="submenu" id="purchases">
+                <div class="nav-item">Vendors</div>
+                <div class="nav-item">Purchase Orders</div>
+                <div class="nav-item">Purchase Receives</div>
+                <div class="nav-item">Bills</div>
+                <div class="nav-item">Payments Made</div>
+                <div class="nav-item">Vendor Credits</div>
+            </div>
+    
+            <div class="nav-item">
+                <i class="fas fa-plug"></i>
+                <span>Integrations</span>
+            </div>
+    
+            <div class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </div>
         </div>
-        {% endblock %}
 
-        <div class="content-wrapper">
-            <main class="main-content">
-                {% block content %}
-                <!-- Page-specific content will go here -->
-                {% endblock %}
-            </main>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Navbar -->
+            <nav class="navbar">
+                <!-- [Previous navbar content remains the same] -->
+                <div class="navbar-left">
+                    <button class="icon-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12h18M3 6h18M3 18h18"/>
+                        </svg>
+                    </button>
+                    <button class="icon-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="navbar-center">
+                    <input type="text" class="search-bar" placeholder="Search in Customers ( / )">
+                </div>
+                
+                <div class="navbar-right">
+                    <div class="org-text">This is a Test organization.</div>
+                    <select class="org-selector">
+                        <option>Demo Org</option>
+                    </select>
+                    <button class="icon-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </button>
+                    <button class="icon-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 01-3.46 0"/>
+                        </svg>
+                    </button>
+                    <button class="icon-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        </svg>
+                    </button>
+                    <button class="icon-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4M12 8h.01"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
 
-            {% block footer %}
-            <!-- Footer code here -->
-            <footer class="footer">
-                <!-- Copy entire footer content here -->
-            </footer>
-            {% endblock %}
+            <!-- Dashboard Content -->
+            <div class="dashboard-container">
+                <div class="dashboard">
+                    <!-- [Previous dashboard cards content remains the same] -->
+                     <!-- Inventory Overview Card -->
+            <div class="card">
+                <h2 class="card-title">Inventory Overview</h2>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="metric-number blue">{{ total_items }}</div>
+                        <div class="metric-label">Total Items</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number green">₹{{ "{:,.2f}".format(total_inventory_value) }}</div>
+                        <div class="metric-label">Total Value</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number yellow">₹{{ "{:,.2f}".format(avg_item_value) }}</div>
+                        <div class="metric-label">Average Item Value</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number red">{{ high_value_items }}</div>
+                        <div class="metric-label">High Value Items</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Status Card -->
+            <div class="card">
+                <h2 class="card-title">Stock Status</h2>
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="metric-number red">{{ low_stock_items }}</div>
+                        <div class="metric-label">Low Stock Items</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number yellow">{{ out_of_stock_items }}</div>
+                        <div class="metric-label">Out of Stock</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number blue">{{ items_to_receive }}</div>
+                        <div class="metric-label">To Be Received</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-number green">{{ returnable_items }}</div>
+                        <div class="metric-label">Returnable Items</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Value Items Card -->
+            <div class="card">
+                <h2 class="card-title">Top Items by Value</h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Cost Price</th>
+                                <th>Quantity</th>
+                                <th>Total Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in top_value_items %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>₹{{ "{:,.2f}".format(item.cost_price) }}</td>
+                                <td>{{ item.quantity_in_hand }}</td>
+                                <td>₹{{ "{:,.2f}".format(item.cost_price * item.quantity_in_hand) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tax Distribution Card -->
+            <div class="card">
+                <h2 class="card-title">Tax Rate Distribution</h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tax Rate</th>
+                                <th>Number of Items</th>
+                                <th>Distribution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rate, count in tax_distribution %}
+                            <tr>
+                                <td>{{ rate if rate else 0 }}%</td>
+                                <td>{{ count }}</td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: {{ (count / total_items * 100) if total_items > 0 else 0 }}%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Top Margin Items Card -->
+            <div class="card">
+                <h2 class="card-title">Top Items by Margin</h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Margin %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in top_margin_items %}
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.margin }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    {% block extra_js %}{% endblock %}
     <script>
-        // Copy all JavaScript from navbar.html, sidebar.html, and footer.html here
+        // Toggle Sidebar for Mobile
+        document.querySelector('.icon-button').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+
+        document.querySelectorAll('.metric-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.transition = 'transform 0.2s ease';
+                this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Add hover effects to table rows
+        document.querySelectorAll('.data-table tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = 'var(--gray-light)';
+                this.style.transition = 'background-color 0.2s ease';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+
+        // Previous JavaScript remains the same
+        // [Previous JavaScript content]
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const submenuId = this.getAttribute('data-submenu');
+                    const submenu = document.getElementById(submenuId);
+                    const wasOpen = this.classList.contains('open');
+                    
+                    // Close all submenus
+                    document.querySelectorAll('.submenu').forEach(sub => {
+                        sub.classList.remove('open');
+                    });
+                    document.querySelectorAll('.nav-item[data-submenu]').forEach(navItem => {
+                        navItem.classList.remove('open');
+                    });
+                    
+                    // Toggle current submenu
+                    if (!wasOpen) {
+                        submenu.classList.add('open');
+                        this.classList.add('open');
+                    }
+                });
+            });
+
+            // Handle navigation item clicks
+            const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-item').forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+        });
     </script>
 </body>
 </html>

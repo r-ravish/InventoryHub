@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* Keeping original CSS styles */
         :root {
@@ -604,13 +605,158 @@
             padding: 16px;
             margin: -16px;
         }
+
+        /* Sidebar styles from paste.txt - Adapted to match the theme */
+        .sidebar-header {
+            padding: 0 20px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            color: #a0aec0;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background-color: #2d3748;
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background-color: #3182ce;
+            color: #ffffff;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #2d3748;
+        }
+
+        .submenu.open {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .submenu .nav-item {
+            padding-left: 50px;
+            font-size: 14px;
+        }
+
+        .nav-item .arrow {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Custom scrollbar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #1a1c23;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
     </style>
 </head>
 
 <body>
     <div class="app-container">
+        <!-- Sidebar from paste.txt -->
         <nav class="sidebar" aria-label="Main Navigation">
-            <!-- Sidebar content -->
+            <div class="sidebar-header">
+                <i class="fas fa-boxes"></i>
+                <span>Inventory</span>
+            </div>
+
+            <div class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+
+            <div class="nav-item" data-submenu="inventory">
+                <i class="fas fa-box"></i>
+                <span>Inventory</span>
+                <i class="fas fa-chevron-down arrow"></i>
+            </div>
+            <div class="submenu" id="inventory">
+                <div class="nav-item">Items</div>
+                <div class="nav-item">Composite Items</div>
+                <div class="nav-item">Item Groups</div>
+                <div class="nav-item">Price Lists</div>
+                <div class="nav-item">Inventory Adjustments</div>
+            </div>
+
+            <div class="nav-item" data-submenu="sales">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Sales</span>
+                <i class="fas fa-chevron-down arrow"></i>
+            </div>
+            <div class="submenu" id="sales">
+                <div class="nav-item">Customers</div>
+                <div class="nav-item">Retainer Invoices</div>
+                <div class="nav-item">Sales Orders</div>
+                <div class="nav-item">Packages</div>
+                <div class="nav-item">Shipments</div>
+                <div class="nav-item">Delivery Challans</div>
+                <div class="nav-item">Invoices</div>
+                <div class="nav-item">Payments Received</div>
+                <div class="nav-item">Sales Returns</div>
+                <div class="nav-item">Credit Notes</div>
+            </div>
+
+            <div class="nav-item" data-submenu="purchases">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Purchases</span>
+                <i class="fas fa-chevron-down arrow"></i>
+            </div>
+            <div class="submenu" id="purchases">
+                <div class="nav-item">Vendors</div>
+                <div class="nav-item">Purchase Orders</div>
+                <div class="nav-item">Purchase Receives</div>
+                <div class="nav-item">Bills</div>
+                <div class="nav-item">Payments Made</div>
+                <div class="nav-item">Vendor Credits</div>
+            </div>
+
+            <div class="nav-item">
+                <i class="fas fa-plug"></i>
+                <span>Integrations</span>
+            </div>
+
+            <div class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </div>
         </nav>
 
         <!-- Main Content -->
@@ -798,216 +944,220 @@
                             <div class="form-row">
                                 <div class="form-col">
                                     <!-- UPC -->
-                                    <div class="form-group">
-                                        <label class="form-label" for="item-upc">UPC</label>
-                                        <input type="text" id="item-upc" name="item-upc" class="form-input">
-                                        <div class="tooltip">
-                                            <span class="help-icon" aria-hidden="true">?</span>
-                                            <span class="tooltip-text">Universal Product Code - barcode used in USA and
-                                                Canada</span>
-                                            <span class="visually-hidden">Universal Product Code - barcode used in USA
-                                                and Canada</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-col">
-                                    <!-- EAN -->
-                                    <div class="form-group">
-                                        <label class="form-label" for="item-ean">EAN</label>
-                                        <input type="text" id="item-ean" name="item-ean" class="form-input">
-                                        <div class="tooltip">
-                                            <span class="help-icon" aria-hidden="true">?</span>
-                                            <span class="tooltip-text">European Article Number - international barcode
-                                                standard</span>
-                                            <span class="visually-hidden">European Article Number - international
-                                                barcode standard</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-col">
-                                    <!-- MPN -->
-                                    <div class="form-group">
-                                        <label class="form-label" for="item-mpn">MPN</label>
-                                        <input type="text" id="item-mpn" name="item-mpn" class="form-input">
-                                        <div class="tooltip">
-                                            <span class="help-icon" aria-hidden="true">?</span>
-                                            <span class="tooltip-text">Manufacturer Part Number - unique identifier
-                                                assigned by manufacturer</span>
-                                            <span class="visually-hidden">Manufacturer Part Number - unique identifier
-                                                assigned by manufacturer</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-col">
-                                    <!-- ISBN -->
-                                    <div class="form-group">
-                                        <label class="form-label" for="item-isbn">ISBN</label>
-                                        <input type="text" id="item-isbn" name="item-isbn" class="form-input">
-                                        <div class="tooltip">
-                                            <span class="help-icon" aria-hidden="true">?</span>
-                                            <span class="tooltip-text">International Standard Book Number - used for
-                                                books</span>
-                                            <span class="visually-hidden">International Standard Book Number - used for
-                                                books</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Image Upload Section -->
-                        <section class="form-section" id="image-section">
-                            <h2 class="section-title">Images</h2>
-
-                            <div class="form-group">
-                                <label class="form-label" for="item-images">Product Images</label>
-                                <div class="image-upload" id="image-dropzone" tabindex="0" role="button"
-                                    aria-describedby="image-upload-desc">
-                                    <input type="file" id="item-images" name="item-images" class="visually-hidden"
-                                        multiple accept="image/*">
-                                    <div class="image-upload-icon">🖼️</div>
-                                    <div class="image-upload-text" id="image-upload-desc">
-                                        Drag image(s) here<br>or<br>
-                                        <a href="#" class="browse-link" id="browse-images">Browse images</a>
-                                    </div>
-                                    <div class="upload-limit">
-                                        You can add up to 15 images, each not exceeding 5 MB
-                                    </div>
-                                </div>
-                                <div id="image-preview-container"></div>
-                            </div>
-                        </section>
-
-                        <!-- Sales Information Section -->
-                        <section class="form-section" id="sales-section">
-                            <div class="section-toggle">
-                                <div class="checkbox-group">
-                                    <input type="checkbox" id="sales-info" name="sales-info" checked>
-                                    <label for="sales-info">Sales Information</label>
-                                </div>
-                            </div>
-
-                            <div id="sales-info-content">
-                                <div class="form-row">
-                                    <div class="form-col">
-                                        <!-- Selling Price -->
+                                    <!-- <div class="form-group">
+                                        <label class="form-label" for="item-upc">UPC</label> -->
                                         <div class="form-group">
-                                            <label class="form-label required" for="selling-price">Selling Price</label>
-                                            <div class="currency-input">
-                                                <span class="currency-symbol" aria-hidden="true">₹</span>
-                                                <input type="number" id="selling-price" name="selling-price"
-                                                    class="form-input" min="0" step="0.01" required
-                                                    aria-describedby="selling-price-error">
-                                                <div class="error-message" id="selling-price-error"></div>
+                                            <label class="form-label" for="item-upc">UPC</label>
+                                            <input type="text" id="item-upc" name="item-upc" class="form-input">
+                                            <div class="tooltip">
+                                                <span class="help-icon" aria-hidden="true">?</span>
+                                                <span class="tooltip-text">Universal Product Code - barcode used in USA and
+                                                    Canada</span>
+                                                <span class="visually-hidden">Universal Product Code - barcode used in USA
+                                                    and Canada</span>
                                             </div>
                                         </div>
                                     </div>
-
+    
                                     <div class="form-col">
-                                        <!-- Cost Price -->
+                                        <!-- EAN -->
                                         <div class="form-group">
-                                            <labelclass="form-label" for="cost-price">Cost Price</label>
-
+                                            <label class="form-label" for="item-ean">EAN</label>
+                                            <input type="text" id="item-ean" name="item-ean" class="form-input">
+                                            <div class="tooltip">
+                                                <span class="help-icon" aria-hidden="true">?</span>
+                                                <span class="tooltip-text">European Article Number - international barcode
+                                                    standard</span>
+                                                <span class="visually-hidden">European Article Number - international
+                                                    barcode standard</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <!-- MPN -->
+                                        <div class="form-group">
+                                            <label class="form-label" for="item-mpn">MPN</label>
+                                            <input type="text" id="item-mpn" name="item-mpn" class="form-input">
+                                            <div class="tooltip">
+                                                <span class="help-icon" aria-hidden="true">?</span>
+                                                <span class="tooltip-text">Manufacturer Part Number - unique identifier
+                                                    assigned by manufacturer</span>
+                                                <span class="visually-hidden">Manufacturer Part Number - unique identifier
+                                                    assigned by manufacturer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="form-col">
+                                        <!-- ISBN -->
+                                        <div class="form-group">
+                                            <label class="form-label" for="item-isbn">ISBN</label>
+                                            <input type="text" id="item-isbn" name="item-isbn" class="form-input">
+                                            <div class="tooltip">
+                                                <span class="help-icon" aria-hidden="true">?</span>
+                                                <span class="tooltip-text">International Standard Book Number - used for
+                                                    books</span>
+                                                <span class="visually-hidden">International Standard Book Number - used for
+                                                    books</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+    
+                            <!-- Image Upload Section -->
+                            <section class="form-section" id="image-section">
+                                <h2 class="section-title">Images</h2>
+    
+                                <div class="form-group">
+                                    <label class="form-label" for="item-images">Product Images</label>
+                                    <div class="image-upload" id="image-dropzone" tabindex="0" role="button"
+                                        aria-describedby="image-upload-desc">
+                                        <input type="file" id="item-images" name="item-images" class="visually-hidden"
+                                            multiple accept="image/*">
+                                        <div class="image-upload-icon">🖼️</div>
+                                        <div class="image-upload-text" id="image-upload-desc">
+                                            Drag image(s) here<br>or<br>
+                                            <a href="#" class="browse-link" id="browse-images">Browse images</a>
+                                        </div>
+                                        <div class="upload-limit">
+                                            You can add up to 15 images, each not exceeding 5 MB
+                                        </div>
+                                    </div>
+                                    <div id="image-preview-container"></div>
+                                </div>
+                            </section>
+    
+                            <!-- Sales Information Section -->
+                            <section class="form-section" id="sales-section">
+                                <div class="section-toggle">
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="sales-info" name="sales-info" checked>
+                                        <label for="sales-info">Sales Information</label>
+                                    </div>
+                                </div>
+    
+                                <div id="sales-info-content">
+                                    <div class="form-row">
+                                        <div class="form-col">
+                                            <!-- Selling Price -->
+                                            <div class="form-group">
+                                                <label class="form-label required" for="selling-price">Selling Price</label>
                                                 <div class="currency-input">
-
                                                     <span class="currency-symbol" aria-hidden="true">₹</span>
-
-                                                    <input type="number" id="cost-price" name="cost-price"
-                                                        class="form-input" min="0" step="0.01"
-                                                        aria-describedby="cost-price-error">
-
-                                                    <div class="error-message" id="cost-price-error"></div>
-
+                                                    <input type="number" id="selling-price" name="selling-price"
+                                                        class="form-input" min="0" step="0.01" required
+                                                        aria-describedby="selling-price-error">
+                                                    <div class="error-message" id="selling-price-error"></div>
                                                 </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="form-row">
-
-                                    <div class="form-col">
-
-                                        <!-- Tax Rate -->
-
-                                        <div class="form-group">
-
-                                            <label class="form-label" for="tax-rate">Tax Rate</label>
-
-                                            <select id="tax-rate" name="tax-rate" class="form-select">
-
-                                                <option value="">Select Tax Rate</option>
-
-                                                <option value="5">5%</option>
-
-                                                <option value="12">12%</option>
-
-                                                <option value="18">18%</option>
-
-                                                <option value="28">28%</option>
-
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-col">
-
-                                        <!-- Discount -->
-
-                                        <div class="form-group">
-
-                                            <label class="form-label" for="discount">Discount</label>
-
-                                            <div class="currency-input">
-
-                                                <span class="currency-symbol" aria-hidden="true">₹</span>
-
-                                                <input type="number" id="discount" name="discount" class="form-input"
-                                                    min="0" step="0.01" aria-describedby="discount-error">
-
-                                                <div class="error-message" id="discount-error"></div>
-
                                             </div>
-
                                         </div>
-
+    
+                                        <div class="form-col">
+                                            <!-- Cost Price -->
+                                            <div class="form-group">
+                                                <labelclass="form-label" for="cost-price">Cost Price</label>
+    
+                                                    <div class="currency-input">
+    
+                                                        <span class="currency-symbol" aria-hidden="true">₹</span>
+    
+                                                        <input type="number" id="cost-price" name="cost-price"
+                                                            class="form-input" min="0" step="0.01"
+                                                            aria-describedby="cost-price-error">
+    
+                                                        <div class="error-message" id="cost-price-error"></div>
+    
+                                                    </div>
+    
+                                            </div>
+    
+                                        </div>
+    
                                     </div>
-
+    
+                                    <div class="form-row">
+    
+                                        <div class="form-col">
+    
+                                            <!-- Tax Rate -->
+    
+                                            <div class="form-group">
+    
+                                                <label class="form-label" for="tax-rate">Tax Rate</label>
+    
+                                                <select id="tax-rate" name="tax-rate" class="form-select">
+    
+                                                    <option value="">Select Tax Rate</option>
+    
+                                                    <option value="5">5%</option>
+    
+                                                    <option value="12">12%</option>
+    
+                                                    <option value="18">18%</option>
+    
+                                                    <option value="28">28%</option>
+    
+                                                </select>
+    
+                                            </div>
+    
+                                        </div>
+    
+                                        <div class="form-col">
+    
+                                            <!-- Discount -->
+    
+                                            <div class="form-group">
+    
+                                                <label class="form-label" for="discount">Discount</label>
+    
+                                                <div class="currency-input">
+    
+                                                    <span class="currency-symbol" aria-hidden="true">₹</span>
+    
+                                                    <input type="number" id="discount" name="discount" class="form-input"
+                                                        min="0" step="0.01" aria-describedby="discount-error">
+    
+                                                    <div class="error-message" id="discount-error"></div>
+    
+                                                </div>
+    
+                                            </div>
+    
+                                        </div>
+    
+                                    </div>
+    
                                 </div>
-
-                            </div>
-
-                        </section>
-
-                        <!-- Submit Button -->
-
-                        <div class="button-container"></div>
-
-                        <button type="submit" class="button primary">Add Item</button>
-
-                        <button type="reset" class="button secondary">Reset</button>
-
+    
+                            </section>
+    
+                            <!-- Submit Button -->
+    
+                            <div class="button-container"></div>
+    
+                            <button type="submit" class="button primary">Add Item</button>
+    
+                            <button type="reset" class="button secondary">Reset</button>
+    
+                    </div>
+    
+                    </form>
+    
                 </div>
-
-                </form>
-
-            </div>
-
-    </div>
-
-    </main>
-
-    </div>
-
-</body>
-
-</html>
+    
+        </div>
+    
+        </main>
+    
+        </div>
+    
+    </body>
+    
+    </html>
+    
+    

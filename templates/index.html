@@ -14,6 +14,66 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <img src="../static/images/logo_ih.png" alt="InventoryHub Logo" class="nav-logo" style="transform: scale(3);">
+                <!-- <span>InventoryHub</span> -->
+            </a>
+            <ul class="nav-items">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Features</a>
+                    <div class="dropdown">
+                        <div class="dropdown-section">
+                            <div class="section-title">
+                                <i class="icon">📦</i>Order Management
+                            </div>
+                            <a href="#" class="dropdown-item">Sales Orders</a>
+                            <a href="#" class="dropdown-item">Purchase Orders</a>
+                            <a href="#" class="dropdown-item">Order Tracking</a>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="section-title">
+                                <i class="icon">🏭</i>Warehouse
+                            </div>
+                            <a href="#" class="dropdown-item">Multi-warehouse Management</a>
+                            <a href="#" class="dropdown-item">Stock Transfer</a>
+                            <a href="#" class="dropdown-item">Barcode Scanning</a>
+                        </div>
+                        <div class="dropdown-section">
+                            <div class="section-title">
+                                <i class="icon">📊</i>Reports
+                            </div>
+                            <a href="#" class="dropdown-item">Inventory Reports</a>
+                            <a href="#" class="dropdown-item">Sales Analytics</a>
+                            <a href="#" class="dropdown-item">GST Reports</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Solutions</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Integrations</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link fre">Pricing</a>
+                </li>
+                {% if not is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('loginFunction') }}" class="nav-link login">Login</a>
+                    </li>
+                    <li class="nav-item qww">
+                        <a href="{{ url_for('registerFunction') }}" class="nav-link signup">Sign Up</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
     <!-- <div class="hea">
         <div class="container">
             <div class="hero">
