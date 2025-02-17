@@ -268,7 +268,7 @@
                             <div class="row mb-3">
                                 <div class="col input-group">
                                     <i class="bi bi-geo-alt input-icon" style="margin-left: 10.9px;"></i>
-                                    <select class="form-select" id="country">
+                                    <select class="form-select" id="country" name="country">
                                         <option value="US">United States</option>
                                         <option value="UK">United Kingdom</option>
                                         <option value="IN" selected>India</option>
@@ -283,7 +283,7 @@
                                 </div>
                                 <div class="col input-group">
                                     <i class="bi bi-pin-map input-icon" style="margin-left: 10.9px;"></i>
-                                    <select class="form-select" id="state">
+                                    <select class="form-select" id="state" name="state">
                                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                         <option value="Assam">Assam</option>
@@ -351,6 +351,9 @@
                         </div>
                         <p class="text-center mt-4">
                             Already have an account? <a href="{{url_for('loginFunction')}}" class="login-link">Log in</a>
+                        </p>
+                        <p class="text-center mt-4">
+                            <a href="{{url_for('home')}}" class="login-link">Back to home</a>
                         </p>
                     </div>
                 </div>

@@ -18,12 +18,16 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 class User(db.Model, UserMixin):
-    _tablename_ = "user"
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100))
     email = db.Column(db.String(100))
     password_hash = db.Column(db.String(200))
+    phone = db.Column(db.String(20))
+    country = db.Column(db.String(100))
+    state = db.Column(db.String(100))
     role = db.Column(db.String(100), default="user")
+    last_login = db.Column(db.DateTime, default=datetime.utcnow)
 
     def generate_password(self, simple_password):
         self.password_hash = generate_password_hash(simple_password)
@@ -44,20 +48,88 @@ class Item(db.Model):
     quantity_to_receive = db.Column(db.Integer, default=0)
     reorder_point = db.Column(db.Integer, default=10)
 
+<<<<<<< HEAD
+=======
+class SalesOrder(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    channel = db.Column(db.String(50))
+    status = db.Column(db.String(20))  # draft, confirmed, packed, shipped, invoiced
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    quantity = db.Column(db.Integer)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
+    item = db.relationship('Item', backref='sales_orders')
+
+    
+# @app.route("/register", methods=["POST","GET"])
+# def registerFunction():
+#     if request.method=="POST":
+#         username=request.form.get("username")
+#         email=request.form.get("email")
+#         password=request.form.get("password")
+#         # phone=request.form.get("phone")
+#         # role=request.form.get("role")
+
+#         if User.query.filter_by(email=email).first():
+#             flash("User already exists")
+#             return redirect(url_for("home"))
+
+#         user_object=User(username=username,email=email)
+#         user_object.generate_password(password)
+#         db.session.add(user_object)
+#         db.session.commit()
+
+#         flash("User registered successfully.")
+#         return redirect(url_for("loginFunction"))
+
+#     return render_template("signup.html")
+@app.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+        
+        if not current_user.check_password(current_password):
+            flash('Current password is incorrect', 'error')
+            return redirect(url_for('change_password'))
+        
+        if new_password != confirm_password:
+            flash('New passwords do not match', 'error')
+            return redirect(url_for('change_password'))
+
+        current_user.generate_password(new_password)
+        db.session.commit()
+        flash('Password updated successfully!', 'success')
+        return redirect(url_for('profile'))
+
+    return render_template('change_password.html')
+
+
+
+
+>>>>>>> 069e0d2 (updated profile, everything)
 @app.route("/register", methods=["POST","GET"])
 def registerFunction():
     if request.method=="POST":
-        username=request.form.get("username")
-        email=request.form.get("email")
-        password=request.form.get("password")
-        # phone=request.form.get("phone")
-        # role=request.form.get("role")
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        phone = request.form.get("phone")
+        country = request.form.get("country")
+        state = request.form.get("state")
 
         if User.query.filter_by(email=email).first():
             flash("User already exists")
             return redirect(url_for("home"))
 
-        user_object=User(username=username,email=email)
+        user_object = User(
+            username=username,
+            email=email,
+            phone=phone,
+            country=country,
+            state=state
+        )
         user_object.generate_password(password)
         db.session.add(user_object)
         db.session.commit()
@@ -69,20 +141,21 @@ def registerFunction():
 
 @app.route("/login",methods=["POST","GET"])
 def loginFunction():
-    if request.method=="POST":
-        email=request.form.get("email")
-        password=request.form.get("password")
-        # role=request.form.get("role")
-        user_object=User.query.filter_by(email=email).first()
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        user_object = User.query.filter_by(email=email).first()
 
         if user_object and user_object.check_password(password):
             login_user(user_object)
+            user_object.last_login = datetime.utcnow()  # Update last login time
+            db.session.commit()
             flash("User logged in successfully.")
-            return redirect(url_for("home"))
-            # return("succesfull login")
+            return redirect(url_for("profile"))  # Redirect to profile page after login
         else:
-            return "Invalid User"
-            
+            flash("Invalid email or password.")
+            return redirect(url_for("loginFunction"))
+
     return render_template("login.html")
 
 @login_manager.user_loader
@@ -383,9 +456,26 @@ def item_form():
 
     return render_template("item_form.html",show_sidebar=True)
 
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template("profile.html", user=current_user)
+
+
+# @app.route('/delete-data', methods=['GET', 'POST'])
+# def delete_data():
+#     db.drop_all()
+#     db.create_all()
+#     flash("All data has been deleted and database has been reset.")
+#     return redirect(url_for('dashboard'))
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True, port=8000)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 069e0d2 (updated profile, everything)

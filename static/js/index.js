@@ -114,17 +114,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Search Bar
-document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.querySelector('.sidebar');
-    const searchDiv = document.createElement('div');
-    searchDiv.innerHTML = `
-        <div style="padding: 16px;">
-            <input type="search" placeholder="Search..." style="width: 100%; padding: 8px; border-radius: 4px; border: none;">
-        </div>`;
-    sidebar.insertBefore(searchDiv, sidebar.firstChild);
-    startNumberAnimations();
-});
 
 // Number Animation Function
 function animateValue(element, start, end, duration) {
