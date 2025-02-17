@@ -105,7 +105,7 @@ def registerFunction():
 def loginFunction():
     if current_user.is_authenticated:
         flash("You are already logged in!", "info")
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("home"))
 
     if request.method == "POST":
         email = request.form.get("email")
@@ -117,7 +117,7 @@ def loginFunction():
             user_object.last_login = datetime.utcnow()
             db.session.commit()
             flash(f"Welcome back, {user_object.username}!", "success")
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("home"))
         else:
             flash("Invalid email or password. Please try again.", "error")
             return redirect(url_for("loginFunction"))
@@ -139,6 +139,7 @@ def home():
                          user=current_user, 
                          company_name=company_name,
                          is_authenticated=current_user.is_authenticated)
+
 
 @app.route('/dashboard')
 @login_required

@@ -273,10 +273,10 @@
                 <span>Inventory</span>
             </div>
 
-            <div class="nav-item active">
+            <a href="{{url_for('dashboard')}}"><div class="nav-item active">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
-            </div>
+            </div></a>
 
             <div class="nav-item" data-submenu="inventory">
                 <i class="fas fa-box"></i>
@@ -359,7 +359,7 @@
                         <img src="../static/images/SETTINGS.png" alt="Settings" width="20" height="20">
                     </button>
                     <button class="icon-button">
-                        <img src="/placeholder.svg" alt="Menu" width="20" height="20">
+                        <a href="{{url_for('profile')}}"><img src="../static/images/profile.png" alt="Menu" width="20" height="20"></a>
                     </button>
                 </div>
             </header>
