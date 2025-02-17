@@ -361,10 +361,10 @@ def loginFunction():
             login_user(user_object)
             user_object.last_login = datetime.utcnow()
             db.session.commit()
-            flash("User logged in successfully.")
+            # flash("User logged in successfully.")
             return redirect(url_for("profile"))
         else:
-            flash("Invalid email or password.")
+            # flash("Invalid email or password.")
             return redirect(url_for("loginFunction"))
 
     return render_template("login.html")
@@ -386,7 +386,7 @@ def role_required(role):
 @app.route("/logout")
 def logout():
     logout_user()
-    flash("User Logged Out Successfully")
+    # flash("User Logged Out Successfully")
     return redirect(url_for("loginFunction"))
 
 # Main routes
@@ -512,7 +512,35 @@ def profile():
     return render_template("profile.html", user=current_user)
 
 @app.route('/change-password', methods=['GET', 'POST'])
+@login_required
 def change_password():
+    if request.method == 'POST':
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+
+        # Verify current password
+        if not current_user.check_password(current_password):
+            flash('Current password is incorrect', 'error')
+            return redirect(url_for('change_password'))
+
+        # Validate new password
+        if new_password != confirm_password:
+            flash('New passwords do not match', 'error')
+            return redirect(url_for('change_password'))
+
+        # Ensure new password is different from current
+        if current_password == new_password:
+            flash('New password must be different from current password', 'error')
+            return redirect(url_for('change_password'))
+
+        # Update password
+        current_user.generate_password(new_password)
+        db.session.commit()
+
+        flash('Password updated successfully', 'success')
+        return redirect(url_for('profile'))
+
     return render_template("change_password.html", user=current_user)
 
 
