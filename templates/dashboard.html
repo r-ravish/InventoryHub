@@ -186,7 +186,7 @@
             background: var(--gray-light);
         } */
 
-        
+
 
         /* Existing Dashboard Styles */
         .dashboard-container {
@@ -289,6 +289,93 @@
             .dashboard {
                 grid-template-columns: 1fr;
             }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #EDEDF7;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            width: 300px;
+            height: 40px;
+            transition: width 0.6s ease;
+        }
+
+        .search-container:hover {
+            width: 330px;
+            border: solid 0.02px #D32D3D;
+
+        }
+
+        .search-container input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-button:hover {
+            background-color: var(--bg-lighter);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .icon-button.primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .icon-button.primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .page-content {
+            padding: 24px;
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
         }
     </style>
 </head>
