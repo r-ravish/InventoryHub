@@ -5,11 +5,13 @@ from sqlalchemy import func, case
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from flask import jsonify
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["SECRET_KEY"] = "welcome"
+app.config["SECRET_KEY"] = "my secret key"
 db = SQLAlchemy(app)
 
 # Updated Login Manager Configuration
@@ -157,7 +159,7 @@ def logout():
 def home():
     company_name = "InventoryHub"
     return render_template("index.html", 
-                         user=current_user, 
+    user=current_user, 
                          company_name=company_name,
                          is_authenticated=current_user.is_authenticated)
 
@@ -667,14 +669,63 @@ def groups():
     
     return render_template('group_form.html', show_sidebar=True)
 
+# Add these new models in app.py after the existing models:
+
+class InventoryLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    action = db.Column(db.String(50), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    notes = db.Column(db.Text)
+    
+    item = db.relationship('Item', backref='inventory_logs')
+    user = db.relationship('User', backref='inventory_logs')
+
+# Add these new routes in app.py before the if __name__ == "__main__" line:
+
+@app.route('/admin/inventory-logs')
+@login_required
+@admin_required
+def admin_inventory_logs():
+    logs = InventoryLog.query.order_by(InventoryLog.timestamp.desc()).limit(10).all()
+    return jsonify([{
+        'item': log.item.name,
+        'user': log.user.username,
+        'action': log.action,
+        'quantity': log.quantity,
+        'timestamp': log.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+        'notes': log.notes
+    } for log in logs])
+
+# @app.route('/admin/inventory-summary')
+# @login_required
+# @admin_required
+# def admin_inventory_summary():
+#     total_items = Item.query.count()
+#     low_stock = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
+#     out_of_stock = Item.query.filter(Item.quantity_in_hand == 0).count()
+#     total_value = db.session.query(func.sum(Item.quantity_in_hand * Item.cost_price)).scalar() or 0
+    
+#     return jsonify({
+#         'total_items': total_items,
+#         'low_stock': low_stock,
+#         'out_of_stock': out_of_stock,
+#         'total_value': float(total_value)
+#     })
+
+
+
+
 
 with app.app_context():
     db.create_all()
 
     if not User.query.filter_by(role="admin").first():
-        admin = User(username="admin", email="admin@gmail.com", role="admin")
-        admin.generate_password("admin")
-        db.session.add(admin)
+        admin1 = User(username="admin1", email="admin1@gmail.com", role="admin", password_hash=generate_password_hash("admin1"))
+        db.session.add(admin1)
+
         db.session.commit()
 
 
