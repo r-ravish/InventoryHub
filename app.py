@@ -140,6 +140,9 @@ def home():
                          company_name=company_name,
                          is_authenticated=current_user.is_authenticated)
 
+@app.route('/about')
+def about():
+    return render_template("about_us.html")
 
 # @app.route('/dashboard')
 # @login_required
