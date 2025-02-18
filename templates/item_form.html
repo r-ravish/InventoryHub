@@ -22,7 +22,7 @@
             --border-color: #d1d5db;
             --bg-light: #f8f9fa;
             --bg-lighter: #f9fafb;
-            --sidebar-bg: #1A1F36;
+            --sidebar-bg: #181C2E;
             --card-bg: #fff;
             --error-color: #ef4444;
             --focus-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
@@ -53,15 +53,6 @@
             min-height: 100vh;
         }
 
-        .sidebar {
-            width: 270px;
-            background-color: var(--sidebar-bg);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
 
         .main-content {
             flex: 1;
@@ -607,15 +598,7 @@
         }
 
         /* Sidebar styles from paste.txt - Adapted to match the theme */
-        .sidebar-header {
-            padding: 0 20px;
-            margin-bottom: 20px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #ffffff;
-        }
+
 
         .nav-item {
             padding: 12px 20px;
@@ -670,21 +653,138 @@
         }
 
         /* Custom scrollbar */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background-color: #181C2E;
+            color: #ffffff;
+            padding: 20px 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            position: relative;
+            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Modern frosted glass effect on hover */
+        .sidebar:hover {
+            /* background-color: rgba(24, 28, 46, 0.95); */
+            backdrop-filter: blur(15px);
+            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.1),
+                15px 0 35px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-header {
+            padding: 0 24px;
+            margin-bottom: 28px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 60px;
+            position: relative;
+        }
+
+        /* Modern underline animation for header */
+        .sidebar-header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 24px;
+            width: 32px;
+            height: 3px;
+            /* background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.1) 100%); */
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar-header:hover::after {
+            width: calc(100% - 48px);
+        }
+
+        /* Modern scrollbar styling */
         .sidebar::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
+            height: 4px;
         }
 
         .sidebar::-webkit-scrollbar-track {
-            background: #1a1c23;
+            background: transparent;
+            margin: 4px 0;
         }
 
         .sidebar::-webkit-scrollbar-thumb {
-            background: #4a5568;
-            border-radius: 3px;
+            /* background: rgba(74, 85, 104, 0.4); */
+            border-radius: 12px;
+            transition: all 0.3s ease;
         }
 
+        /* Expanded scrollbar on hover */
+        .sidebar:hover::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        /* .sidebar:hover::-webkit-scrollbar-thumb {
+            background: rgba(74, 85, 104, 0.8);
+        } */
+
         .sidebar::-webkit-scrollbar-thumb:hover {
-            background: #718096;
+            /* background: #718096; */
+            box-shadow: 0 0 10px rgba(113, 128, 150, 0.4);
+        }
+
+        /* Add smooth fade effects for content at top and bottom */
+        .sidebar::before,
+        .sidebar::after {
+            content: '';
+            position: fixed;
+            left: 0;
+            width: 260px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sidebar::before {
+            top: 0;
+            background: linear-gradient(to bottom, #181C2E 0%, rgba(24, 28, 46, 0) 100%);
+        }
+
+        .sidebar::after {
+            bottom: 0;
+            background: linear-gradient(to top, #181C2E 0%, rgba(24, 28, 46, 0) 100%);
+        }
+
+        /* Optional: Add hover effects for menu items */
+        .sidebar-menu-item {
+            padding: 12px 24px;
+            margin: 4px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-menu-item:hover {
+            /* background: rgba(255, 255, 255, 0.05); */
+            transform: translateX(4px);
+        }
+
+        .sidebar-menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-menu-item:hover::before {
+            opacity: 1;
         }
     </style>
 </head>

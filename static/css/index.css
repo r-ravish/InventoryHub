@@ -973,7 +973,7 @@ body {
     display: flex;
     align-items: center;
     margin-right: -195px;
-    margin-left: 200px;
+    margin-left: 110px;
 }
 
 .qww{
@@ -1813,10 +1813,4 @@ footer {
     .nav-items {
         display: none;
     }
-<<<<<<< HEAD
 }
-
-
-=======
-}
->>>>>>> 8f8eb1c (updated final code)

@@ -174,10 +174,10 @@
     <link rel="stylesheet" href="../static/css/inventory.css">
     <style>
         /* Sidebar styles */
-        .sidebar {
+        /* .sidebar {
             width: 260px;
             height: 100vh;
-            background-color: #1a1c23;
+            background-color: #181C2E;
             color: #ffffff;
             padding: 20px 0;
             transition: all 0.3s ease;
@@ -191,6 +191,142 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        } */
+
+
+        /* Custom scrollbar */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background-color: #181C2E;
+            color: #ffffff;
+            padding: 20px 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            position: relative;
+            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Modern frosted glass effect on hover */
+        .sidebar:hover {
+            /* background-color: rgba(24, 28, 46, 0.95); */
+            backdrop-filter: blur(15px);
+            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.1),
+                15px 0 35px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-header {
+            padding: 0 24px;
+            margin-bottom: 28px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 60px;
+            position: relative;
+        }
+
+        /* Modern underline animation for header */
+        .sidebar-header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 24px;
+            width: 32px;
+            height: 3px;
+            background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar-header:hover::after {
+            width: calc(100% - 48px);
+        }
+
+        /* Modern scrollbar styling */
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 4px 0;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            /* background: rgba(74, 85, 104, 0.4); */
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        /* Expanded scrollbar on hover */
+        .sidebar:hover::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        /* .sidebar:hover::-webkit-scrollbar-thumb {
+            background: rgba(74, 85, 104, 0.8);
+        } */
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            /* background: #718096; */
+            box-shadow: 0 0 10px rgba(113, 128, 150, 0.4);
+        }
+
+        /* Add smooth fade effects for content at top and bottom */
+        .sidebar::before,
+        .sidebar::after {
+            content: '';
+            position: fixed;
+            left: 0;
+            width: 260px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sidebar::before {
+            top: 0;
+            background: linear-gradient(to bottom, #181C2E 0%, rgba(24, 28, 46, 0) 100%);
+        }
+
+        .sidebar::after {
+            bottom: 0;
+            background: linear-gradient(to top, #181C2E 0%, rgba(24, 28, 46, 0) 100%);
+        }
+
+        /* Optional: Add hover effects for menu items */
+        .sidebar-menu-item {
+            padding: 12px 24px;
+            margin: 4px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-menu-item:hover {
+            /* background: rgba(255, 255, 255, 0.05); */
+            transform: translateX(4px);
+        }
+
+        .sidebar-menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-menu-item:hover::before {
+            opacity: 1;
         }
 
         .nav-item {
@@ -246,7 +382,7 @@
         }
 
         /* Custom scrollbar */
-        .sidebar::-webkit-scrollbar {
+        /* .sidebar::-webkit-scrollbar {
             width: 6px;
         }
 
@@ -261,7 +397,7 @@
 
         .sidebar::-webkit-scrollbar-thumb:hover {
             background: #718096;
-        }
+        } */
     </style>
 </head>
 
@@ -273,10 +409,12 @@
                 <span>Inventory</span>
             </div>
 
-            <a href="{{url_for('dashboard')}}"><div class="nav-item active">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </div></a>
+            <a href="{{url_for('dashboard')}}">
+                <div class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </div>
+            </a>
 
             <div class="nav-item" data-submenu="inventory">
                 <i class="fas fa-box"></i>
@@ -359,7 +497,8 @@
                         <img src="../static/images/SETTINGS.png" alt="Settings" width="20" height="20">
                     </button>
                     <button class="icon-button">
-                        <a href="{{url_for('profile')}}"><img src="../static/images/profile.png" alt="Menu" width="20" height="20"></a>
+                        <a href="{{url_for('profile')}}"><img src="../static/images/profile.png" alt="Menu" width="20"
+                                height="20"></a>
                     </button>
                 </div>
             </header>
@@ -375,7 +514,8 @@
                     <div class="card">
                         <div class="card-content">
                             <h2>Item groups</h2>
-                            <img src="../static/images/t-shirt_group.png" alt="Item Groups" class="card-icon" width="64" height="64" style="width: 82px;">
+                            <img src="../static/images/t-shirt_group.png" alt="Item Groups" class="card-icon" width="64"
+                                height="64" style="width: 82px;">
                             <p>Create multiple variants of the same item using Item Groups</p>
                             <button class="button primary">New Item Group</button>
                         </div>
@@ -384,16 +524,18 @@
                     <div class="card">
                         <div class="card-content">
                             <h2>Items</h2>
-                            <img src="../static/images/tshirt.png" alt="Items" class="card-icon" width="64" height="64" style="width: 80px;">
+                            <img src="../static/images/tshirt.png" alt="Items" class="card-icon" width="64" height="64"
+                                style="width: 80px;">
                             <p>Create standalone items and services that you buy and sell</p>
                             <a href="{{url_for('item_form')}}"><button class="button primary">New Item</button></a>
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-content">
                             <h2>Composite Items</h2>
-                            <img src="../static/images/composite.png" alt="Composite Items" class="card-icon" width="64" height="64" style="width: 82px;">
+                            <img src="../static/images/composite.png" alt="Composite Items" class="card-icon" width="64"
+                                height="64" style="width: 82px;">
                             <p>Bundle different items together and sell them as kits</p>
                             <button class="button primary">New Composite Item</button>
                         </div>
@@ -403,7 +545,8 @@
                     <div class="card">
                         <div class="card-content">
                             <h2>Price Lists</h2>
-                            <img src="../static/images/price_list.png" alt="Price Lists" class="card-icon" width="64" height="64">
+                            <img src="../static/images/price_list.png" alt="Price Lists" class="card-icon" width="64"
+                                height="64">
                             <p>Tweak your item prices for specific contacts or transactions</p>
                             <button class="button primary">New Price List</button>
                         </div>
@@ -417,13 +560,13 @@
         // Toggle sidebar menu items
         document.addEventListener('DOMContentLoaded', function () {
             const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
-            
+
             menuItems.forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function () {
                     const submenuId = this.getAttribute('data-submenu');
                     const submenu = document.getElementById(submenuId);
                     const wasOpen = this.classList.contains('open');
-                    
+
                     // Close all submenus
                     document.querySelectorAll('.submenu').forEach(sub => {
                         sub.classList.remove('open');
@@ -431,7 +574,7 @@
                     document.querySelectorAll('.nav-item[data-submenu]').forEach(navItem => {
                         navItem.classList.remove('open');
                     });
-                    
+
                     // Toggle current submenu
                     if (!wasOpen) {
                         submenu.classList.add('open');
@@ -443,7 +586,7 @@
             // Handle navigation item clicks
             const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
             navItems.forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function () {
                     document.querySelectorAll('.nav-item').forEach(navItem => {
                         navItem.classList.remove('active');
                     });
