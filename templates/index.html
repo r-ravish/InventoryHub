@@ -96,11 +96,13 @@
                 {% if not is_authenticated %}
                     <a href="{{ url_for('registerFunction') }}" class="button">Sign Up - It's Free</a>
                     <a href="{{ url_for('inventory') }}" class="button outline">Explore Your Inventory</a>
+
                 {% else %}
                     <div class="welcome-message">
                         <h2>Welcome back, {{ user.username }}!</h2>
                         <p>Managing inventory for You in an Easier Way</p>
                         <a href="{{ url_for('dashboard') }}" class="button">Go to Dashboard</a>
+                        <a href="{{ url_for('profile') }}" class="button" style="margin-left: 24px;">View Your Profile</a>
                         {% if user.role == "admin" %}
                             <a href="{{ url_for('admin_dashboard') }}" class="button" style="margin-left: 24px;">Show Admin Page</a>
                         {% endif %}

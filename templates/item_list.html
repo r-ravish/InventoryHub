@@ -499,9 +499,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteForm" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <button type="button" class="btn btn-danger" onclick="executeDelete()">Delete</button>
                 </div>
             </div>
         </div>
@@ -546,6 +544,70 @@
             document.getElementById('deleteForm').action = `/items/delete/${id}`;
             document.getElementById('deleteItemName').textContent = name;
             deleteModal.show();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+                e.preventDefault();
+                document.querySelector('.search-container input').focus();
+            }
+        });
+
+        // Initialize Bootstrap modals
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        
+        // Edit modal function remains the same
+        function openEditModal(id, name, sku, unit, qty, reorderPoint, sellingPrice, costPrice, taxRate, returnable) {
+            document.getElementById('editForm').action = `/items/update/${id}`;
+            document.getElementById('editName').value = name;
+            document.getElementById('editSku').value = sku;
+            document.getElementById('editUnit').value = unit;
+            document.getElementById('editQuantity').value = qty;
+            document.getElementById('editReorderPoint').value = reorderPoint;
+            document.getElementById('editSellingPrice').value = sellingPrice;
+            document.getElementById('editCostPrice').value = costPrice || '';
+            document.getElementById('editTaxRate').value = taxRate || '';
+            document.getElementById('editReturnable').checked = returnable;
+            editModal.show();
+        }
+        
+        // Updated delete functions
+        let currentItemId = null;
+
+        function confirmDelete(id, name) {
+            currentItemId = id;
+            document.getElementById('deleteItemName').textContent = name;
+            deleteModal.show();
+        }
+
+        function executeDelete() {
+            if (!currentItemId) return;
+
+            fetch(`/items/delete/${currentItemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Hide the modal
+                    deleteModal.hide();
+                    // Reload the page to show updated list
+                    window.location.reload();
+                } else {
+                    alert('Error deleting item: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error deleting item: ' + error);
+            });
+        }
+
+        function submitEdit() {
+            document.getElementById('editForm').submit();
         }
     </script>
 </body>

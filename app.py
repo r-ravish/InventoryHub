@@ -489,9 +489,6 @@ def item_list():
     )
 
 
-# Add to your app.py
-
-
 
 @app.route('/admin/dashboard')
 @login_required
@@ -584,12 +581,29 @@ def admin_dashboard():
 @login_required
 @admin_required
 def delete_item(item_id):
-    item = Item.query.get_or_404(item_id)
-    item_name = item.name
-    db.session.delete(item)
-    db.session.commit()
-    flash(f"Item '{item_name}' has been deleted successfully.", "success")
-    return redirect(url_for('item_list'))
+    try:
+        item = Item.query.get_or_404(item_id)
+        item_name = item.name
+        
+        # Create a log entry before deletion
+        log = InventoryLog(
+            item_id=item_id,
+            user_id=current_user.id,
+            action="delete",
+            quantity=item.quantity_in_hand,
+            notes=f"Item deleted by {current_user.username}"
+        )
+        db.session.add(log)
+        
+        # Delete the item
+        db.session.delete(item)
+        db.session.commit()
+        
+        flash(f"Item '{item_name}' has been deleted successfully.", "success")
+        return jsonify({"success": True, "message": f"Item '{item_name}' deleted successfully"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "message": str(e)}), 500
 
 @app.route('/items/update/<int:item_id>', methods=['POST'])
 @login_required
