@@ -1,3 +1,6 @@
+<!-- ... (keep all the existing header, style, and sidebar code unchanged until the dashboard content) ... -->
+
+<!-- Dashboard Content -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -1178,6 +1181,10 @@
             <i class="fas fa-chart-bar"></i>
             <span>Reports</span>
         </div>
+        <div class="nav-item back-link" style="margin-top: 205px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+            <i class="fas fa-arrow-left"></i>
+            <a href="{{ url_for('home') }}" style="color: inherit; text-decoration: none;">Back to homepage</a>
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -1211,450 +1218,369 @@
             </div>
         </header>
 
-        <!-- Dashboard Content -->
-        <div class="dashboard-container">
-            <div class="dashboard">
-                <!-- Inventory Overview Card -->
-                <div class="card">
-                    <h2 class="card-title">Inventory Overview</h2>
-                    <div class="metric-grid">
-                        <div class="metric-item">
-                            <div class="metric-number blue">{{ total_items }}</div>
-                            <div class="metric-label">Total Items</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-number green">₹{{ "{:,.2f}".format(total_inventory_value) }}</div>
-                            <div class="metric-label">Total Value</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-number yellow">₹{{ "{:,.2f}".format(avg_item_value) }}</div>
-                            <div class="metric-label">Average Item Value</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-number red">{{ high_value_items }}</div>
-                            <div class="metric-label">High Value Items</div>
-                        </div>
-                    </div>
+<div class="dashboard-container">
+    <div class="dashboard">
+        <!-- Inventory Overview Card -->
+        <!-- ... (keep existing inventory overview card unchanged) ... -->
+        <div class="card">
+            <h2 class="card-title">Inventory Overview</h2>
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <div class="metric-number blue">{{ total_items }}</div>
+                    <div class="metric-label">Total Items</div>
                 </div>
-
-                <!-- Stock Status Card -->
-                <div class="card">
-                    <h2 class="card-title">Stock Status</h2>
-                    <div class="metric-grid">
-                        <div class="metric-item">
-                            <div class="metric-number red">{{ low_stock_items }}</div>
-                            <div class="metric-label">Low Stock Items</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-number yellow">{{ out_of_stock_items }}</div>
-                            <div class="metric-label">Out of Stock</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-number blue">{{ items_to_receive }}</div>
-                            <div class="metric-label">To Be Received</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-number green">{{ returnable_items }}</div>
-                            <div class="metric-label">Returnable Items</div>
-                        </div>
-                    </div>
+                <div class="metric-item">
+                    <div class="metric-number green">₹{{ "{:,.2f}".format(total_inventory_value) }}</div>
+                    <div class="metric-label">Total Value</div>
                 </div>
-
-                <!-- Top Value Items Card -->
-                <div class="card">
-                    <h2 class="card-title">Top Items by Value</h2>
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Item Name</th>
-                                    <th>Cost Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in top_value_items %}
-                                <tr>
-                                    <td>{{ item.name }}</td>
-                                    <td>₹{{ "{:,.2f}".format(item.cost_price) }}</td>
-                                    <td>{{ item.quantity_in_hand }}</td>
-                                    <td>₹{{ "{:,.2f}".format(item.cost_price * item.quantity_in_hand) }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="metric-item">
+                    <div class="metric-number yellow">₹{{ "{:,.2f}".format(avg_item_value) }}</div>
+                    <div class="metric-label">Average Item Value</div>
                 </div>
-
-                <!-- Tax Distribution Card -->
-                <div class="card">
-                    <h2 class="card-title">Tax Rate Distribution</h2>
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Tax Rate</th>
-                                    <th>Number of Items</th>
-                                    <th>Distribution</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for rate, count in tax_distribution %}
-                                <tr>
-                                    <td>{{ rate if rate else 0 }}%</td>
-                                    <td>{{ count }}</td>
-                                    <td>
-                                        <div class="progress-bar">
-                                            <div class="progress-fill"
-                                                style="width: {{ (count / total_items * 100) if total_items > 0 else 0 }}%">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Top Margin Items Card -->
-                <div class="card">
-                    <h2 class="card-title">Top Items by Margin</h2>
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Item Name</th>
-                                    <th>Margin %</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in top_margin_items %}
-                                <tr>
-                                    <td>{{ item.name }}</td>
-                                    <td>{{ item.margin }}%</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="metric-item">
+                    <div class="metric-number red">{{ high_value_items }}</div>
+                    <div class="metric-label">High Value Items</div>
                 </div>
             </div>
+        </div>
 
 
-
-            <!-- New Group Overview Card -->
-            <div class="card">
-                <h2 class="card-title">Group Overview</h2>
-                <div class="metric-grid">
-                    <div class="metric-item">
-                        <div class="metric-number blue">{{ total_groups }}</div>
-                        <div class="metric-label">Total Groups</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number green">{{ goods_groups }}</div>
-                        <div class="metric-label">Goods Groups</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number yellow">{{ service_groups }}</div>
-                        <div class="metric-label">Service Groups</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-number red">{{ returnable_groups }}</div>
-                        <div class="metric-label">Returnable Groups</div>
-                    </div>
+        <!-- Stock Status Card -->
+        <!-- ... (keep existing stock status card unchanged) ... -->
+        <div class="card">
+            <h2 class="card-title">Stock Status</h2>
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <div class="metric-number red">{{ low_stock_items }}</div>
+                    <div class="metric-label">Low Stock Items</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number yellow">{{ out_of_stock_items }}</div>
+                    <div class="metric-label">Out of Stock</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number blue">{{ items_to_receive }}</div>
+                    <div class="metric-label">To Be Received</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number green">{{ returnable_items }}</div>
+                    <div class="metric-label">Returnable Items</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Group Filters -->
+
+        <!-- Top Value Items Card -->
+        <div class="card">
+            <h2 class="card-title">Top Items by Value</h2>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Cost Price</th>
+                            <th>Quantity</th>
+                            <th>Total Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in top_value_items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>₹{{ "{:,.2f}".format(item.cost_price) }}</td>
+                            <td>{{ item.quantity_in_hand }}</td>
+                            <td>₹{{ "{:,.2f}".format(item.cost_price * item.quantity_in_hand) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tax Distribution Card -->
+        <div class="card">
+            <h2 class="card-title">Tax Rate Distribution</h2>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Tax Rate</th>
+                            <th>Number of Items</th>
+                            <th>Distribution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rate, count in tax_distribution %}
+                        <tr>
+                            <td>{{ rate if rate else 0 }}%</td>
+                            <td>{{ count }}</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"
+                                        style="width: {{ (count / total_items * 100) if total_items > 0 else 0 }}%">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Top Margin Items Card -->
+        <div class="card">
+            <h2 class="card-title">Top Items by Margin</h2>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Cost Price</th>
+                            <th>Selling Price</th>
+                            <th>Margin %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item, margin in top_margin_items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>₹{{ "{:,.2f}".format(item.cost_price) }}</td>
+                            <td>₹{{ "{:,.2f}".format(item.selling_price) }}</td>
+                            <td>{{ "{:.1f}".format(margin) }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Group Overview Card -->
+        <div class="card">
+            <h2 class="card-title">Group Overview</h2>
             <div class="filter-container">
-                <select class="filter-select" id="typeFilter">
+                <select class="filter-select" id="typeFilter" onchange="updateFilters()">
                     <option value="">All Types</option>
                     <option value="goods">Goods</option>
                     <option value="service">Service</option>
                 </select>
-                <select class="filter-select" id="returnableFilter">
+                <select class="filter-select" id="returnableFilter" onchange="updateFilters()">
                     <option value="">All Items</option>
                     <option value="true">Returnable</option>
                     <option value="false">Non-returnable</option>
                 </select>
-                <select class="filter-select" id="sortBy">
+                <select class="filter-select" id="sortBy" onchange="updateFilters()">
                     <option value="created_at">Sort by Date</option>
                     <option value="name">Sort by Name</option>
                 </select>
-                <select class="filter-select" id="sortOrder">
+                <select class="filter-select" id="sortOrder" onchange="updateFilters()">
                     <option value="desc">Descending</option>
                     <option value="asc">Ascending</option>
                 </select>
             </div>
-
-            <!-- Recent Groups Card -->
-            <div class="card">
-                <h2 class="card-title">Recently Created Groups</h2>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Manufacturer</th>
-                                <th>Created Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for group in recent_groups %}
-                            <tr>
-                                <td>{{ group.name }}</td>
-                                <td>{{ group.type }}</td>
-                                <td>{{ group.manufacturer or 'N/A' }}</td>
-                                <td>{{ group.created_at.strftime('%Y-%m-%d') }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <div class="metric-number blue">{{ total_groups }}</div>
+                    <div class="metric-label">Total Groups</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number green">{{ goods_groups }}</div>
+                    <div class="metric-label">Goods Groups</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number yellow">{{ service_groups }}</div>
+                    <div class="metric-label">Service Groups</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number red">{{ returnable_groups }}</div>
+                    <div class="metric-label">Returnable Groups</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Group Distribution Card -->
-            <div class="card">
-                <h2 class="card-title">Group Distribution</h2>
-                <div class="unit-distribution">
-                    {% for unit, count in unit_distribution %}
-                    <div class="unit-bar">
-                        <span class="bar-label">{{ unit or 'Unspecified' }}</span>
-                        <div class="bar-container">
-                            <div class="bar-fill"
-                                style="width: {{ (count / total_groups * 100) if total_groups > 0 else 0 }}%"></div>
-                        </div>
-                        <span class="bar-value">{{ count }}</span>
+        <!-- Recent Groups Card -->
+        <div class="card">
+            <h2 class="card-title">Recently Created Groups</h2>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Created Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for group in recent_groups %}
+                        <tr>
+                            <td>{{ group.name }}</td>
+                            <td>{{ group.type }}</td>
+                            <td>{{ group.created_at.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Unit Distribution Card -->
+        <div class="card">
+            <h2 class="card-title">Unit Distribution</h2>
+            <div class="unit-distribution">
+                {% for unit, count in unit_distribution %}
+                <div class="unit-bar">
+                    <span class="bar-label">{{ unit or 'Unspecified' }}</span>
+                    <div class="bar-container">
+                        <div class="bar-fill"
+                            style="width: {{ (count / total_groups * 100) if total_groups > 0 else 0 }}%"></div>
                     </div>
-                    {% endfor %}
+                    <span class="bar-value">{{ count }}</span>
                 </div>
+                {% endfor %}
             </div>
+        </div>
 
-            <!-- Groups with Most Attributes Card -->
-            <div class="card">
-                <h2 class="card-title">Groups with Most Attributes</h2>
-                <div class="table-responsive">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Group Name</th>
-                                <th>Attributes</th>
-                                <th>Created By</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for group, attribute_count in groups_with_attributes %}
-                            <tr>
-                                <td>{{ group.name }}</td>
-                                <td>{{ attribute_count }}</td>
-                                <td>{{ group.created_by }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+        <!-- Groups with Most Attributes Card -->
+        <div class="card">
+            <h2 class="card-title">Groups with Most Attributes</h2>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Group Name</th>
+                            <th>Attributes</th>
+                            <th>Created By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for group, attribute_count in groups_with_attributes %}
+                        <tr>
+                            <td>{{ group.name }}</td>
+                            <td>{{ attribute_count }}</td>
+                            <td>{{ group.created_by }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-
-            <!-- Brand Distribution Card -->
-<div class="card">
-    <h2 class="card-title">Brand Distribution</h2>
-    <div class="table-responsive">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Brand</th>
-                    <th>Number of Items</th>
-                    <th>Distribution</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for brand, count in brand_distribution %}
-                <tr>
-                    <td>{{ brand or 'Unspecified' }}</td>
-                    <td>{{ count }}</td>
-                    <td>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: {{ (count / total_groups * 100) if total_groups > 0 else 0 }}%"></div>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Manufacturer Distribution Card -->
-<div class="card">
-    <h2 class="card-title">Manufacturer Distribution</h2>
-    <div class="table-responsive">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Manufacturer</th>
-                    <th>Number of Items</th>
-                    <th>Distribution</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for manufacturer, count in manufacturer_distribution %}
-                <tr>
-                    <td>{{ manufacturer or 'Unspecified' }}</td>
-                    <td>{{ count }}</td>
-                    <td>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: {{ (count / total_groups * 100) if total_groups > 0 else 0 }}%"></div>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Filtered Groups Card -->
-<div class="card">
-    <h2 class="card-title">Filtered Groups</h2>
-    <div class="table-responsive">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Manufacturer</th>
-                    <th>Brand</th>
-                    <th>Unit</th>
-                    <th>Returnable</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for group in filtered_groups %}
-                <tr>
-                    <td>{{ group.name }}</td>
-                    <td>{{ group.type }}</td>
-                    <td>{{ group.manufacturer or 'N/A' }}</td>
-                    <td>{{ group.brand or 'N/A' }}</td>
-                    <td>{{ group.unit or 'N/A' }}</td>
-                    <td>{{ 'Yes' if group.returnable else 'No' }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Returnable vs Non-Returnable Items Card -->
-<div class="card">
-    <h2 class="card-title">Items by Return Policy</h2>
-    <div class="metric-grid">
-        <div class="metric-item">
-            <div class="metric-number green">{{ returnable_items }}</div>
-            <div class="metric-label">Returnable Items</div>
-        </div>
-        <div class="metric-item">
-            <div class="metric-number red">{{ non_returnable_items }}</div>
-            <div class="metric-label">Non-Returnable Items</div>
         </div>
     </div>
-    <div class="progress-bar" style="margin-top: 20px;">
-        <div class="progress-fill" style="width: {{ (returnable_items / (returnable_items + non_returnable_items) * 100) if (returnable_items + non_returnable_items) > 0 else 0 }}%"></div>
-    </div>
 </div>
 
-        </div>
-    </div>
+<script>
+function updateFilters() {
+    const typeFilter = document.getElementById('typeFilter').value;
+    const returnableFilter = document.getElementById('returnableFilter').value;
+    const sortBy = document.getElementById('sortBy').value;
+    const sortOrder = document.getElementById('sortOrder').value;
 
+    const queryParams = new URLSearchParams({
+        typeFilter: typeFilter,
+        returnableFilter: returnableFilter,
+        sortBy: sortBy,
+        sortOrder: sortOrder
+    });
 
+    window.location.href = `/dashboard?${queryParams.toString()}`;
+}
 
+// Set initial filter values based on URL parameters
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const typeFilter = urlParams.get('typeFilter');
+    const returnableFilter = urlParams.get('returnableFilter');
+    const sortBy = urlParams.get('sortBy');
+    const sortOrder = urlParams.get('sortOrder');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Sidebar menu functionality
-            const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
+    if (typeFilter) document.getElementById('typeFilter').value = typeFilter;
+    if (returnableFilter) document.getElementById('returnableFilter').value = returnableFilter;
+    if (sortBy) document.getElementById('sortBy').value = sortBy;
+    if (sortOrder) document.getElementById('sortOrder').value = sortOrder;
+});
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Sidebar menu functionality
+        const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
 
-            menuItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    const submenuId = this.getAttribute('data-submenu');
-                    const submenu = document.getElementById(submenuId);
-                    const wasOpen = this.classList.contains('open');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function () {
+                const submenuId = this.getAttribute('data-submenu');
+                const submenu = document.getElementById(submenuId);
+                const wasOpen = this.classList.contains('open');
 
-                    // Close all submenus
-                    document.querySelectorAll('.submenu').forEach(sub => {
-                        sub.classList.remove('open');
-                    });
-                    document.querySelectorAll('.nav-item[data-submenu]').forEach(navItem => {
-                        navItem.classList.remove('open');
-                    });
-
-                    // Toggle current submenu
-                    if (!wasOpen) {
-                        submenu.classList.add('open');
-                        this.classList.add('open');
-                    }
+                // Close all submenus
+                document.querySelectorAll('.submenu').forEach(sub => {
+                    sub.classList.remove('open');
                 });
-            });
-
-            // Handle navigation item clicks
-            const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
-            navItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    document.querySelectorAll('.nav-item').forEach(navItem => {
-                        navItem.classList.remove('active');
-                    });
-                    this.classList.add('active');
+                document.querySelectorAll('.nav-item[data-submenu]').forEach(navItem => {
+                    navItem.classList.remove('open');
                 });
-            });
 
-            // Add toggle sidebar functionality
-            const sidebarToggle = document.getElementById('sidebar-toggle');
-            const sidebar = document.querySelector('.sidebar');
-
-            sidebarToggle.addEventListener('click', function () {
-                sidebar.classList.toggle('collapsed');
-                if (sidebar.classList.contains('collapsed')) {
-                    sidebar.style.width = '60px';
-                    document.querySelectorAll('.sidebar .nav-item span, .sidebar-header span, .arrow').forEach(el => {
-                        el.style.display = 'none';
-                    });
-                } else {
-                    sidebar.style.width = '260px';
-                    document.querySelectorAll('.sidebar .nav-item span, .sidebar-header span, .arrow').forEach(el => {
-                        el.style.display = '';
-                    });
+                // Toggle current submenu
+                if (!wasOpen) {
+                    submenu.classList.add('open');
+                    this.classList.add('open');
                 }
             });
+        });
 
-            // Add hover effects to metric items
-            document.querySelectorAll('.metric-item').forEach(item => {
-                item.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-2px)';
-                    this.style.transition = 'transform 0.2s ease';
-                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        // Handle navigation item clicks
+        const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
+        navItems.forEach(item => {
+            item.addEventListener('click', function () {
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
                 });
-
-                item.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = 'none';
-                });
-            });
-
-            // Add hover effects to table rows
-            document.querySelectorAll('.data-table tr').forEach(row => {
-                row.addEventListener('mouseenter', function () {
-                    this.style.backgroundColor = 'var(--gray-light)';
-                    this.style.transition = 'background-color 0.2s ease';
-                });
-
-                row.addEventListener('mouseleave', function () {
-                    this.style.backgroundColor = '';
-                });
+                this.classList.add('active');
             });
         });
-    </script>
-</body>
 
-</html>
+        // Add toggle sidebar functionality
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('collapsed');
+            if (sidebar.classList.contains('collapsed')) {
+                sidebar.style.width = '60px';
+                document.querySelectorAll('.sidebar .nav-item span, .sidebar-header span, .arrow').forEach(el => {
+                    el.style.display = 'none';
+                });
+            } else {
+                sidebar.style.width = '260px';
+                document.querySelectorAll('.sidebar .nav-item span, .sidebar-header span, .arrow').forEach(el => {
+                    el.style.display = '';
+                });
+            }
+        });
+
+        // Add hover effects to metric items
+        document.querySelectorAll('.metric-item').forEach(item => {
+            item.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-2px)';
+                this.style.transition = 'transform 0.2s ease';
+                this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+            });
+
+            item.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Add hover effects to table rows
+        document.querySelectorAll('.data-table tr').forEach(row => {
+            row.addEventListener('mouseenter', function () {
+                this.style.backgroundColor = 'var(--gray-light)';
+                this.style.transition = 'background-color 0.2s ease';
+            });
+
+            row.addEventListener('mouseleave', function () {
+                this.style.backgroundColor = '';
+            });
+        });
+    });
+</script>
+<!-- ... (keep the rest of your existing JavaScript code unchanged) ... -->
