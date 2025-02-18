@@ -181,7 +181,3 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(item);
     });
 });
-
-
-
-

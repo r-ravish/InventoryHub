@@ -15,63 +15,57 @@
 
 <body>
     <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo">
-                <img src="../static/images/logo_ih.png" alt="InventoryHub Logo" class="nav-logo" style="transform: scale(3);">
-                <!-- <span>InventoryHub</span> -->
-            </a>
-            <ul class="nav-items">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Features</a>
-                    <div class="dropdown">
-                        <div class="dropdown-section">
-                            <div class="section-title">
-                                <i class="icon">📦</i>Order Management
-                            </div>
-                            <a href="#" class="dropdown-item">Sales Orders</a>
-                            <a href="#" class="dropdown-item">Purchase Orders</a>
-                            <a href="#" class="dropdown-item">Order Tracking</a>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <img src="../static/images/try_logo.png" alt="InventoryHub Logo" class="nav-logo">
+                </a>
+            </div>
+            
+            <div class="nav-center">
+                <ul class="nav-items">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#solutions">Solutions</a></li>
+                    <li><a href="#integrations">Integrations</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-trigger">
+                            All Products
+                            <svg class="dropdown-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Order Management</a>
+                            <a href="#" class="dropdown-item">Warehouse Management</a>
+                            <a href="#" class="dropdown-item">Inventory Tracking</a>
+                            <a href="#" class="dropdown-item">Reports & Analytics</a>
                         </div>
-                        <div class="dropdown-section">
-                            <div class="section-title">
-                                <i class="icon">🏭</i>Warehouse
-                            </div>
-                            <a href="#" class="dropdown-item">Multi-warehouse Management</a>
-                            <a href="#" class="dropdown-item">Stock Transfer</a>
-                            <a href="#" class="dropdown-item">Barcode Scanning</a>
-                        </div>
-                        <div class="dropdown-section">
-                            <div class="section-title">
-                                <i class="icon">📊</i>Reports
-                            </div>
-                            <a href="#" class="dropdown-item">Inventory Reports</a>
-                            <a href="#" class="dropdown-item">Sales Analytics</a>
-                            <a href="#" class="dropdown-item">GST Reports</a>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Solutions</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Integrations</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link fre">Pricing</a>
-                </li>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="nav-right">
+                <button class="search-btn">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14 14L11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
                 {% if not is_authenticated %}
-                    <li class="nav-item">
-                        <a href="{{ url_for('loginFunction') }}" class="nav-link login">Login</a>
-                    </li>
-                    <li class="nav-item qww">
-                        <a href="{{ url_for('registerFunction') }}" class="nav-link signup">Sign Up</a>
-                    </li>
+                    <a href="{{ url_for('loginFunction') }}" class="sign-in">SIGN IN</a>
+                    <a href="{{ url_for('registerFunction') }}" class="sign-up">SIGN UP NOW</a>
                 {% else %}
-                    <li class="nav-item-1">
-                        <a href="{{ url_for('logout') }}" class="nav-link" style="color: #C61B37; margin-right: -550px;">Logout</a>
-                    </li>
+                    <a href="{{ url_for('logout') }}" class="sign-out">SIGN OUT</a>
+
                 {% endif %}
-            </ul>
+            </div>
+
+            <button class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
     <!-- <div class="hea">
@@ -108,7 +102,7 @@
                         <p>Managing inventory for {{ company_name }}</p>
                         <a href="{{ url_for('dashboard') }}" class="button">Go to Dashboard</a>
                         {% if user.role == "admin" %}
-                            <a href="{{ url_for('item_list') }}" class="button">Show Admin Page</a>
+                            <a href="{{ url_for('item_list') }}" class="button" style="margin-left: 24px;">Show Admin Page</a>
                         {% endif %}
                     </div>
                 {% endif %}
