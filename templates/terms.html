@@ -1,1117 +1,334 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{project.meta.ogDescription}}">
-    <meta name="theme-color" content="#ffffff">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="robots" content="{{project.meta.robotsMeta}}">
-
-    <title>{{project.seoTitle}}</title>
-
-    <meta name="description" content="{{project.seoDescription}}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
-        rel="stylesheet">
-
-    <link href="{{fontLink}}" rel="stylesheet">
-    <link href="{{secondaryFontLink}}" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
-        rel="stylesheet">
-
-
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
-
-
-    <script id="header-scripts">
-
-        if (window.scripts && window.scripts.head) {
-            document.getElementById('header-scripts').outerHTML = window.scripts.head;
+    <title>Terms & Conditions - InventoryHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #E42527;
+            --primary-light: #f14344;
+            --accent-color: #F8B21D;
+            --dark-color: #000000;
+            --light-color: #ffffff;
+            --gray-text: #4a4a4a;
+            --border-color: #e2e8f0;
+            --background-color: #fafafa;
+            --section-hover: #fff9eb;
         }
-    </script>
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        body {
+            background-color: var(--background-color);
+            color: var(--dark-color);
+            line-height: 1.7;
+        }
 
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: var(--light-color);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
 
-    <script type="application/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
 
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            primary: {
-                                DEFAULT: '{{settings.colors.primary}}',
-                                50: '#f8f8f8',
-                                100: '#e8e8e8',
-                                200: '#d3d3d3',
-                                300: '#a3a3a3',
-                                400: '#737373',
-                                500: '#525252',
-                                600: '#404040',
-                                700: '#262626',
-                                800: '#171717',
-                                900: '#0a0a0a',
-                                950: '#030303',
-                            },
-                            secondary: {
-                                DEFAULT: '{{settings.colors.secondary}}',
-                                50: '#f8f8f8',
-                                100: '#e8e8e8',
-                                200: '#d3d3d3',
-                                300: '#a3a3a3',
-                                400: '#737373',
-                                500: '#525252',
-                                600: '#404040',
-                                700: '#262626',
-                                800: '#171717',
-                                900: '#0a0a0a',
-                                950: '#030303',
-                            },
-                            accent: {
-                                DEFAULT: '{{settings.colors.accent}}',
-                                50: '#f8f8f8',
-                                100: '#e8e8e8',
-                                200: '#d3d3d3',
-                                300: '#a3a3a3',
-                                400: '#737373',
-                                500: '#525252',
-                                600: '#404040',
-                                700: '#262626',
-                                800: '#171717',
-                                900: '#0a0a0a',
-                                950: '#030303',
-                            },
-                        },
-                        fontFamily: {
-                            sans: ['{{settings.fonts.primary}}', 'Roboto', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-                            heading: ['{{settings.fonts.secondary}}', 'system-ui', 'sans-serif'],
-                            body: ['{{settings.fonts.secondary}}', 'system-ui', 'sans-serif'],
-                        },
-                        spacing: {
-                            '18': '4.5rem',
-                            '22': '5.5rem',
-                            '30': '7.5rem',
-                        },
-                        maxWidth: {
-                            '8xl': '88rem',
-                            '9xl': '96rem',
-                        },
-                        animation: {
-                            'fade-in': 'fadeIn 0.5s ease-in',
-                            'fade-out': 'fadeOut 0.5s ease-out',
-                            'slide-up': 'slideUp 0.5s ease-out',
-                            'slide-down': 'slideDown 0.5s ease-out',
-                            'slide-left': 'slideLeft 0.5s ease-out',
-                            'slide-right': 'slideRight 0.5s ease-out',
-                            'scale-in': 'scaleIn 0.5s ease-out',
-                            'scale-out': 'scaleOut 0.5s ease-out',
-                            'spin-slow': 'spin 3s linear infinite',
-                            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                            'bounce-slow': 'bounce 3s infinite',
-                            'float': 'float 3s ease-in-out infinite',
-                        },
-                        keyframes: {
-                            fadeIn: {
-                                '0%': { opacity: '0' },
-                                '100%': { opacity: '1' },
-                            },
-                            fadeOut: {
-                                '0%': { opacity: '1' },
-                                '100%': { opacity: '0' },
-                            },
-                            slideUp: {
-                                '0%': { transform: 'translateY(20px)', opacity: '0' },
-                                '100%': { transform: 'translateY(0)', opacity: '1' },
-                            },
-                            slideDown: {
-                                '0%': { transform: 'translateY(-20px)', opacity: '0' },
-                                '100%': { transform: 'translateY(0)', opacity: '1' },
-                            },
-                            slideLeft: {
-                                '0%': { transform: 'translateX(20px)', opacity: '0' },
-                                '100%': { transform: 'translateX(0)', opacity: '1' },
-                            },
-                            slideRight: {
-                                '0%': { transform: 'translateX(-20px)', opacity: '0' },
-                                '100%': { transform: 'translateX(0)', opacity: '1' },
-                            },
-                            scaleIn: {
-                                '0%': { transform: 'scale(0.9)', opacity: '0' },
-                                '100%': { transform: 'scale(1)', opacity: '1' },
-                            },
-                            scaleOut: {
-                                '0%': { transform: 'scale(1.1)', opacity: '0' },
-                                '100%': { transform: 'scale(1)', opacity: '1' },
-                            },
-                            float: {
-                                '0%, 100%': { transform: 'translateY(0)' },
-                                '50%': { transform: 'translateY(-10px)' },
-                            },
-                        },
-                        aspectRatio: {
-                            'portrait': '3/4',
-                            'landscape': '4/3',
-                            'ultrawide': '21/9',
-                        },
-                    },
-                },
-                variants: {
-                    extend: {
-                        opacity: ['disabled'],
-                        cursor: ['disabled'],
-                        backgroundColor: ['active', 'disabled'],
-                        textColor: ['active', 'disabled'],
-                    },
-                },
+        .container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: var(--light-color);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            background: var(--background-color);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            background: var(--section-hover);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--dark-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        p, ul {
+            color: var(--gray-text);
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        li::before {
+            content: '•';
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            left: -1.2rem;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--light-color);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 2rem 0;
+            font-weight: 500;
+            box-shadow: 0 4px 6px -1px rgba(228, 37, 39, 0.2);
+        }
+
+        .contact-box {
+            background: var(--background-color);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+            text-align: center;
+            border: 2px solid var(--accent-color);
+        }
+
+        .contact-box i {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: var(--light-color);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .footer-links a {
+            color: var(--light-color);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin: 1rem;
             }
-        });
-    </script>
 
+            .section {
+                padding: 1.5rem;
+            }
 
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.1/apexcharts.min.js"></script>
+            .header-title {
+                font-size: 2rem;
+            }
 
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    <meta name="description" content="{{project.meta.ogDescription}}">
-    <meta name="keywords" content="{{project.meta.keywords}}">
-    <meta name="robots" content="{{project.meta.robotsMeta}}">
-    <meta name="google-site-verification" content="{{project.meta.googleVerification}}">
-    <meta name="baidu-verification" content="{{project.meta.baiduVerification}}">
-    <meta name="yandex-verification" content="{{project.meta.yandexVerification}}">
-    <meta name="bing-verification" content="{{project.meta.bingVerification}}">
-    <meta property="og:title" content="{{project.meta.ogTitle}}">
-    <meta property="og:description" content="{{project.meta.ogDescription}}">
-    <meta property="og:image" content="{{project.meta.ogImage}}">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:site_name" content="{{project.name}}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{project.meta.ogTitle}}">
-    <meta name="twitter:description" content="{{project.meta.ogDescription}}">
-    <meta name="twitter:image" content="{{project.meta.ogImage}}">
-
-
-    <link rel="icon" type="image/x-icon" href="{{settings.favicon}}">
-
-
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
-
-<body class="antialiased text-gray-800 min-h-screen flex flex-col">
-
-    <a href="#main-content"
-        class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-white focus:text-black">
-        Skip to main content
-    </a>
-
-
-    <header class="relative z-50 bg-white dark:bg-gray-900">
-
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="header-title">Terms & Conditions</h1>
+            <p class="header-subtitle">Please read these terms carefully before using InventoryHub's services</p>
+        </div>
     </header>
+    
+    <div class="container">
+        <section class="section">
+            <h2>Welcome to InventoryHub</h2>
+            <p>These Terms & Conditions govern your use of InventoryHub's Inventory Management System (IMS) and related services. By accessing or using our platform, you agree to be bound by these terms.</p>
+            
+            <div class="highlight">Last Updated: January 1, 2024</div>
+        </section>
 
+        <section class="section">
+            <h3>1. Account Registration & Security</h3>
+            <ul>
+                <li>Users must provide accurate, current, and complete information during registration</li>
+                <li>Two-factor authentication is mandatory for all administrative accounts</li>
+                <li>Password requirements include minimum 12 characters with special characters and numbers</li>
+                <li>Account access is limited to authorized personnel within your organization</li>
+                <li>Regular security audits of user access patterns are conducted</li>
+            </ul>
+        </section>
 
-    <main id="main-content" class="flex-1 relative h-full">
+        <section class="section">
+            <h3>2. Data Management & Storage</h3>
+            <ul>
+                <li>All inventory data is stored with AES-256 encryption at rest</li>
+                <li>Automated backups are performed every 6 hours with 30-day retention</li>
+                <li>Users maintain full ownership of their inventory data</li>
+                <li>Data export is available in multiple formats (CSV, JSON, XML)</li>
+                <li>Custom data retention policies can be configured per organization</li>
+            </ul>
+        </section>
 
-    </main>
+        <section class="section">
+            <h3>3. API Usage & Integration</h3>
+            <ul>
+                <li>API rate limits are enforced based on subscription tier</li>
+                <li>API keys must be rotated every 90 days</li>
+                <li>Third-party integrations must be approved by InventoryHub</li>
+                <li>WebHooks are provided for real-time inventory updates</li>
+                <li>API documentation is provided with example implementations</li>
+            </ul>
+        </section>
 
+        <section class="section">
+            <h3>4. Subscription & Billing</h3>
+            <ul>
+                <li>Subscription tiers: Basic, Professional, and Enterprise</li>
+                <li>Annual subscriptions receive a 20% discount</li>
+                <li>Payment methods: Credit Card, ACH, and Wire Transfer</li>
+                <li>Usage beyond plan limits incurs additional charges</li>
+                <li>30-day notice required for subscription cancellation</li>
+            </ul>
+        </section>
 
+        <section class="section">
+            <h3>5. Service Level Agreement (SLA)</h3>
+            <ul>
+                <li>99.9% uptime guarantee for Enterprise subscribers</li>
+                <li>Maximum 4-hour response time for critical issues</li>
+                <li>Scheduled maintenance windows with 72-hour advance notice</li>
+                <li>Automatic service credits for SLA violations</li>
+                <li>24/7 support for Enterprise customers</li>
+            </ul>
+        </section>
 
+        <section class="section">
+            <h3>6. Compliance & Audit</h3>
+            <ul>
+                <li>SOC 2 Type II certified infrastructure</li>
+                <li>GDPR and CCPA compliance maintained</li>
+                <li>Annual third-party security assessments</li>
+                <li>Audit logs retained for 12 months</li>
+                <li>Regular compliance training for all staff</li>
+            </ul>
+        </section>
+
+        <div class="contact-box">
+            <i class="fas fa-envelope"></i>
+            <h3>Need Assistance?</h3>
+            <p>Contact our support team at <strong>support@inventoryhub.com</strong></p>
+            <p>Enterprise customers: Call our dedicated line at <strong>1-800-INVENTORY</strong></p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Security</a>
+                <a href="#">API Documentation</a>
+                <a href="#">Support Center</a>
+            </div>
+            <p>&copy; 2024 InventoryHub. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
-
 </html>
-<element id="29c3f8b1-898c-4c9b-84e7-e8eb6656b41b" data-section-id="29c3f8b1-898c-4c9b-84e7-e8eb6656b41b">
-
-
-    <div id="root">
-        <section id="header" class="bg-neutral-900 min-h-[70vh]">
-
-            <nav class="px-4 py-3 bg-neutral-800">
-                <div class="container mx-auto flex justify-between items-center">
-                    <a href="/" class="text-white text-2xl font-bold">IMS</a>
-
-
-                    <button id="menuBtn" class="lg:hidden text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-
-
-                    <div class="hidden lg:flex space-x-8">
-                        <a href="/" class="text-white hover:text-blue-400 transition duration-300">Home</a>
-                        <a href="/terms" class="text-white hover:text-blue-400 transition duration-300">Terms &amp;
-                            Conditions</a>
-                        <a href="/privacy" class="text-white hover:text-blue-400 transition duration-300">Privacy
-                            Policy</a>
-                        <a href="/contact" class="text-white hover:text-blue-400 transition duration-300">Contact</a>
-                    </div>
-
-
-                    <div id="mobileMenu" class="hidden fixed inset-0 bg-neutral-900 bg-opacity-95 z-50">
-                        <div class="flex flex-col items-center justify-center h-full">
-                            <button id="closeBtn" class="absolute top-4 right-4 text-white">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                            <a href="/"
-                                class="text-white text-xl my-4 hover:text-blue-400 transition duration-300 animate__animated animate__fadeInDown">Home</a>
-                            <a href="/terms"
-                                class="text-white text-xl my-4 hover:text-blue-400 transition duration-300 animate__animated animate__fadeInDown">Terms
-                                &amp; Conditions</a>
-                            <a href="/privacy"
-                                class="text-white text-xl my-4 hover:text-blue-400 transition duration-300 animate__animated animate__fadeInDown">Privacy
-                                Policy</a>
-                            <a href="/contact"
-                                class="text-white text-xl my-4 hover:text-blue-400 transition duration-300 animate__animated animate__fadeInDown">Contact</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-
-            <div class="container mx-auto px-4 py-16">
-                <div class="text-center animate__animated animate__fadeIn">
-                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Terms and Conditions</h1>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Welcome to our Inventory Management System. Please read these terms and conditions carefully
-                        before using our services.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <script>
-            const menuBtn = document.getElementById('menuBtn');
-            const closeBtn = document.getElementById('closeBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            });
-
-            closeBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            });
-        </script>
-    </div>
-</element>
-<element id="59d06a4c-9bb0-45be-abc7-0d400d31bfab" data-section-id="59d06a4c-9bb0-45be-abc7-0d400d31bfab">
-
-
-    <div id="root">
-        <section id="termsIntro" class="bg-white py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <div class="prose prose-lg animate__animated animate__fadeIn">
-                        <div class="mb-12">
-                            <h2 class="text-3xl font-bold text-neutral-800 mb-6">Introduction to Terms of Service</h2>
-                            <p class="text-neutral-600 mb-4">
-                                These Terms and Conditions ("Terms", "T&Cs") govern your use of our Inventory Management
-                                System ("IMS") and the services we provide. By accessing or using our system, you agree
-                                to be bound by these terms.
-                            </p>
-                        </div>
-
-                        <div class="mb-12">
-                            <h3 class="text-2xl font-semibold text-neutral-800 mb-4">Acceptance of Terms</h3>
-                            <p class="text-neutral-600 mb-4">
-                                By accessing and using our Inventory Management System, you acknowledge that you have
-                                read, understood, and agree to be bound by these Terms and Conditions. If you disagree
-                                with any part of these terms, you may not access our services.
-                            </p>
-                        </div>
-
-                        <div class="bg-neutral-50 p-6 rounded-lg border border-neutral-200">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Last Updated</h3>
-                            <p class="text-neutral-600">
-                                These terms were last updated on <span class="font-semibold">January 1, 2024</span>. We
-                                reserve the right to modify these terms at any time without prior notice. Your continued
-                                use of the system after any modifications indicates your acceptance of the updated
-                                terms.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="abbf01cf-0157-441b-871e-c005deab512a" data-section-id="abbf01cf-0157-441b-871e-c005deab512a">
-
-
-    <div id="root">
-        <section id="definitions" class="bg-neutral-50 py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold text-neutral-800 mb-8 animate__animated animate__fadeIn">Definitions
-                    </h2>
-
-                    <div class="space-y-6 animate__animated animate__fadeIn">
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-3">"System"</h3>
-                            <p class="text-neutral-600">Refers to our Inventory Management System (IMS), including all
-                                its features, functionalities, and services.</p>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-3">"User"</h3>
-                            <p class="text-neutral-600">Refers to any individual, organization, or entity that accesses
-                                or uses our Inventory Management System.</p>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-3">"Content"</h3>
-                            <p class="text-neutral-600">Includes all data, information, text, images, and other
-                                materials stored, transmitted, or processed through the System.</p>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-3">"Account"</h3>
-                            <p class="text-neutral-600">Refers to the unique user profile created to access and use the
-                                System.</p>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-3">"Services"</h3>
-                            <p class="text-neutral-600">Refers to all features, functionalities, and tools provided
-                                through our Inventory Management System.</p>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-3">"Agreement"</h3>
-                            <p class="text-neutral-600">Refers to these Terms and Conditions, including any amendments
-                                and additional policies referenced herein.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="469cc095-4bf4-43a3-99b3-aef057b78a72" data-section-id="469cc095-4bf4-43a3-99b3-aef057b78a72">
-
-
-    <div id="root">
-        <section id="userAgreement" class="bg-white py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold text-neutral-800 mb-8 animate__animated animate__fadeIn">User
-                        Agreement</h2>
-
-                    <div class="space-y-8 animate__animated animate__fadeIn">
-                        <div class="border-l-4 border-blue-500 pl-6">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Account Registration</h3>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-3">
-                                <li>Users must provide accurate and complete information during registration</li>
-                                <li>Users are responsible for maintaining the confidentiality of their account
-                                    credentials</li>
-                                <li>Users must notify us immediately of any unauthorized access or security breaches
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="border-l-4 border-green-500 pl-6">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">User Responsibilities</h3>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-3">
-                                <li>Users shall not use the system for any illegal or unauthorized purpose</li>
-                                <li>Users must comply with all applicable laws and regulations</li>
-                                <li>Users are responsible for all activities conducted through their account</li>
-                                <li>Users must maintain accurate inventory records and data</li>
-                            </ul>
-                        </div>
-
-                        <div class="border-l-4 border-red-500 pl-6">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Prohibited Activities</h3>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-3">
-                                <li>Attempting to breach system security or authentication measures</li>
-                                <li>Sharing account credentials with unauthorized users</li>
-                                <li>Uploading malicious code or harmful content</li>
-                                <li>Interfering with other users' access to the system</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-neutral-50 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Account Termination</h3>
-                            <p class="text-neutral-600 mb-4">
-                                We reserve the right to suspend or terminate your account at our discretion if:
-                            </p>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-2">
-                                <li>You violate these terms and conditions</li>
-                                <li>You engage in fraudulent or illegal activities</li>
-                                <li>Your account shows suspicious or unauthorized activity</li>
-                                <li>You fail to pay any applicable fees or charges</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="4b5e6e2f-9e85-410a-a084-53dd465bfb97" data-section-id="4b5e6e2f-9e85-410a-a084-53dd465bfb97">
-
-
-    <div id="root">
-        <section id="dataPrivacy" class="bg-neutral-50 py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold text-neutral-800 mb-8 animate__animated animate__fadeIn">Data Privacy
-                        & Security</h2>
-
-                    <div class="space-y-8 animate__animated animate__fadeIn">
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Data Collection</h3>
-                            <p class="text-neutral-600 mb-4">We collect and process the following types of information:
-                            </p>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-2">
-                                <li>User account information</li>
-                                <li>Inventory data and records</li>
-                                <li>System usage statistics</li>
-                                <li>Transaction history</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Data Protection</h3>
-                            <p class="text-neutral-600 mb-4">We implement various security measures including:</p>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-2">
-                                <li>End-to-end encryption</li>
-                                <li>Regular security audits</li>
-                                <li>Secure data backup systems</li>
-                                <li>Access control mechanisms</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Data Usage</h3>
-                            <div class="space-y-4">
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-blue-600 font-semibold">1</span>
-                                    </div>
-                                    <p class="text-neutral-600">Your data will only be used for the purpose of providing
-                                        and improving our inventory management services.</p>
-                                </div>
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-blue-600 font-semibold">2</span>
-                                    </div>
-                                    <p class="text-neutral-600">We do not sell or share your data with third parties
-                                        without your explicit consent.</p>
-                                </div>
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-blue-600 font-semibold">3</span>
-                                    </div>
-                                    <p class="text-neutral-600">Analytics data may be collected to improve system
-                                        performance and user experience.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-neutral-800 text-white p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold mb-4">Data Retention</h3>
-                            <p class="mb-4">We retain your data for as long as:</p>
-                            <ul class="space-y-2">
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Your account remains active
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Required by law
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    Necessary for business purposes
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="e015d169-fcfd-486b-be28-d78a4f3ae2f4" data-section-id="e015d169-fcfd-486b-be28-d78a4f3ae2f4">
-
-
-    <div id="root">
-        <section id="systemUsage" class="bg-white py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold text-neutral-800 mb-8 animate__animated animate__fadeIn">System Usage
-                        Guidelines</h2>
-
-                    <div class="space-y-8 animate__animated animate__fadeIn">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="bg-neutral-50 p-6 rounded-lg">
-                                <h3 class="text-xl font-semibold text-neutral-800 mb-4 flex items-center gap-2">
-                                    <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    Acceptable Use
-                                </h3>
-                                <ul class="space-y-3 text-neutral-600">
-                                    <li class="flex items-start gap-2">
-                                        <span class="text-green-500">✓</span>
-                                        Maintaining accurate inventory records
-                                    </li>
-                                    <li class="flex items-start gap-2">
-                                        <span class="text-green-500">✓</span>
-                                        Regular data backups
-                                    </li>
-                                    <li class="flex items-start gap-2">
-                                        <span class="text-green-500">✓</span>
-                                        Proper user authentication
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="bg-neutral-50 p-6 rounded-lg">
-                                <h3 class="text-xl font-semibold text-neutral-800 mb-4 flex items-center gap-2">
-                                    <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                    Prohibited Use
-                                </h3>
-                                <ul class="space-y-3 text-neutral-600">
-                                    <li class="flex items-start gap-2">
-                                        <span class="text-red-500">✕</span>
-                                        Unauthorized data modification
-                                    </li>
-                                    <li class="flex items-start gap-2">
-                                        <span class="text-red-500">✕</span>
-                                        Sharing login credentials
-                                    </li>
-                                    <li class="flex items-start gap-2">
-                                        <span class="text-red-500">✕</span>
-                                        System manipulation
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="bg-neutral-800 p-6 rounded-lg text-white">
-                            <h3 class="text-xl font-semibold mb-4">Usage Limitations</h3>
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                                        <span class="font-semibold">1</span>
-                                    </div>
-                                    <p>Maximum storage capacity as per subscription plan</p>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                                        <span class="font-semibold">2</span>
-                                    </div>
-                                    <p>Concurrent user access limits</p>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                                        <span class="font-semibold">3</span>
-                                    </div>
-                                    <p>API request rate limits</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="border-l-4 border-blue-500 pl-6">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">System Maintenance</h3>
-                            <p class="text-neutral-600 mb-4">
-                                We reserve the right to perform system maintenance at scheduled intervals. Users will be
-                                notified of:
-                            </p>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-2">
-                                <li>Scheduled maintenance windows</li>
-                                <li>Emergency system updates</li>
-                                <li>Service interruptions</li>
-                                <li>System upgrades</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="bae792ed-056d-4401-945c-ed44c7fcac6a" data-section-id="bae792ed-056d-4401-945c-ed44c7fcac6a">
-
-
-    <div id="root">
-        <section id="liability" class="bg-neutral-50 py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold text-neutral-800 mb-8 animate__animated animate__fadeIn">Limitation of
-                        Liability</h2>
-
-                    <div class="space-y-8 animate__animated animate__fadeIn">
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Disclaimer of Warranties</h3>
-                            <p class="text-neutral-600 mb-4">
-                                THE INVENTORY MANAGEMENT SYSTEM IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY
-                                WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
-                            </p>
-                            <ul class="list-disc list-inside text-neutral-600 space-y-2">
-                                <li>Merchantability</li>
-                                <li>Fitness for a particular purpose</li>
-                                <li>Non-infringement</li>
-                                <li>Uninterrupted service</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-red-50 p-6 rounded-lg border border-red-200">
-                            <h3 class="text-xl font-semibold text-red-800 mb-4">Limitation of Damages</h3>
-                            <p class="text-neutral-700 mb-4">
-                                In no event shall we be liable for any:
-                            </p>
-                            <ul class="space-y-3">
-                                <li class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
-                                    <span class="text-neutral-700">Direct, indirect, incidental, special, or
-                                        consequential damages</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
-                                    <span class="text-neutral-700">Loss of profits, revenue, data, or business
-                                        opportunities</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
-                                    <span class="text-neutral-700">Damages resulting from system interruptions or
-                                        failures</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-neutral-800 text-white p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold mb-4">User Acknowledgment</h3>
-                            <p class="mb-4">
-                                By using our system, you acknowledge and agree that:
-                            </p>
-                            <div class="space-y-4">
-                                <div class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <p>You assume full responsibility for your use of the system</p>
-                                </div>
-                                <div class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <p>You accept all risks associated with system usage</p>
-                                </div>
-                                <div class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <p>You will maintain appropriate data backups</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="b3cca6df-54ec-4e09-b740-1da0b178d285" data-section-id="b3cca6df-54ec-4e09-b740-1da0b178d285">
-
-
-    <div id="root">
-        <section id="termination" class="bg-white py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold text-neutral-800 mb-8 animate__animated animate__fadeIn">Termination
-                        of Service</h2>
-
-                    <div class="space-y-8 animate__animated animate__fadeIn">
-                        <div class="bg-neutral-50 p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Grounds for Termination</h3>
-                            <div class="space-y-4">
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-neutral-800">Violation of Terms</h4>
-                                        <p class="text-neutral-600">Repeated or serious violations of these terms and
-                                            conditions</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-neutral-800">Non-Payment</h4>
-                                        <p class="text-neutral-600">Failure to pay fees or charges when due</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-neutral-800">Unauthorized Use</h4>
-                                        <p class="text-neutral-600">Any unauthorized or fraudulent system usage</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="border-l-4 border-blue-500 pl-6">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-4">Effects of Termination</h3>
-                            <ul class="space-y-3 text-neutral-600">
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Immediate cessation of access to the system
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Data retention period of 30 days
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Cancellation of all subscriptions
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-neutral-800 text-white p-6 rounded-lg">
-                            <h3 class="text-xl font-semibold mb-4">Post-Termination Obligations</h3>
-                            <ul class="space-y-4">
-                                <li class="flex items-start gap-3">
-                                    <span class="text-blue-400">01.</span>
-                                    <p>Cease all use of the system and related services</p>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <span class="text-blue-400">02.</span>
-                                    <p>Return or destroy any confidential information</p>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <span class="text-blue-400">03.</span>
-                                    <p>Settle any outstanding payments or fees</p>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <span class="text-blue-400">04.</span>
-                                    <p>Export any necessary data within the retention period</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="b302083e-54be-4001-8dde-29a70acf4bf6" data-section-id="b302083e-54be-4001-8dde-29a70acf4bf6">
-
-
-    <div id="root">
-        <section id="contactInfo" class="bg-neutral-50 py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-bold text-neutral-800 mb-8 animate__animated animate__fadeIn">Contact
-                        Information</h2>
-
-                    <div class="space-y-8 animate__animated animate__fadeIn">
-                        <div class="bg-white p-8 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold text-neutral-800 mb-6">Get in Touch</h3>
-
-                            <div class="grid md:grid-cols-2 gap-8">
-                                <div class="space-y-6">
-                                    <div class="flex items-start gap-4">
-                                        <div
-                                            class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-neutral-800">Email Support</h4>
-                                            <p class="text-neutral-600">support@imssystem.com</p>
-                                            <p class="text-sm text-neutral-500 mt-1">24/7 email support</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-start gap-4">
-                                        <div
-                                            class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-neutral-800">Phone Support</h4>
-                                            <p class="text-neutral-600">+1 (555) 123-4567</p>
-                                            <p class="text-sm text-neutral-500 mt-1">Mon-Fri: 9AM-6PM EST</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-6">
-                                    <div class="flex items-start gap-4">
-                                        <div
-                                            class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-neutral-800">Live Chat</h4>
-                                            <p class="text-neutral-600">Available in Dashboard</p>
-                                            <p class="text-sm text-neutral-500 mt-1">Business hours only</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-start gap-4">
-                                        <div
-                                            class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-neutral-800">Documentation</h4>
-                                            <p class="text-neutral-600">help.imssystem.com</p>
-                                            <p class="text-sm text-neutral-500 mt-1">Technical guides & FAQs</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-neutral-800 text-white p-6 rounded-lg text-center">
-                            <h3 class="text-xl font-semibold mb-4">Need Immediate Assistance?</h3>
-                            <p class="mb-6">Our support team is ready to help you with any questions about these terms
-                            </p>
-                            <button
-                                class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg transition duration-300">
-                                Contact Support
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</element>
-<element id="b9c75f87-f667-47e4-ab4b-0aca6ad50cbb" data-section-id="b9c75f87-f667-47e4-ab4b-0aca6ad50cbb">
-
-
-    <div id="root">
-        <footer id="footer" class="bg-neutral-900 text-white py-12">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                        <div class="space-y-4">
-                            <h3 class="text-xl font-bold mb-4">IMS System</h3>
-                            <p class="text-neutral-400 text-sm">
-                                Professional inventory management solutions for businesses of all sizes.
-                            </p>
-                        </div>
-
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-semibold mb-4">Legal</h3>
-                            <ul class="space-y-2">
-                                <li>
-                                    <a href="/terms"
-                                        class="text-neutral-400 hover:text-white transition duration-300">Terms &amp;
-                                        Conditions</a>
-                                </li>
-                                <li>
-                                    <a href="/privacy"
-                                        class="text-neutral-400 hover:text-white transition duration-300">Privacy
-                                        Policy</a>
-                                </li>
-                                <li>
-                                    <a href="/contact" class="text-neutral-400 hover:text-blue-400 transition duration-300">Contact Us</a>
-                                </li>
-                                <li>
-                                    <a href="/help"
-                                    <a href="/help"
-                                        class="text-neutral-400 hover:text-blue-500 transition duration-300">Help
-                                        Center</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-semibold mb-4">Contact</h3>
-                            <ul class="space-y-2 text-neutral-400">
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                    support@imssystem.com
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                    </svg>
-                                    +1 (555) 123-4567
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
-                            <div class="flex space-x-4">
-                                <a href="#" class="text-neutral-400 hover:text-white transition duration-300">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                                    </svg>
-                                </a>
-                                <a href="#" class="text-neutral-400 hover:text-white transition duration-300">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                                    </svg>
-                                </a>
-                                <a href="#" class="text-neutral-400 hover:text-white transition duration-300">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-neutral-800 pt-8">
-                        <div class="flex flex-col md:flex-row justify-between items-center">
-                            <p class="text-neutral-400 text-sm">
-                                ©️ 2024 IMS System. All rights reserved.
-                            </p>
-                            <div class="flex space-x-6 mt-4 md:mt-0">
-                                <a href="#"
-                                    class="text-neutral-400 hover:text-white text-sm transition duration-300">Privacy
-                                    Policy</a>
-                                <a href="#"
-                                    class="text-neutral-400 hover:text-white text-sm transition duration-300">Terms of
-                                    Service</a>
-                                <a href="#"
-                                    class="text-neutral-400 hover:text-white text-sm transition duration-300">Cookie
-                                    Policy</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-</element>
-<div id="page_complete">
-    <script>
-        console.log('Page complete');
-    </script>
-    </body>
-
-    </html>

@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -199,6 +199,131 @@
             background: #dc3545;
             color: white;
         }
+        /* Add these media queries after your existing styles */
+
+/* For tablets and smaller desktops */
+@media screen and (max-width: 1024px) {
+    .summary-stats {
+        flex-wrap: wrap;
+    }
+    
+    .stat-card {
+        min-width: calc(50% - 1rem);
+        flex: 1 1 calc(50% - 1rem);
+    }
+    
+    .search-container {
+        width: 200px;
+    }
+}
+
+/* For mobile devices */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    .search-container {
+        order: 2;
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+    
+    .org-selector {
+        order: 1;
+        margin-right: auto;
+    }
+    
+    .icon-button, .new-button {
+        order: 3;
+    }
+    
+    .summary-stats {
+        flex-direction: column;
+    }
+    
+    .stat-card {
+        width: 100%;
+    }
+    
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .view-toggle {
+        margin-left: auto;
+    }
+    
+    /* Make table responsive */
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 800px; /* Ensure minimum width for scrolling */
+    }
+    
+    /* Stack form fields in modal */
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .modal-content {
+        padding: 1rem;
+    }
+}
+
+/* For very small devices */
+@media screen and (max-width: 480px) {
+    .name-cell {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .item-image {
+        margin-bottom: 0.5rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .action-button {
+        width: 100%;
+    }
+    
+    .header > div {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .new-button {
+        margin-right: 0;
+    }
+}
+
+/* Improve modal responsiveness */
+@media screen and (max-width: 576px) {
+    .modal-dialog {
+        margin: 0;
+        max-width: 100%;
+        min-height: 100vh;
+    }
+    
+    .modal-content {
+        border-radius: 0;
+        min-height: 100vh;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+}
     </style>
 </head>
 <body>

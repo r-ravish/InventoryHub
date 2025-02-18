@@ -398,6 +398,191 @@
         .sidebar::-webkit-scrollbar-thumb:hover {
             background: #718096;
         } */
+
+
+        /* Base Layout */
+.app-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Large Screens (default) */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+}
+
+.main-content {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+}
+
+/* Extra Large Screens */
+@media screen and (min-width: 1440px) {
+    .cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        padding: 24px;
+    }
+}
+
+/* Large Laptops */
+@media screen and (max-width: 1200px) {
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 20px;
+    }
+}
+
+/* Tablets and Small Laptops */
+@media screen and (max-width: 1024px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 16px;
+    }
+}
+
+/* Tablets */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        transform: translateX(-100%);
+        transition: all 0.3s ease;
+    }
+
+    .sidebar.open {
+        width: 260px;
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .header {
+        padding: 12px;
+    }
+
+    .header-left {
+        width: 100%;
+    }
+
+    .search-container {
+        max-width: 300px;
+    }
+
+    .header-right {
+        gap: 8px;
+    }
+
+    .icon-button {
+        padding: 8px;
+    }
+}
+
+/* Large Mobile */
+@media screen and (max-width: 576px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 12px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .header-left, .header-right {
+        width: 100%;
+    }
+
+    .search-container {
+        max-width: 100%;
+    }
+
+    .header-right {
+        justify-content: space-between;
+    }
+
+    .page-header {
+        padding: 16px 12px;
+    }
+
+    .card {
+        margin: 0;
+    }
+
+    .card-content {
+        padding: 16px;
+    }
+}
+
+/* Small Mobile */
+@media screen and (max-width: 375px) {
+    .header {
+        padding: 8px;
+    }
+
+    .icon-button {
+        padding: 6px;
+    }
+
+    .card-content {
+        padding: 12px;
+    }
+
+    .card-content h2 {
+        font-size: 18px;
+    }
+
+    .card-content p {
+        font-size: 14px;
+    }
+
+    .button.primary {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Handle sidebar toggle functionality */
+@media screen and (max-width: 768px) {
+    .app-container {
+        position: relative;
+    }
+
+    .sidebar {
+        position: fixed;
+        z-index: 1000;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-content {
+        transition: margin-left 0.3s ease;
+    }
+
+    .main-content.sidebar-open {
+        margin-left: 260px;
+    }
+}
+
+/* Improve touch targets on mobile */
+@media (hover: none) and (pointer: coarse) {
+    .nav-item {
+        padding: 16px 20px;
+    }
+
+    .icon-button {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
     </style>
 </head>
 
@@ -631,6 +816,27 @@
                 }
             }
         });
+
+        // Add this to your existing script
+const menuToggle = document.querySelector('.icon-button:last-child');
+const sidebar = document.querySelector('.sidebar');
+const mainContent = document.querySelector('.main-content');
+
+menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    mainContent.classList.toggle('sidebar-open');
+});
+
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768 && 
+        !sidebar.contains(e.target) && 
+        !menuToggle.contains(e.target) && 
+        sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        mainContent.classList.remove('sidebar-open');
+    }
+});
     </script>
 </body>
 

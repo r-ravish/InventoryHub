@@ -5,6 +5,7 @@ from sqlalchemy import func, case
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -54,6 +55,27 @@ class Item(db.Model):
     quantity_in_hand = db.Column(db.Integer, default=0)
     quantity_to_receive = db.Column(db.Integer, default=0)
     reorder_point = db.Column(db.Integer, default=10)
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), nullable=False)  # 'goods' or 'service'
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+    returnable = db.Column(db.Boolean, default=False)
+    unit = db.Column(db.String(50), nullable=False)
+    manufacturer = db.Column(db.String(100))
+    brand = db.Column(db.String(100))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    # For storing attributes and options
+    attributes = db.relationship('GroupAttribute', backref='group', cascade='all, delete-orphan')
+
+class GroupAttribute(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+    attribute_name = db.Column(db.String(100), nullable=False)
+    options = db.Column(db.Text, nullable=False)  # Store as comma-separated values
 
 def admin_required(f):
     @wraps(f)
@@ -144,68 +166,6 @@ def home():
 def about():
     return render_template("about_us.html")
 
-# @app.route('/dashboard')
-# @login_required
-# def dashboard():
-#     flash(f"Welcome to your dashboard, {current_user.username}!", "info")
-    
-#     total_items = Item.query.count()
-#     total_inventory_value = db.session.query(
-#         func.sum(case((Item.cost_price.isnot(None), 
-#                       Item.quantity_in_hand * Item.cost_price), else_=0))
-#     ).scalar() or 0
-    
-#     avg_item_value = total_inventory_value / total_items if total_items > 0 else 0
-#     low_stock_items = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
-#     out_of_stock_items = Item.query.filter(Item.quantity_in_hand == 0).count()
-#     items_to_receive = Item.query.filter(Item.quantity_to_receive > 0).count()
-#     high_value_items = Item.query.filter(Item.cost_price.isnot(None), 
-#                                        Item.cost_price > 1000).count()
-#     returnable_items = Item.query.filter_by(returnable=True).count()
-#     non_returnable_items = Item.query.filter_by(returnable=False).count()
-    
-#     top_value_items = Item.query.filter(Item.cost_price.isnot(None))\
-#         .order_by(Item.cost_price.desc()).limit(5).all()
-    
-#     tax_distribution = db.session.query(
-#         case((Item.tax_rate.is_(None), 0), else_=Item.tax_rate).label('tax_rate'),
-#         func.count(Item.id).label('count')
-#     ).group_by(case((Item.tax_rate.is_(None), 0), else_=Item.tax_rate)).all()
-    
-#     items_with_margins = Item.query.filter(
-#         Item.selling_price.isnot(None),
-#         Item.cost_price.isnot(None),
-#         Item.cost_price > 0
-#     ).all()
-    
-#     margin_data = []
-#     for item in items_with_margins:
-#         margin = ((item.selling_price - item.cost_price) / item.cost_price * 100)
-#         margin_data.append({
-#             'name': item.name,
-#             'margin': round(margin, 2)
-#         })
-    
-#     margin_data.sort(key=lambda x: x['margin'], reverse=True)
-#     top_margin_items = margin_data[:5]
-
-#     return render_template(
-#         "dashboard.html",
-#         total_items=total_items,
-#         total_inventory_value=total_inventory_value,
-#         avg_item_value=avg_item_value,
-#         low_stock_items=low_stock_items,
-#         out_of_stock_items=out_of_stock_items,
-#         items_to_receive=items_to_receive,
-#         high_value_items=high_value_items,
-#         returnable_items=returnable_items,
-#         non_returnable_items=non_returnable_items,
-#         top_value_items=top_value_items,
-#         tax_distribution=tax_distribution,
-#         top_margin_items=top_margin_items,
-#         show_sidebar=True
-#     )
-
 
 @app.route('/dashboard')
 @login_required
@@ -227,41 +187,73 @@ def dashboard():
                                        Item.cost_price > 1000).count()
     returnable_items = Item.query.filter_by(returnable=True).count()
     non_returnable_items = Item.query.filter_by(returnable=False).count()
+
+    # New Group-related queries
+    total_groups = Group.query.count()
+    goods_groups = Group.query.filter_by(type='goods').count()
+    service_groups = Group.query.filter_by(type='service').count()
+    returnable_groups = Group.query.filter_by(returnable=True).count()
     
-    # New queries
-    # Most stocked items
-    most_stocked_items = Item.query.order_by(Item.quantity_in_hand.desc()).limit(5).all()
+    # Recently created groups
+    recent_groups = Group.query.order_by(Group.created_at.desc()).limit(5).all()
     
-    # Items needing reorder (stock below reorder point)
-    reorder_needed_items = Item.query.filter(
-        Item.quantity_in_hand <= Item.reorder_point
-    ).order_by(Item.quantity_in_hand.asc()).limit(5).all()
+    # Groups by manufacturer
+    manufacturer_distribution = db.session.query(
+        Group.manufacturer,
+        func.count(Group.id).label('count')
+    ).group_by(Group.manufacturer).all()
     
-    # Items by unit distribution
+    # Groups by unit
     unit_distribution = db.session.query(
-        Item.unit,
-        func.count(Item.id).label('count')
-    ).group_by(Item.unit).all()
+        Group.unit,
+        func.count(Group.id).label('count')
+    ).group_by(Group.unit).all()
     
-    # Price range distribution
-    price_ranges = [
-        (0, 100, '0-100'),
-        (101, 500, '101-500'),
-        (501, 1000, '501-1000'),
-        (1001, float('inf'), '1000+')
-    ]
+    # Groups with most attributes
+    groups_with_attributes = db.session.query(
+        Group,
+        func.count(GroupAttribute.id).label('attribute_count')
+    ).join(GroupAttribute).group_by(Group.id)\
+    .order_by(func.count(GroupAttribute.id).desc())\
+    .limit(5).all()
     
-    price_distribution = []
-    for min_price, max_price, label in price_ranges:
-        count = Item.query.filter(
-            Item.selling_price >= min_price,
-            Item.selling_price <= max_price if max_price != float('inf') else Item.selling_price > min_price
-        ).count()
-        price_distribution.append({'range': label, 'count': count})
+    # Brand distribution
+    brand_distribution = db.session.query(
+        Group.brand,
+        func.count(Group.id).label('count')
+    ).filter(Group.brand.isnot(None))\
+    .group_by(Group.brand)\
+    .order_by(func.count(Group.id).desc())\
+    .limit(5).all()
+
+    # Get the sort parameter from URL
+    sort_by = request.args.get('sort', 'created_at')
+    sort_order = request.args.get('order', 'desc')
     
-    # Items with highest tax rates
-    high_tax_items = Item.query.filter(Item.tax_rate.isnot(None))\
-        .order_by(Item.tax_rate.desc()).limit(5).all()
+    # Base query for groups
+    groups_query = Group.query
+    
+    # Apply filters if provided
+    type_filter = request.args.get('type')
+    if type_filter:
+        groups_query = groups_query.filter(Group.type == type_filter)
+        
+    returnable_filter = request.args.get('returnable')
+    if returnable_filter:
+        groups_query = groups_query.filter(Group.returnable == (returnable_filter == 'true'))
+        
+    manufacturer_filter = request.args.get('manufacturer')
+    if manufacturer_filter:
+        groups_query = groups_query.filter(Group.manufacturer == manufacturer_filter)
+    
+    # Apply sorting
+    if sort_by == 'name':
+        groups_query = groups_query.order_by(Group.name.desc() if sort_order == 'desc' else Group.name)
+    elif sort_by == 'created_at':
+        groups_query = groups_query.order_by(Group.created_at.desc() if sort_order == 'desc' else Group.created_at)
+    
+    # Execute the query
+    filtered_groups = groups_query.all()
     
     return render_template(
         "dashboard.html",
@@ -274,11 +266,17 @@ def dashboard():
         high_value_items=high_value_items,
         returnable_items=returnable_items,
         non_returnable_items=non_returnable_items,
-        most_stocked_items=most_stocked_items,
-        reorder_needed_items=reorder_needed_items,
+        # New group-related variables
+        total_groups=total_groups,
+        goods_groups=goods_groups,
+        service_groups=service_groups,
+        returnable_groups=returnable_groups,
+        recent_groups=recent_groups,
+        manufacturer_distribution=manufacturer_distribution,
         unit_distribution=unit_distribution,
-        price_distribution=price_distribution,
-        high_tax_items=high_tax_items,
+        groups_with_attributes=groups_with_attributes,
+        brand_distribution=brand_distribution,
+        filtered_groups=filtered_groups,
         show_sidebar=True
     )
 
@@ -409,6 +407,99 @@ def update_item(item_id):
     db.session.commit()
     flash(f"Item '{item.name}' has been updated successfully!", "success")
     return redirect(url_for('item_list'))
+
+
+
+# @app.route('/groups', methods=['GET', 'POST'])
+# @login_required
+# def groups():
+#     if request.method == 'POST':
+#         new_group = Group(
+#             type=request.form.get('type'),
+#             name=request.form.get('itemGroupName'),
+#             description=request.form.get('description'),
+#             returnable='returnable' in request.form,
+#             unit=request.form.get('unit'),
+#             manufacturer=request.form.get('manufacturer'),
+#             brand=request.form.get('brand'),
+#             created_by=current_user.id
+#         )
+        
+#         db.session.add(new_group)
+#         db.session.flush()  
+        
+
+#         if 'createAttributes' in request.form:
+#             attributes = request.form.getlist('attribute[]')
+#             options = request.form.getlist('options[]')
+            
+#             for attr, opt in zip(attributes, options):
+#                 if attr and opt:  
+#                     group_attr = GroupAttribute(
+#                         group_id=new_group.id,
+#                         attribute_name=attr,
+#                         options=opt
+#                     )
+#                     db.session.add(group_attr)
+        
+#         if 'images[]' in request.files:
+#             files = request.files.getlist('images[]')
+        
+#         # db.session.commit()
+#         # return redirect(url_for('groups'))
+#         db.session.commit()
+#         flash(f"Item group '{request.form.get('itemGroupName')}' has been added successfully!", "success")
+#         return redirect(url_for('inventory'))  # Redirect to inventory.html
+    
+#     return render_template('group_form.html', show_sidebar=True)
+
+
+@app.route('/groups', methods=['GET', 'POST'])
+@login_required
+def groups():
+    if request.method == 'POST':
+        try:
+            new_group = Group(
+                type=request.form.get('type'),
+                name=request.form.get('itemGroupName'),
+                description=request.form.get('description'),
+                returnable='returnable' in request.form,
+                unit=request.form.get('unit'),
+                manufacturer=request.form.get('manufacturer'),
+                brand=request.form.get('brand'),
+                created_by=current_user.id
+            )
+            
+            db.session.add(new_group)
+            db.session.flush()  
+            
+            if 'createAttributes' in request.form:
+                attributes = request.form.getlist('attribute[]')
+                options = request.form.getlist('options[]')
+                
+                for attr, opt in zip(attributes, options):
+                    if attr and opt:  
+                        group_attr = GroupAttribute(
+                            group_id=new_group.id,
+                            attribute_name=attr,
+                            options=opt
+                        )
+                        db.session.add(group_attr)
+            
+            if 'images[]' in request.files:
+                files = request.files.getlist('images[]')
+                # File handling logic here if needed
+            
+            db.session.commit()
+            flash(f"Item group '{request.form.get('itemGroupName')}' has been added successfully!", "success")
+            return redirect(url_for('inventory'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error adding item group: {str(e)}", "error")
+            return render_template('group_form.html', show_sidebar=True)
+    
+    return render_template('group_form.html', show_sidebar=True)
+
 
 with app.app_context():
     db.create_all()

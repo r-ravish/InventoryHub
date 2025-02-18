@@ -284,6 +284,178 @@
                 transform: translateX(0);
             }
         }
+
+
+
+
+
+        /* check  */
+
+    :root {
+        --primary-color: #1f5bff;
+        --primary-light: #2950fa;
+        --primary-dark: #0039cb;
+        --secondary-color: #ff0000;
+        --text-primary: #2c3345;
+        --text-secondary: #6b7280;
+        --bg-primary: #f8fafc;
+        --bg-secondary: #ffffff;
+        --border-color: #e5e7eb;
+        --sidebar-width: 240px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: var(--sidebar-width);
+        height: 100vh;
+        background: var(--bg-secondary);
+        border-right: 1px solid var(--border-color);
+        position: fixed;
+        left: 0;
+        top: 0;
+        padding: 2rem 0;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.hide {
+        transform: translateX(-100%);
+    }
+
+    .sidebar-header {
+        padding: 0 1.5rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Sidebar Toggle Button */
+    .sidebar-toggle {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    .main-content {
+        flex: 1;
+        margin-left: var(--sidebar-width);
+        padding: 2rem;
+        max-width: calc(100% - var(--sidebar-width));
+        transition: margin-left 0.3s ease-in-out;
+    }
+
+    /* When Sidebar is Hidden */
+    .main-content.full {
+        margin-left: 0;
+        max-width: 100%;
+    }
+
+    /* Profile Sections */
+    .profile-section {
+        background: var(--bg-secondary);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-list li {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+        .sidebar-toggle {
+            display: block;
+        }
+
+        .main-content {
+            margin-left: 0;
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 220px;
+        }
+
+        .sidebar-toggle {
+            font-size: 14px;
+            padding: 0.5rem;
+        }
+
+        .main-content {
+            padding: 1.5rem;
+        }
+
+        .profile-list li {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .sidebar {
+            width: 200px;
+        }
+
+        .main-content {
+            padding: 1rem;
+        }
+
+        .profile-section {
+            padding: 1rem;
+        }
+
+        .profile-list li {
+            font-size: 14px;
+        }
+
+        .edit-btn {
+            font-size: 12px;
+            padding: 0.4rem 0.8rem;
+        }
+
+        .sidebar-toggle {
+            font-size: 12px;
+            padding: 0.3rem 0.7rem;
+        }
+    }
+
+
     </style>
 </head>
 <body>
@@ -458,6 +630,26 @@
                 e.preventDefault();
             }
         });
+
+
+
+
+        // check
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.querySelector('.sidebar');
+        const toggleButton = document.createElement('button');
+        toggleButton.classList.add('sidebar-toggle');
+        toggleButton.innerText = "☰ Menu";
+        document.body.appendChild(toggleButton);
+
+        toggleButton.addEventListener('click', function() {
+            sidebar.classList.toggle('show');
+        });
+    });
+
+
     </script>
 </body>
 </html>

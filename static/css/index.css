@@ -1144,16 +1144,339 @@ body {
         display: none;
     }
 }
+/* Base styles (already in your index.css) */
 
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+/* General Media Queries */
+@media (max-width: 1200px) {
+    .container, .nav-container {
+      max-width: 960px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .dashboard-container {
+      padding: 0 15px;
     }
-}
+    
+    .features-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .pricing-container {
+      max-width: 960px;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .container, .nav-container {
+      max-width: 720px;
+    }
+    
+    .nav-items {
+      gap: 15px;
+    }
+    
+    .heading {
+      font-size: 36px;
+    }
+    
+    .head-description {
+      font-size: 16px;
+    }
+    
+    .dashboard {
+      grid-template-columns: 200px 1fr;
+    }
+    
+    .pricing-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    
+    .pricing-card:nth-child(4), .pricing-card:nth-child(5) {
+      grid-column: span 3;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .container, .nav-container {
+      max-width: 540px;
+      padding: 0 15px;
+    }
+    
+    /* Navbar adjustments */
+    .navbar {
+      position: relative;
+    }
+    
+    .nav-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .nav-items {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+      padding: 15px;
+    }
+    
+    .nav-items.active {
+      display: flex;
+    }
+    
+    .nav-item {
+      width: 100%;
+      margin: 8px 0;
+    }
+    
+    /* Add a mobile menu toggle button */
+    .mobile-menu-toggle {
+      display: block;
+      position: absolute;
+      right: 15px;
+      top: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    /* Dropdown adjustments */
+    .dropdown {
+      position: static;
+      width: 100%;
+      display: none;
+      flex-direction: column;
+      box-shadow: none;
+      padding: 10px 0 10px 15px;
+    }
+    
+    .nav-item:hover .dropdown {
+      display: flex;
+    }
+    
+    .dropdown-section {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    /* Hero section adjustments */
+    .hero {
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .heading {
+      font-size: 30px;
+    }
+    
+    .button-group {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .button {
+      width: 100%;
+    }
+    
+    /* Dashboard adjustments */
+    .dashboard {
+      grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+      display: none;
+    }
+    
+    .sidebar.active {
+      display: block;
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 250px;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    /* Features section */
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .feature-card {
+      max-width: 100%;
+    }
+    
+    /* Integrations section */
+    .integrations-list {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .integration-item {
+      flex: 0 0 calc(33.33% - 20px);
+      margin-bottom: 20px;
+    }
+    
+    /* Pricing section */
+    .pricing-container {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    
+    .pricing-card {
+      max-width: 100%;
+    }
+    
+    .img1 {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .heading {
+      font-size: 24px;
+    }
+    
+    .head-description {
+      font-size: 14px;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .integration-item {
+      flex: 0 0 calc(50% - 20px);
+    }
+    
+    .block-p p {
+      font-size: 20px;
+    }
+    
+    .foot-container .img-sign-up {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .pricing-header h2 {
+      font-size: 24px;
+    }
+    
+    .pricing-card .price .amount {
+      font-size: 32px;
+    }
+    
+    .e-invoicing img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  
+  /* Add mobile menu toggle functionality with JavaScript */
 
+  /* Mobile menu toggle button */
+.mobile-menu-toggle {
+    display: none; /* Hidden by default, shown in media query */
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 5px;
+  }
+  
+  @media (max-width: 768px) {
+    .mobile-menu-toggle {
+      display: block;
+      position: absolute;
+      right: 15px;
+      top: 20px;
+    }
+    
+    .nav-container {
+      position: relative;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    
+    /* Ensure the logo is properly positioned on mobile */
+    .logo {
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    
+    /* Sidebar toggle button */
+    .sidebar-toggle {
+      display: block;
+      margin-bottom: 15px;
+      padding: 8px 15px;
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    /* Ensure proper positioning for sidebar */
+    .content {
+      position: relative;
+    }
+    
+    /* Animation for mobile menu */
+    .nav-items {
+      transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    
+    .nav-items.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    /* Better styles for dropdown on mobile */
+    .nav-item {
+      position: relative;
+    }
+    
+    .nav-item .nav-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-item .nav-link::after {
+      content: '▼';
+      font-size: 10px;
+      margin-left: 5px;
+    }
+    
+    /* Fix for hero section on mobile */
+    @media (max-width: 576px) {
+      .hero {
+        padding: 30px 15px;
+      }
+      
+      .img1 {
+        margin-top: 20px;
+      }
+      
+      /* Make sure dashboard content has proper padding */
+      .content {
+        padding: 15px;
+      }
+      
+      /* Fix for pricing cards */
+      .pricing-card {
+        padding: 20px 15px;
+      }
+    }
+  }

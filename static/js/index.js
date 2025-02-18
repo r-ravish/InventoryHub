@@ -181,3 +181,64 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(item);
     });
 });
+
+// Mobile menu toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navItems = document.getElementById('nav-items');
+    
+    if (mobileMenuToggle && navItems) {
+      mobileMenuToggle.addEventListener('click', function() {
+        navItems.classList.toggle('active');
+      });
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.nav-container') && navItems.classList.contains('active')) {
+        navItems.classList.remove('active');
+      }
+    });
+    
+    // Sidebar toggle functionality for mobile
+    const createSidebarToggle = function() {
+      if (window.innerWidth <= 768) {
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (sidebar) {
+          // Create toggle button if it doesn't exist
+          if (!document.getElementById('sidebar-toggle')) {
+            const sidebarToggle = document.createElement('button');
+            sidebarToggle.id = 'sidebar-toggle';
+            sidebarToggle.classList.add('sidebar-toggle');
+            sidebarToggle.innerHTML = '☰ Menu';
+            
+            const content = document.querySelector('.content');
+            if (content) {
+              content.prepend(sidebarToggle);
+              
+              sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+              });
+              
+              // Close sidebar when clicking outside
+              document.addEventListener('click', function(event) {
+                if (!event.target.closest('.sidebar') && 
+                    event.target !== sidebarToggle && 
+                    sidebar.classList.contains('active')) {
+                  sidebar.classList.remove('active');
+                }
+              });
+            }
+          }
+        }
+      }
+    };
+    
+    createSidebarToggle();
+    
+    // Recalculate on resize
+    window.addEventListener('resize', function() {
+      createSidebarToggle();
+    });
+  });

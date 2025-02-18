@@ -176,6 +176,65 @@
          /* .img-fluid mb-4{
             border-radius: 1.5rem;
          } */
+
+         @media screen and (max-width: 991px) {
+    .registration-container {
+        padding: 2rem 1rem;
+    }
+    
+    .registration-container .form-container {
+        width: 100%;
+        padding: 2rem;
+    }
+    
+    .registration-container .carousel-item {
+        min-height: auto;
+        padding: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .registration-container .row {
+        flex-direction: column;
+    }
+    
+    .registration-container .col-md-6 {
+        width: 100%;
+    }
+    
+    .registration-container .row.mb-3 {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .registration-container .row.mb-3 .col {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .registration-container .phone-input {
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .registration-container .form-container {
+        padding: 1.5rem;
+    }
+    
+    .registration-container .create-account-btn {
+        padding: 0.8rem;
+    }
+    
+    .registration-container .phone-select {
+        max-width: 65px;
+    }
+    
+    .registration-container .phone-input .input-icon {
+        left: 75px;
+    }
+}
+
     </style>
 </head>
 
