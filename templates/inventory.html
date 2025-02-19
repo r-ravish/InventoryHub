@@ -1,163 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="InvenTrack - Comprehensive inventory management software for Indian businesses with GST billing and warehouse management">
-    <title>InventoryHub-Inventory</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/inventory.css">
-
-</head>
-
-<body>
-    <div class="app-container">
-        <nav class="sidebar">
-           
-        </nav>
-
-
-        <main class="main-content">
-
-            <header class="header">
-                <div class="header-left">
-                    <div class="search-container">
-                        <img src="../static/images/search.png" alt="Search" width="16" height="16">
-                        <input type="text" placeholder="Search in Items ( / )">
-                    </div>
-                </div>
-
-                <div class="header-right">
-                    <button class="icon-button primary">
-                        <p style="transform: scale(2); color: white; font-weight: 200; margin-bottom: 3.2px;">+</p>
-                    </button>
-                    <button class="icon-button">
-                        <img src="../static/images/know_people.png" alt="Profile" width="20" height="20">
-                    </button>
-                    <button class="icon-button">
-                        <img src="../static/images/bell.png" alt="Notifications" width="20" height="20">
-                    </button>
-                    <button class="icon-button">
-                        <img src="../static/images/SETTINGS.png" alt="Settings" width="20" height="20">
-                    </button>
-                    <button class="icon-button">
-                        <img src="/placeholder.svg" alt="Menu" width="20" height="20">
-                    </button>
-                </div>
-            </header>
-
-
-            <div class="page-content">
-                <div class="page-header">
-                    <p>All Item Groups </p>
-                </div>
-
-
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-content">
-                            <h2>Item groups</h2>
-                            <img src="../static/images/t-shirt_group.png" alt="Item Groups" class="card-icon" width="64" height="64" style="width: 82px;">
-                            <p>Create multiple variants of the same item using Item Groups</p>
-                            <button class="button primary">New Item Group</button>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-content">
-                            <h2>Items</h2>
-                            <img src="../static/images/tshirt.png" alt="Items" class="card-icon" width="64" height="64" style="width: 80px;">
-                            <p>Create standalone items and services that you buy and sell</p>
-                            <a href="{{url_for('item_form')}}"><button class="button primary">New Item</button></a>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-content">
-                            <h2>Composite Items</h2>
-                            <img src="../static/images/composite.png" alt="Composite Items" class="card-icon" width="64" height="64" style="width: 82px;">
-                            <p>Bundle different items together and sell them as kits</p>
-                            <button class="button primary">New Composite Item</button>
-                        </div>
-                    </div>
-
-
-                    <div class="card">
-                        <div class="card-content">
-                            <h2>Price Lists</h2>
-                            <img src="../static/images/price_list.png" alt="Price Lists" class="card-icon" width="64" height="64">
-                            <p>Tweak your item prices for specific contacts or transactions</p>
-                            <button class="button primary">New Price List</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </main>
-    </div>
-    <script src="script.js"></script>
-</body>
-
-</html>
-<script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const navItems = document.querySelectorAll('.nav-item');
-
-        navItems.forEach(item => {
-            item.addEventListener('click', function (e) {
-                if (this.nextElementSibling && this.nextElementSibling.classList.contains('sub-items')) {
-                    e.preventDefault();
-                    this.nextElementSibling.style.display =
-                        this.nextElementSibling.style.display === 'none' ? 'flex' : 'none';
-                }
-            });
-        });
-
-
-        const itemGroupForm = document.querySelector('.item-group-form');
-        if (itemGroupForm) {
-            itemGroupForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                console.log('Form submitted');
-            });
-
-
-            const addAttributeBtn = document.querySelector('.button-link');
-            const attributesSection = document.querySelector('.attributes-section');
-
-            if (addAttributeBtn && attributesSection) {
-                addAttributeBtn.addEventListener('click', function () {
-                    const newRow = document.createElement('div');
-                    newRow.className = 'attribute-row';
-                    newRow.innerHTML = `
-                    <div class="form-section">
-                        <label class="form-label required">Attribute</label>
-                        <select class="form-select">
-                            <option>e.g: color</option>
-                        </select>
-                    </div>
-                    <div class="form-section">
-                        <label class="form-label required">Options</label>
-                        <input type="text" class="form-input">
-                    </div>
-                    <button class="icon-button delete">
-                        <img src="/placeholder.svg" alt="Delete" width="20" height="20">
-                    </button>
-                `;
-                    attributesSection.appendChild(newRow);
-                });
-            }
-        }
-    });
-</script> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -173,28 +13,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/inventory.css">
     <style>
-        /* Sidebar styles */
-        /* .sidebar {
-            width: 260px;
-            height: 100vh;
-            background-color: #181C2E;
-            color: #ffffff;
-            padding: 20px 0;
-            transition: all 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .sidebar-header {
-            padding: 0 20px;
-            margin-bottom: 20px;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        } */
-
-
-        /* Custom scrollbar */
+       
         .sidebar {
             width: 260px;
             height: 100vh;
@@ -208,7 +27,6 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Modern frosted glass effect on hover */
         .sidebar:hover {
             /* background-color: rgba(24, 28, 46, 0.95); */
             backdrop-filter: blur(15px);
@@ -381,23 +199,7 @@
             transform: rotate(180deg);
         }
 
-        /* Custom scrollbar */
-        /* .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: #1a1c23;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #4a5568;
-            border-radius: 3px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: #718096;
-        } */
+     
 
 
         /* Base Layout */
@@ -661,9 +463,7 @@
             </div>
         </nav>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
             <header class="header">
                 <div class="header-left">
                     <div class="search-container">
@@ -692,13 +492,11 @@
                 </div>
             </header>
 
-            <!-- Page Content -->
             <div class="page-content">
                 <div class="page-header">
                     <p>All Item Groups </p>
                 </div>
 
-                <!-- Cards Grid -->
                 <div class="cards-grid">
                     <div class="card">
                         <div class="card-content">
@@ -746,7 +544,6 @@
         </main>
     </div>
     <script>
-        // Toggle sidebar menu items
         document.addEventListener('DOMContentLoaded', function () {
             const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
 
@@ -756,7 +553,6 @@
                     const submenu = document.getElementById(submenuId);
                     const wasOpen = this.classList.contains('open');
 
-                    // Close all submenus
                     document.querySelectorAll('.submenu').forEach(sub => {
                         sub.classList.remove('open');
                     });
@@ -764,7 +560,6 @@
                         navItem.classList.remove('open');
                     });
 
-                    // Toggle current submenu
                     if (!wasOpen) {
                         submenu.classList.add('open');
                         this.classList.add('open');
@@ -772,7 +567,6 @@
                 });
             });
 
-            // Handle navigation item clicks
             const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
             navItems.forEach(item => {
                 item.addEventListener('click', function () {
@@ -783,16 +577,13 @@
                 });
             });
 
-            // Form handling for new item group
             const itemGroupForm = document.querySelector('.item-group-form');
             if (itemGroupForm) {
                 itemGroupForm.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    // Add form submission logic here
                     console.log('Form submitted');
                 });
 
-                // Add attribute button functionality
                 const addAttributeBtn = document.querySelector('.button-link');
                 const attributesSection = document.querySelector('.attributes-section');
 
@@ -821,7 +612,6 @@
             }
         });
 
-        // Add this to your existing script
 const menuToggle = document.querySelector('.icon-button:last-child');
 const sidebar = document.querySelector('.sidebar');
 const mainContent = document.querySelector('.main-content');
@@ -831,7 +621,6 @@ menuToggle.addEventListener('click', () => {
     mainContent.classList.toggle('sidebar-open');
 });
 
-// Close sidebar when clicking outside on mobile
 document.addEventListener('click', (e) => {
     if (window.innerWidth <= 768 && 
         !sidebar.contains(e.target) && 

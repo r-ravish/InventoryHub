@@ -99,7 +99,6 @@
             margin-top: 10px;
         }
 
-        /* New styles for sidebar and header */
         .app-container {
             display: flex;
             height: 100vh;
@@ -226,7 +225,6 @@
             justify-content: center;
         }
 
-        /* Simplified styles for the user management section */
 .dashboard-card {
     background: white;
     border-radius: 8px;
@@ -265,7 +263,6 @@
     border-radius: 4px;
 }
 
-/* Modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -406,7 +403,6 @@
             </header>
 
             <div class="container-fluid mt-4">
-                <!-- Statistics Row -->
                 <div class="row">
                     <div class="col-md-3">
                         <div class="stat-card" id="totalUsersCard">
@@ -434,8 +430,7 @@
                     </div>
                 </div>
 
-                <!-- Alerts and Activity Row -->
-                <!-- <div class="row mt-4"> -->
+
                 <div class="col-md-6" style="width: 100%;">
                     <div class="dashboard-card">
                         <h4>Stock Alerts
@@ -484,7 +479,6 @@
                     </div>
                 </div>
 
-                <!-- High Value Items -->
                 <div class="row mt-4">
                     <div class="col-md-12">
                         <div class="dashboard-card">
@@ -534,14 +528,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- User rows will be populated by JavaScript -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
-                <!-- Add User Form Modal -->
                 <div class="modal" id="addUserModal" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -586,12 +577,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Initialize charts when the page loads
         document.addEventListener('DOMContentLoaded', function () {
             initializeCharts();
             updateLastUpdateTime();
 
-            // Toggle sidebar menu items
             const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
 
             menuItems.forEach(item => {
@@ -600,7 +589,6 @@
                     const submenu = document.getElementById(submenuId);
                     const wasOpen = this.classList.contains('open');
 
-                    // Close all submenus
                     document.querySelectorAll('.submenu').forEach(sub => {
                         sub.classList.remove('open');
                     });
@@ -608,7 +596,6 @@
                         navItem.classList.remove('open');
                     });
 
-                    // Toggle current submenu
                     if (!wasOpen) {
                         submenu.classList.add('open');
                         this.classList.add('open');
@@ -616,7 +603,6 @@
                 });
             });
 
-            // Handle navigation item clicks
             const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
             navItems.forEach(item => {
                 item.addEventListener('click', function () {
@@ -660,7 +646,6 @@
             const alertsDiv = document.getElementById('stockAlerts');
             alertsDiv.classList.add('loading');
 
-            // Simulate refresh delay
             setTimeout(() => {
                 alertsDiv.classList.remove('loading');
                 updateLastUpdateTime();
@@ -671,7 +656,6 @@
             const activityTable = document.getElementById('recentActivityTable');
             activityTable.classList.add('loading');
 
-            // Simulate refresh delay
             setTimeout(() => {
                 activityTable.classList.remove('loading');
                 updateLastUpdateTime();
@@ -684,7 +668,6 @@
                 `Last updated: ${now.toLocaleString()}`;
         }
 
-        // Add hover effect to stat cards
         document.querySelectorAll('.stat-card').forEach(card => {
             card.addEventListener('mouseover', function () {
                 this.style.backgroundColor = '#f8f9fa';
@@ -695,7 +678,6 @@
             });
         });
 
-        // Simple JavaScript functions for user management
         function refreshUserTable() {
             fetch('/admin/users/manage')
                 .then(response => response.json())
@@ -772,7 +754,6 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        // Initialize the table when the page loads
         document.addEventListener('DOMContentLoaded', function () {
             refreshUserTable();
         });

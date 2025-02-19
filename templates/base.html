@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     {% block extra_css %}{% endblock %}
     <style>
-        /* Copy all styles from navbar.html, sidebar.html, and footer.html here */
         * {
             margin: 0;
             padding: 0;
@@ -440,9 +439,7 @@
 </head>
 <body>
     {% block navbar %}
-    <!-- Navbar code here -->
     <nav class="navbar">
-        <!-- Copy entire navbar content here -->
         <a href="#" class="logo">
             <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor">
                 <rect width="20" height="20" x="2" y="2" rx="2"/>
@@ -584,9 +581,7 @@
 
     <div class="main-container">
         {% block sidebar %}
-        <!-- Sidebar code here -->
         <div class="sidebar">
-            <!-- Copy entire sidebar content here -->
             <div class="sidebar-header">
                 <i class="fas fa-boxes"></i>
                 <span>Inventory</span>
@@ -657,14 +652,11 @@
         <div class="content-wrapper">
             <main class="main-content">
                 {% block content %}
-                <!-- Page-specific content will go here -->
                 {% endblock %}
             </main>
 
             {% block footer %}
-            <!-- Footer code here -->
             <footer class="footer">
-                <!-- Copy entire footer content here -->
                 <div class="container">
                     <div class="grid">
                         <div class="section">
@@ -758,7 +750,6 @@
                     const submenu = document.getElementById(submenuId);
                     const wasOpen = this.classList.contains('open');
                     
-                    // Close all submenus
                     document.querySelectorAll('.submenu').forEach(sub => {
                         sub.classList.remove('open');
                     });
@@ -766,7 +757,6 @@
                         navItem.classList.remove('open');
                     });
                     
-                    // Toggle current submenu
                     if (!wasOpen) {
                         submenu.classList.add('open');
                         this.classList.add('open');
@@ -774,7 +764,6 @@
                 });
             });
 
-            // Handle navigation item clicks
             const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {

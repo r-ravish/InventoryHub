@@ -181,7 +181,6 @@
                     const submenu = document.getElementById(submenuId);
                     const wasOpen = this.classList.contains('open');
                     
-                    // Close all submenus
                     document.querySelectorAll('.submenu').forEach(sub => {
                         sub.classList.remove('open');
                     });
@@ -189,7 +188,6 @@
                         navItem.classList.remove('open');
                     });
                     
-                    // Toggle current submenu
                     if (!wasOpen) {
                         submenu.classList.add('open');
                         this.classList.add('open');
@@ -197,7 +195,6 @@
                 });
             });
 
-            // Handle navigation item clicks
             const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {

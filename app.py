@@ -14,7 +14,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["SECRET_KEY"] = "my secret key"
 db = SQLAlchemy(app)
 
-# Updated Login Manager Configuration
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "loginFunction"
@@ -59,7 +58,7 @@ class Item(db.Model):
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(50), nullable=False)  # 'goods' or 'service'
+    type = db.Column(db.String(50), nullable=False)  
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     returnable = db.Column(db.Boolean, default=False)
@@ -69,14 +68,13 @@ class Group(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
     
-    # For storing attributes and options
     attributes = db.relationship('GroupAttribute', backref='group', cascade='all, delete-orphan')
 
 class GroupAttribute(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
     attribute_name = db.Column(db.String(100), nullable=False)
-    options = db.Column(db.Text, nullable=False)  # Store as comma-separated values
+    options = db.Column(db.Text, nullable=False)  
 
 def admin_required(f):
     @wraps(f)
@@ -168,125 +166,11 @@ def about():
     return render_template("about_us.html")
 
 
-# @app.route('/dashboard')
-# @login_required
-# def dashboard():
-#     flash(f"Welcome to your dashboard, {current_user.username}!", "info")
-    
-#     # Existing queries
-#     total_items = Item.query.count()
-#     total_inventory_value = db.session.query(
-#         func.sum(case((Item.cost_price.isnot(None), 
-#                       Item.quantity_in_hand * Item.cost_price), else_=0))
-#     ).scalar() or 0
-    
-#     avg_item_value = total_inventory_value / total_items if total_items > 0 else 0
-#     low_stock_items = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
-#     out_of_stock_items = Item.query.filter(Item.quantity_in_hand == 0).count()
-#     items_to_receive = Item.query.filter(Item.quantity_to_receive > 0).count()
-#     high_value_items = Item.query.filter(Item.cost_price.isnot(None), 
-#                                        Item.cost_price > 1000).count()
-#     returnable_items = Item.query.filter_by(returnable=True).count()
-#     non_returnable_items = Item.query.filter_by(returnable=False).count()
-
-#     # New Group-related queries
-#     total_groups = Group.query.count()
-#     goods_groups = Group.query.filter_by(type='goods').count()
-#     service_groups = Group.query.filter_by(type='service').count()
-#     returnable_groups = Group.query.filter_by(returnable=True).count()
-    
-#     # Recently created groups
-#     recent_groups = Group.query.order_by(Group.created_at.desc()).limit(5).all()
-    
-#     # Groups by manufacturer
-#     manufacturer_distribution = db.session.query(
-#         Group.manufacturer,
-#         func.count(Group.id).label('count')
-#     ).group_by(Group.manufacturer).all()
-    
-#     # Groups by unit
-#     unit_distribution = db.session.query(
-#         Group.unit,
-#         func.count(Group.id).label('count')
-#     ).group_by(Group.unit).all()
-    
-#     # Groups with most attributes
-#     groups_with_attributes = db.session.query(
-#         Group,
-#         func.count(GroupAttribute.id).label('attribute_count')
-#     ).join(GroupAttribute).group_by(Group.id)\
-#     .order_by(func.count(GroupAttribute.id).desc())\
-#     .limit(5).all()
-    
-#     # Brand distribution
-#     brand_distribution = db.session.query(
-#         Group.brand,
-#         func.count(Group.id).label('count')
-#     ).filter(Group.brand.isnot(None))\
-#     .group_by(Group.brand)\
-#     .order_by(func.count(Group.id).desc())\
-#     .limit(5).all()
-
-#     # Get the sort parameter from URL
-#     sort_by = request.args.get('sort', 'created_at')
-#     sort_order = request.args.get('order', 'desc')
-    
-#     # Base query for groups
-#     groups_query = Group.query
-    
-#     # Apply filters if provided
-#     type_filter = request.args.get('type')
-#     if type_filter:
-#         groups_query = groups_query.filter(Group.type == type_filter)
-        
-#     returnable_filter = request.args.get('returnable')
-#     if returnable_filter:
-#         groups_query = groups_query.filter(Group.returnable == (returnable_filter == 'true'))
-        
-#     manufacturer_filter = request.args.get('manufacturer')
-#     if manufacturer_filter:
-#         groups_query = groups_query.filter(Group.manufacturer == manufacturer_filter)
-    
-#     # Apply sorting
-#     if sort_by == 'name':
-#         groups_query = groups_query.order_by(Group.name.desc() if sort_order == 'desc' else Group.name)
-#     elif sort_by == 'created_at':
-#         groups_query = groups_query.order_by(Group.created_at.desc() if sort_order == 'desc' else Group.created_at)
-    
-#     # Execute the query
-#     filtered_groups = groups_query.all()
-    
-#     return render_template(
-#         "dashboard.html",
-#         total_items=total_items,
-#         total_inventory_value=total_inventory_value,
-#         avg_item_value=avg_item_value,
-#         low_stock_items=low_stock_items,
-#         out_of_stock_items=out_of_stock_items,
-#         items_to_receive=items_to_receive,
-#         high_value_items=high_value_items,
-#         returnable_items=returnable_items,
-#         non_returnable_items=non_returnable_items,
-#         # New group-related variables
-#         total_groups=total_groups,
-#         goods_groups=goods_groups,
-#         service_groups=service_groups,
-#         returnable_groups=returnable_groups,
-#         recent_groups=recent_groups,
-#         manufacturer_distribution=manufacturer_distribution,
-#         unit_distribution=unit_distribution,
-#         groups_with_attributes=groups_with_attributes,
-#         brand_distribution=brand_distribution,
-#         filtered_groups=filtered_groups,
-#         show_sidebar=True
-#     )
-
 @app.route('/dashboard')
 @login_required
 def dashboard():
     flash(f"Welcome to your dashboard, {current_user.username}!", "info")
     
-    # Base metrics
     total_items = Item.query.count()
     total_inventory_value = db.session.query(
         func.sum(case((Item.cost_price.isnot(None), 
@@ -302,14 +186,11 @@ def dashboard():
     returnable_items = Item.query.filter_by(returnable=True).count()
     non_returnable_items = Item.query.filter_by(returnable=False).count()
 
-    # Top items by value
     top_value_items = db.session.query(Item)\
         .filter(Item.cost_price.isnot(None), Item.quantity_in_hand > 0)\
         .order_by((Item.cost_price * Item.quantity_in_hand).desc())\
         .limit(5).all()
 
-    # Top items by margin
-    # Assuming selling_price and cost_price are columns in your Item model
     top_margin_items = db.session.query(
         Item,
         ((Item.selling_price - Item.cost_price) / Item.cost_price * 100).label('margin')
@@ -320,7 +201,6 @@ def dashboard():
     ).order_by(((Item.selling_price - Item.cost_price) / Item.cost_price).desc())\
     .limit(5).all()
 
-    # Tax rate distribution
     tax_distribution = db.session.query(
         Item.tax_rate,
         func.count(Item.id).label('count')
@@ -328,7 +208,6 @@ def dashboard():
     .order_by(Item.tax_rate)\
     .all()
 
-    # Group metrics with filters
     type_filter = request.args.get('typeFilter')
     returnable_filter = request.args.get('returnableFilter')
     sort_by = request.args.get('sortBy', 'created_at')
@@ -343,10 +222,9 @@ def dashboard():
         returnable_value = returnable_filter.lower() == 'true'
         groups_query = groups_query.filter(Group.returnable == returnable_value)
 
-    # Apply sorting
     if sort_by == 'name':
         order_column = Group.name
-    else:  # default to created_at
+    else:  
         order_column = Group.created_at
     
     if sort_order == 'desc':
@@ -354,20 +232,17 @@ def dashboard():
     else:
         groups_query = groups_query.order_by(order_column.asc())
 
-    # Get group metrics
     total_groups = groups_query.count()
     goods_groups = groups_query.filter_by(type='goods').count()
     service_groups = groups_query.filter_by(type='service').count()
     returnable_groups = groups_query.filter_by(returnable=True).count()
     recent_groups = groups_query.limit(5).all()
 
-    # Unit distribution
     unit_distribution = db.session.query(
         Group.unit,
         func.count(Group.id).label('count')
     ).group_by(Group.unit).all()
 
-    # Groups with attributes
     groups_with_attributes = db.session.query(
         Group,
         func.count(GroupAttribute.id).label('attribute_count')
@@ -489,7 +364,6 @@ def item_list():
     )
 
 
-# Add to your app.py
 
 
 
@@ -497,12 +371,10 @@ def item_list():
 @login_required
 @admin_required
 def admin_dashboard():
-    # User statistics
     total_users = User.query.count()
     admin_users = User.query.filter_by(role="admin").count()
     regular_users = User.query.filter_by(role="user").count()
     
-    # Get recent users with formatted dates
     recent_users = [
         {
             'username': user.username,
@@ -513,18 +385,15 @@ def admin_dashboard():
         for user in User.query.order_by(User.last_login.desc()).limit(5).all()
     ]
     
-    # Inventory statistics
     total_items = Item.query.count()
     total_inventory_value = db.session.query(
         func.sum(case((Item.cost_price.isnot(None), 
                       Item.quantity_in_hand * Item.cost_price), else_=0))
     ).scalar() or 0
     
-    # Stock alerts
     low_stock_items = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
     out_of_stock_items = Item.query.filter(Item.quantity_in_hand == 0).count()
     
-    # Get high value items
     high_value_items = [
         {
             'name': item.name,
@@ -536,7 +405,7 @@ def admin_dashboard():
         ).order_by(Item.cost_price.desc()).limit(5).all()
     ]
     
-    # User activity by country
+
     user_by_country = [
         {
             'country': country or 'Not Specified',
@@ -548,7 +417,6 @@ def admin_dashboard():
         ).group_by(User.country).all()
     ]
     
-    # Price distribution
     price_ranges = [
         (0, 100, '0-100'),
         (101, 500, '101-500'),
@@ -657,7 +525,6 @@ def groups():
             
             if 'images[]' in request.files:
                 files = request.files.getlist('images[]')
-                # File handling logic here if needed
             
             db.session.commit()
             flash(f"Item group '{request.form.get('itemGroupName')}' has been added successfully!", "success")
@@ -669,7 +536,6 @@ def groups():
     
     return render_template('group_form.html', show_sidebar=True)
 
-# Add these new models in app.py after the existing models:
 
 class InventoryLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -683,7 +549,6 @@ class InventoryLog(db.Model):
     item = db.relationship('Item', backref='inventory_logs')
     user = db.relationship('User', backref='inventory_logs')
 
-# Add these new routes in app.py before the if __name__ == "__main__" line:
 
 @app.route('/admin/inventory-logs')
 @login_required
@@ -699,21 +564,6 @@ def admin_inventory_logs():
         'notes': log.notes
     } for log in logs])
 
-# @app.route('/admin/inventory-summary')
-# @login_required
-# @admin_required
-# def admin_inventory_summary():
-#     total_items = Item.query.count()
-#     low_stock = Item.query.filter(Item.quantity_in_hand <= Item.reorder_point).count()
-#     out_of_stock = Item.query.filter(Item.quantity_in_hand == 0).count()
-#     total_value = db.session.query(func.sum(Item.quantity_in_hand * Item.cost_price)).scalar() or 0
-    
-#     return jsonify({
-#         'total_items': total_items,
-#         'low_stock': low_stock,
-#         'out_of_stock': out_of_stock,
-#         'total_value': float(total_value)
-#     })
 
 
 
@@ -723,9 +573,15 @@ with app.app_context():
     db.create_all()
 
     if not User.query.filter_by(role="admin").first():
-        admin1 = User(username="admin1", email="admin1@gmail.com", role="admin", password_hash=generate_password_hash("admin1"))
-        db.session.add(admin1)
+        super_admin = User(username="superadmin", email="superadmin@gmail.com", role="admin", password_hash=generate_password_hash("superadmin123"))
+        db.session.add(super_admin)
 
+        admin1 = User(username="admin1", email="admin1@gmail.com", role="admin", password_hash=generate_password_hash("admin1"))
+        admin2 = User(username="admin2", email="admin2@gmail.com", role="admin", password_hash=generate_password_hash("admin2")) 
+        admin3 = User(username="admin3", email="admin3@gmail.com", role="admin", password_hash=generate_password_hash("admin3"))
+        admin4 = User(username="admin4", email="admin4@gmail.com", role="admin", password_hash=generate_password_hash("admin4"))
+
+        db.session.add_all([admin1, admin2, admin3, admin4])
         db.session.commit()
 
 

@@ -664,7 +664,6 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
             <i class="fas fa-boxes"></i>
@@ -729,11 +728,8 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Original navbar -->
         <nav class="navbar">
-            <!-- Original navbar content -->
             <div class="navbar-left">
                 <button class="nav-button" id="sidebarToggle">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -748,16 +744,10 @@
                     <input type="text" class="search-input" placeholder="Search in Items ( / )">
                 </div>
             </div>
-            <!-- Rest of the original navbar content -->
+
            
             <div class="navbar-right">
-                <!-- Original navbar right content -->
-                <!-- <button class="nav-button">
-                    Demo Org
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button> -->
+                
                 <button class="nav-button">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -783,7 +773,6 @@
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
             </button></a>
-                <!-- <div class="avatar"></div> -->
                 <button class="nav-button">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="1"></circle>
@@ -794,24 +783,15 @@
             </div>
         </nav>
 
-        <!-- Original container -->
         <div class="container">
-            <!-- Original form content -->
-            <!-- <form id="itemGroupForm" class="form-card">
-            </form> -->
+            
             <form id="itemGroupForm" class="form-card" action="{{ url_for('groups') }}" method="POST" enctype="multipart/form-data">
                 <div class="form-header">
                     <h1>New Item Group</h1>
                     <button type="button" class="close-btn">&times;</button>
                 </div>
     
-                <!-- {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %} -->
+               
     
                 <div class="form-group">
                     <label class="form-label">Type</label>
@@ -911,10 +891,6 @@
                     <div class="preview-images" id="previewContainer"></div>
                 </div>
     
-                <!-- <div class="form-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
-                </div> -->
                 <div class="form-footer" style="margin-top: 2rem; display: flex; gap: 1rem;">
                     <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 500; border: none; cursor: pointer; flex: 1; max-width: 150px; background-color: #4285f4; color: white; transition: background-color 0.2s ease;">Save</button>
                     <button type="button" class="btn btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 500; border: 1px solid #ddd; cursor: pointer; flex: 1; max-width: 150px; background-color: white; color: #333; transition: background-color 0.2s ease;">Cancel</button>
@@ -924,9 +900,7 @@
     </div>
 
     <script>
-        // Original script content
         document.addEventListener('DOMContentLoaded', function() {
-            // Sidebar functionality
             const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
             const sidebar = document.querySelector('.sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
@@ -941,7 +915,6 @@
                     const submenu = document.getElementById(submenuId);
                     const wasOpen = this.classList.contains('open');
                     
-                    // Close all submenus
                     document.querySelectorAll('.submenu').forEach(sub => {
                         sub.classList.remove('open');
                     });
@@ -949,7 +922,6 @@
                         navItem.classList.remove('open');
                     });
                     
-                    // Toggle current submenu
                     if (!wasOpen) {
                         submenu.classList.add('open');
                         this.classList.add('open');
@@ -957,8 +929,6 @@
                 });
             });
 
-            // Original form script content
-            // ... (rest of the original script)
         });
     </script>
      <script>
@@ -972,13 +942,11 @@
             const browseBtn = document.getElementById('browseBtn');
             const previewContainer = document.getElementById('previewContainer');
 
-            // Toggle attributes section
             createAttributesCheckbox.addEventListener('change', function() {
                 attributesContainer.style.display = this.checked ? 'block' : 'none';
                 addAttributeBtn.style.display = this.checked ? 'block' : 'none';
             });
 
-            // Add new attribute row
             addAttributeBtn.addEventListener('click', function() {
                 const newRow = document.createElement('div');
                 newRow.className = 'attribute-row';
@@ -995,20 +963,17 @@
                 `;
                 attributesContainer.appendChild(newRow);
 
-                // Add delete handler to new row
                 newRow.querySelector('.delete-attribute').addEventListener('click', function() {
                     newRow.remove();
                 });
             });
 
-            // Delete existing attribute rows
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('delete-attribute')) {
                     e.target.closest('.attribute-row').remove();
                 }
             });
 
-            // File upload handling
             browseBtn.addEventListener('click', () => fileInput.click());
 
             dropZone.addEventListener('dragover', (e) => {
@@ -1032,7 +997,7 @@
 
             function handleFiles(files) {
                 const maxFiles = 15;
-                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                const maxSize = 5 * 1024 * 1024; 
 
                 Array.from(files).slice(0, maxFiles).forEach(file => {
                     if (file.size <= maxSize && file.type.startsWith('image/')) {

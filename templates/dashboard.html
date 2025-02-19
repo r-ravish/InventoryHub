@@ -1056,7 +1056,6 @@
     font-size: 12px;
   }
   
-  /* Adjust table for very small screens */
   .table-responsive {
     overflow-x: auto;
   }
@@ -1071,7 +1070,6 @@
     font-size: 12px;
   }
   
-  /* Adjust sidebar for very small screens */
   .nav-item {
     padding: 8px;
     margin: 0 3px;
@@ -1082,7 +1080,6 @@
   }
 }
 
-/* Print styles */
 @media print {
   .sidebar,
   .header {
@@ -1113,7 +1110,6 @@
 </head>
 
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
             <i class="fas fa-boxes"></i>
@@ -1187,9 +1183,7 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Header -->
         <header class="header">
             <div class="header-left">
                 <div class="search-container">
@@ -1220,8 +1214,6 @@
 
 <div class="dashboard-container">
     <div class="dashboard">
-        <!-- Inventory Overview Card -->
-        <!-- ... (keep existing inventory overview card unchanged) ... -->
         <div class="card">
             <h2 class="card-title">Inventory Overview</h2>
             <div class="metric-grid">
@@ -1244,9 +1236,6 @@
             </div>
         </div>
 
-
-        <!-- Stock Status Card -->
-        <!-- ... (keep existing stock status card unchanged) ... -->
         <div class="card">
             <h2 class="card-title">Stock Status</h2>
             <div class="metric-grid">
@@ -1270,7 +1259,6 @@
         </div>
 
 
-        <!-- Top Value Items Card -->
         <div class="card">
             <h2 class="card-title">Top Items by Value</h2>
             <div class="table-responsive">
@@ -1297,7 +1285,6 @@
             </div>
         </div>
 
-        <!-- Tax Distribution Card -->
         <div class="card">
             <h2 class="card-title">Tax Rate Distribution</h2>
             <div class="table-responsive">
@@ -1328,7 +1315,6 @@
             </div>
         </div>
 
-        <!-- Top Margin Items Card -->
         <div class="card">
             <h2 class="card-title">Top Items by Margin</h2>
             <div class="table-responsive">
@@ -1355,7 +1341,6 @@
             </div>
         </div>
 
-        <!-- Group Overview Card -->
         <div class="card">
             <h2 class="card-title">Group Overview</h2>
             <div class="filter-container">
@@ -1398,7 +1383,6 @@
             </div>
         </div>
 
-        <!-- Recent Groups Card -->
         <div class="card">
             <h2 class="card-title">Recently Created Groups</h2>
             <div class="table-responsive">
@@ -1423,7 +1407,6 @@
             </div>
         </div>
 
-        <!-- Unit Distribution Card -->
         <div class="card">
             <h2 class="card-title">Unit Distribution</h2>
             <div class="unit-distribution">
@@ -1440,7 +1423,6 @@
             </div>
         </div>
 
-        <!-- Groups with Most Attributes Card -->
         <div class="card">
             <h2 class="card-title">Groups with Most Attributes</h2>
             <div class="table-responsive">
@@ -1484,7 +1466,6 @@ function updateFilters() {
     window.location.href = `/dashboard?${queryParams.toString()}`;
 }
 
-// Set initial filter values based on URL parameters
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     
@@ -1501,7 +1482,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Sidebar menu functionality
         const menuItems = document.querySelectorAll('.nav-item[data-submenu]');
 
         menuItems.forEach(item => {
@@ -1510,7 +1490,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const submenu = document.getElementById(submenuId);
                 const wasOpen = this.classList.contains('open');
 
-                // Close all submenus
                 document.querySelectorAll('.submenu').forEach(sub => {
                     sub.classList.remove('open');
                 });
@@ -1518,7 +1497,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     navItem.classList.remove('open');
                 });
 
-                // Toggle current submenu
                 if (!wasOpen) {
                     submenu.classList.add('open');
                     this.classList.add('open');
@@ -1526,7 +1504,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Handle navigation item clicks
         const navItems = document.querySelectorAll('.nav-item:not([data-submenu])');
         navItems.forEach(item => {
             item.addEventListener('click', function () {
@@ -1537,7 +1514,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Add toggle sidebar functionality
         const sidebarToggle = document.getElementById('sidebar-toggle');
         const sidebar = document.querySelector('.sidebar');
 
@@ -1556,7 +1532,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Add hover effects to metric items
         document.querySelectorAll('.metric-item').forEach(item => {
             item.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-2px)';
@@ -1570,7 +1545,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Add hover effects to table rows
         document.querySelectorAll('.data-table tr').forEach(row => {
             row.addEventListener('mouseenter', function () {
                 this.style.backgroundColor = 'var(--gray-light)';
@@ -1583,4 +1557,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 </script>
-<!-- ... (keep the rest of your existing JavaScript code unchanged) ... -->
